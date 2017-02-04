@@ -1,0 +1,333 @@
+% vim:set fileencoding=utf-8 tabstop=2 shiftwidth=2 softtabstop=2 expandtab:
+%% Page layout
+% Scientific report, European style (A4) (from KOMA-Script)
+% BCOR: binding correction
+% DIV=calc: Calculate page spread now (recalculated below)
+% pagesize: Add page info to (PDF/PS) output
+% parskip=half: Do not indent paragraphs, add one half line spacing instead
+%   (FFHS requirement)
+% Default font size: 10pt (FFHS requirement)
+% BCOR=1cm too much?
+\documentclass[pagesize,headsepline,10pt,parskip=half]{scrreprt}
+
+% Line spacing should be 1.5 times the line height (FFHS requirement)
+\usepackage{setspace}
+\onehalfspacing{}
+
+% float compatibility for KOMA-Script
+\usepackage{scrhack}
+
+% Use new German orthography and hyphenation (the latter is FFHS requirement)
+\usepackage[ngerman,english]{babel}
+% \usepackage[ngerman=ngerman-x-latest]{hyphsubst}
+
+% Allow using non-ASCII characters verbatim
+\usepackage[utf8]{inputenc}
+
+% Special characters
+\usepackage{textcomp}
+
+% Use fonts having non-ASCII characters
+\usepackage[T1]{fontenc}
+\usepackage{fontspec}
+\newfontfamily\DejaSans{DejaVu Sans}
+
+% User-defined English hyphenation
+\hyphenation{InfoWorld}
+
+% Use language-specific quotes
+\usepackage[autostyle,german=swiss,english=american]{csquotes}
+
+% Advanced Computer Modern fonts
+\usepackage{lmodern}
+
+% Allow strike-through with \sout, keep italic for \emph
+\usepackage[normalem]{ulem}
+
+% Use medieval numbers except in math mode
+% \usepackage{hfoldsty}
+
+% Use sans-serif font ('Arial') by default for headings and normal text
+% (FFHS requirement)
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{mathptmx}
+\usepackage[scaled=.90]{helvet}
+\usepackage{courier}
+
+% Improved typography, like hyphenation in words with non-ASCII characters,
+% see also http://homepage.ruhr-uni-bochum.de/georg.verweyen/pakete.html
+\usepackage[babel]{microtype}
+
+% Number also \subsubsection, but not \paragraph and below
+\setcounter{secnumdepth}{3}
+
+% Page heading and footer
+\usepackage{scrpage2}
+\pagestyle{scrheadings}
+\automark[section]{chapter}
+% heading on the top inner margin only
+\ohead[]{\headmark}
+\chead[]{}
+% page number on the bottom outer margin only
+\ofoot[\pagemark]{\pagemark}
+\cfoot[]{}
+
+% Support for list of acronyms
+\usepackage[footnote,nohyperlinks,withpage]{acronym}
+
+% References: can use section names
+\usepackage{nameref}
+
+% References: generate hyperlinks
+\usepackage[plainpages=false]{hyperref}
+
+% References style (default: 'numerical')
+\usepackage[style=authoryear-ibid,
+maxcitenames=1,
+maxbibnames=3]{biblatex}
+\defbibheading{lit}{\chapter*{Literaturverzeichnis}\markboth{Literaturverzeichnis}{Literaturverzeichnis}}
+% References: bibliography database
+% \addbibresource{main.bib}
+
+% prints author names as small caps
+\renewcommand{\mkbibnamefirst}[1]{\textsc{#1}}
+\renewcommand{\mkbibnamelast}[1]{\textsc{#1}}
+\renewcommand{\mkbibnameprefix}[1]{\textsc{#1}}
+\renewcommand{\mkbibnameaffix}[1]{\textsc{#1}}
+
+% References: use English ordinal numbers
+\usepackage[super]{nth}
+
+% Automatically use teletype for \url argument, use content verbatim
+\usepackage{url}
+\urlstyle{tt}
+
+% Less vertical spacing between list items (in `compactitem' environment)
+\usepackage{paralist}
+
+% Multi-row table cells
+\usepackage{multirow}
+
+% Support for horizontal rules in tables (professional style)
+\usepackage{booktabs}
+
+% Footnotes in tables
+\usepackage{threeparttable}
+
+% Tables across pages (for results)
+\usepackage{longtable}
+
+% Word wrap in table columns (calculate p width)
+\usepackage{calc}
+
+% Automatic column stretching
+% \usepackage{tabularx}
+
+% Stretched tables across pages (for results); requires longtable
+% tabularx
+\usepackage{ltxtable}
+
+% Improved table formatting
+\usepackage{array}
+
+% Support for including PDFs
+\usepackage{pdfpages}
+
+% Support for figures
+\usepackage{graphicx}
+
+\usepackage{amsthm}
+\newtheorem{mydef}{Definition}
+
+\usepackage[fleqn]{amsmath}
+\usepackage{esint}
+% \usepackage{amssymb}
+% \usepackage{commath}
+\allowdisplaybreaks{}
+
+% degree symbol etc.
+\usepackage{gensymb}
+
+% Margin notes
+\usepackage{marginnote}
+
+% FSM graphs
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+
+% Captions
+\usepackage{caption}
+
+% Recalculate page spread based on the definitions above
+\recalctypearea{}
+
+%% User commands
+% Formatting and languages
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\var}[1]{\textit{#1}}
+\newcommand{\en}[1]{\foreignlanguage{english}{#1}}
+
+% Abbreviations
+\usepackage{xspace}
+\newcommand{\ao}{\mbox{u.\,a.}\xspace}
+\newcommand{\cf}{\mbox{vgl.}\xspace}
+\newcommand{\ie}{\mbox{d.\,h.}\xspace}
+\newcommand{\eg}{\mbox{e.g.}\xspace}
+
+% Common terms
+\newcommand{\sectionname}{Section}
+\newcommand{\eq}{equation\xspace}
+
+% Commands for common math expressions
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\renewcommand\d[1]{\:\textrm{d}#1}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+
+% alignment in \cases
+\makeatletter
+\renewcommand{\env@cases}[1][@{}l@{\quad}l@{}]{%
+ \let\@ifnextchar\new@ifnextchar{}
+ \left\lbrace{}
+ \def\arraystretch{1.2}%
+ \array{#1}%
+}
+\makeatother
+
+% asides
+\usepackage{mdframed}
+\newenvironment{aside}
+{\begin{mdframed}[style=0,%
+  leftline=false,rightline=false,leftmargin=2em,rightmargin=2em,%
+  innerleftmargin=0pt,innerrightmargin=0pt,linewidth=0.75pt,%
+  skipabove=7pt,skipbelow=7pt]\small}
+{\end{mdframed}}
+
+%% Shortcuts
+%%% arrays (vectors, matrixes, tensors)
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\parray}[2]{\left(\begin{array}{#1}#2\end{array}\right)}
+%% Vector norm
+\newcommand{\norm}[1]{\left\|{#1}\right\|}
+%% Constants
+\newcommand{\const}[1]{\mathrm{#1}}
+% Speed of light
+\renewcommand{\c}{\mathrm{c}}
+
+\begin{document}
+  % User-defined language-specific hyphenation
+  %  \hyphenation{bezüg-lich einer Da-ten-bank-ope-ra-ti-onen
+  %  effizienz-stei-gernd ECMA ECMAScript Firefox Google JavaScript JavaScript-Core
+  %  Kom-pa-ti-bi-li-täts-matrix lauf-fähig lenny Linux MySQL proto-typ-ba-sier-ter
+  %  robusteren SquirrelFish Wine}
+
+  \begin{titlepage}
+    \title{Calculating the Time Dilation for Atmospheric Muons}
+    \subtitle{based on special relativity}
+    \author{Thomas Lahn}
+    \maketitle
+  \end{titlepage}
+
+  \clearpage
+  \pagenumbering{Roman}
+  \begin{spacing}{1}
+    % Print TOC
+    \tableofcontents
+    \thispagestyle{empty}
+  \end{spacing}
+
+  %   \clearpage
+  %   \begin{spacing}{1}
+  %     \chapter*{List of acronyms} \label{chapter:acronyms}
+  %     \begin{acronym}[]
+  %       \setlength{\itemsep}{-\parsep}
+  %        \acro{RFC}{Request for Comments (Internet-Standard)}
+  %     \end{acronym}
+  %   \end{spacing}
+
+  \clearpage
+  \pagenumbering{arabic}
+  \chapter{Four-vectors (spacetime vectors)}
+    \section{Four-vector algebra}
+      \begin{align*}
+        \vec{E}_0 &= \parray{r}{1 \\ 0 \\ 0 \\ 0} \quad \vec{E}_1 = \parray{r}{0 \\ 1 \\ 0 \\ 0} \quad \vec{E}_2 = \parray{r}{0 \\ 0 \\ 1 \\ 0} \quad \vec{E}_3 = \parray{r}{0 \\ 0 \\ 0 \\ 1} \qquad \text{Bases of 4-space}\\
+        \vec{A} & = \left(A^0, \, A^1, \, A^2, \, A^3\right) = \parray{c}{A^0 \\ A^1 \\ A^2 \\ A^3} \qquad A^i\text{ -- }\mathbf{Contravariant}\text{ components}\\
+        & = A^0\vec{E}_0 + A^1 \vec{E}_1 + A^2 \vec{E}_2 + A^3  \vec{E}_3 \\
+        & = A^0\vec{E}_0 + A^i \vec{E}_i \qquad \text{Einstein summation notation} \\
+        & = A^\alpha\vec{E}_\alpha\\
+        & = A^\mu \\
+        \eta &= \parray{rrrr}{-1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1} \qquad \text{Minkowski metric tensor} \\
+        A_\mu &= \eta_{\mu\nu} A^\mu \qquad \mathbf{Covariant}\text{ coordinates}
+      \end{align*}
+
+    \section{Four-position}
+      \begin{align*}
+        \vec{r} &= \left(x, \, y, \, z\right)  \qquad \text{3-position} \\
+        \vec{R} &= \left(\c t, \, \vec{r}\right) = \left(\c t, \, x, \, y, \, z\right) \qquad \text{4-position (event)} \\
+        \mathrm{\Delta}{\vec{R}} &= \left(\c \mathrm{\Delta} t, \, \mathrm{\Delta} \vec{r}\right) = \left(\c \mathrm{\Delta} t, \, \mathrm{\Delta} x, \, \mathrm{\Delta} y, \, \mathrm{\Delta} z\right) \qquad \text{4-displacement (spacetime distance)} \\
+        \d{\vec{R}} &= \left(\c \d{t}, \, \d{\vec{r}}\right) = \left(\c \d{t}, \, \d{x}, \, \d{y}, \, \d{z}\right) \qquad \text{differential 4-displacement} \\
+        {\norm{\d{\vec{R}}}}^2 &= \vec{d{R}} \cdot \vec{dR} \\
+        &= \d{R}^\mu \d{R}_\mu = \d{R}^\mu \eta_{\mu\mu} \d{R}^\mu = \parray{cccc}{\c \d{t} & \d{x} &\d{y} & \d{z}} \parray{rrrr}{-1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1} \parray{c}{\c \d{t} \\ \d{x} \\ \d{y} \\ \d{z}} \\
+        &= \c^2 {\d{\tau}}^2 = {\d{s}}^2 \qquad \d{s}\text{ -- differential line element; }\d{\tau}\text{ -- differential proper time}
+      \end{align*}
+
+    \section{Four-velocity}
+      \begin{align*}
+        \vec{u} &= \frac{\d{\vec{r}}}{\d{t}} \qquad \text{3-velocity} \\
+        \gamma\left(\vec{u}\right) &= \frac{1}{\sqrt{1 {-} \frac{\vec{u} \cdot \vec{u}}{\c^2}}} \qquad \text{Lorentz factor} \\
+        \vec{U} &= \frac{\d{\vec{R}}}{\d{\tau}} = \frac{\d{\vec{R}}}{\d{t}} \frac{\d{t}}{\d{\tau}} = \vec{\gamma}\left(\vec{u}\right) \left(\c, \, \vec{u}\right) \qquad \text{4-velocity}
+      \end{align*}
+
+    \section{Four-momentum}
+      \begin{align*}
+        \vec{p} & = \left(p_x, \, p_y, \, p_z\right) = \gamma\left(\vec{u}\right) m \vec{u} \qquad \text{3-momentum} \\
+        E &= \gamma\left(\vec{u}\right) m \c^2 \qquad \text{total energy} \\
+        \vec{P} & = m \vec{U} = m \gamma\left(\vec{u}\right)\left(\c, \, \vec{u}\right) = \parray{c}{m \gamma\left(\vec{u}\right) \c \\ m \gamma\left(\vec{u}\right) \vec{u}} = \parray{c}{\gamma\left(\vec{u}\right) m \c \\ \gamma\left(\vec{u}\right) m \vec{u}} = \parray{c}{\frac{E}{\c} \\ \vec{p}} \qquad \text{4-momentum}
+      \end{align*}
+
+  \chapter{Energy{--}momentum relation}
+    \begin{align*}
+      &\text{Squared Minkowski norm of the four-momentum:} \\
+      \langle\vec P, \, \vec P \rangle &= {\norm{\vec{P}}}^2 \\
+      &=  \\
+      &= -{\left(m\c\right)}^2 & \text{(1)} \\
+      &\text{and} \\
+      \left\langle\vec{P}, \, \vec{P}\right\rangle &= \vec P^\alpha \vec \eta_{\alpha\beta} \vec P^\beta
+      = \parray{cccc}{\frac{E}{\c} & p_x & p_y & p_z} \parray{rrrr}{-1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1} \parray{c}{\frac{E}{\c} \\ p_x \\ p_y \\ p_z} \\
+      &= -\left(\frac{E}{\c}\right)^2 + {p_x}^2 + {p_y}^2 + {p_z}^2 \\
+      &= -\left(\frac{E}{\c}\right)^2 + \norm{\vec{p}}^2 \\
+      \left\langle\vec{P}, \, \vec{P} \right\rangle{} &= -\left(\frac{E}{\c}\right)^2 + p^2 & \text{(2)} \\
+      &\text{in general:} \\
+      p_i &= \frac{\partial{S}}{\partial{q_i}}, \; E = -\frac{\partial{S}}{\partial{t}} \\
+      x^0 &= ct, \; x^1 = x, \; x^2 = y, \; x^3 = z \\
+      x_0 &= -x_0, \; x_1 = x_1, \; x_2 = x_2, \; x_3 = x_3 \\
+      p_\mu &= -\frac{\partial{S}}{\partial{x^\mu}} = \left(\frac{E}{c}, -\vec{p}\right) \\
+      &\text{so [(1) = (2)]:} \\
+      -{\left(m\c\right)}^2 &= -\left(\frac{E}{\c}\right)^2 + p^2 \\
+      \left(\frac{E}{\c}\right)^2 &= {\left(m\c\right)}^2 + p^2 \\
+      \frac{E^2}{\c^2} &= m^2 \c^2 + p^2 \\
+      E^2 &= m^2 \c^4 + p^2 \c^2 \qquad \text{Energy{--}momentum relation}
+    \end{align*}
+
+    \begin{align*}
+      \gamma & = \frac{1}{\sqrt{1 - \frac{v^2}{\c^2}}} = {\left(1 - \frac{v^2}{\c^2}\right)}^{-\frac{1}{2}} \qquad \text{Lorentz factor}\\
+      p &= \gamma{}mv \qquad \text{Relativistic momentum} \\
+      E^2 &= m^2 \c^4 + {\left(\gamma{}mv\right)}^2 \c^2 \\
+          &= m^2 \c^4 + {\left(\frac{mv}{\sqrt{1 {-} \frac{v^2}{\c^2}}}\right)}^2 \c^2 \\
+          &= m^2 \c^4 + \frac{m^2 v^2}{1 {-} \frac{v^2}{\c^2}} \c^2 \\
+          &= m^2 \c^4 + \frac{m^2 v^2}{\frac{\c^2 {-} v^2}{\c^2}} \c^2 \\
+          &= m^2 \c^4 + \frac{m^2 v^2 \c^2}{\c^2 {-} v^2} \c^2 \\
+          &= m^2 \c^4 + \frac{m^2 v^2 \c^4}{\c^2 {-} v^2} \\
+          &= \frac{m^2 \c^6 {-} m^2 v^2 \c^4 + m^2 v^2 \c^4}{\c^2 {-} v^2} \\
+      E^2 &= \frac{m^2 \c^6}{\c^2 {-} v^2} \\
+      \c^2 {-} v^2 &= \frac{m^2 \c^6}{E^2} \\
+      v^2 &= \c^2 {-} \frac{m^2 \c^6}{E^2} \\
+      \gamma    & = {\left(1 - \frac{\c^2 - \frac{m^2 \c^6}{E^2}}{\c^2}\right)}^{-\frac{1}{2}} \\
+             & = {\left(1 - \left(\frac{\c^2}{\c^2} - \frac{\frac{m^2 \c^6}{E^2}}{\c^2}\right)\right)}^{-\frac{1}{2}} \\
+             & = {\left(1 - \left(1 - \frac{m^2 \c^4}{E^2}\right)\right)}^{-\frac{1}{2}} \\
+             & = {\left(\frac{m^2 \c^4}{E^2}\right)}^{-\frac{1}{2}} \\
+             & = {\left(\frac{m \c^2}{E}\right)}^{-1} \\
+      \gamma    & = \frac{E}{m \c^2} \quad (!) \\
+             & \text{and that is equivalent to} \\
+      E_{total} & = \gamma m \c^2 \qquad \text{Total (relativistic) energy {\DejaSans ☺}}
+  \end{align*}
+\end{document}

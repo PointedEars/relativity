@@ -1,0 +1,45 @@
+\documentclass[pagesize,headsepline,10pt,parskip=half,BCOR=12mm]{scrreprt}
+
+% float compatibility for KOMA-Script
+\usepackage{scrhack}
+
+\usepackage{amsmath}
+
+% Advanced Computer Modern fonts
+\usepackage{lmodern}
+
+\begin{document}
+  \begin{align*}
+    l = \frac{l_0}{\gamma}, \gamma &= \frac{1}{\sqrt{1 - \left(\frac{v}{c}\right)^2}}\\
+    l_0 - l &\geq l_p \\
+    l_0 - \frac{l_0}{\gamma} &\geq l_p \\
+    l_0 \left(1 - \frac{1}{\gamma}\right) &\geq l_p \\
+    1 - \frac{1}{\gamma} &\geq \frac{l_p}{l_0} \\
+    1 - \frac{l_p}{l_0} &\geq \frac{1}{\gamma} \\
+    \frac{1}{\gamma} &\leq 1 - \frac{l_p}{l_0} \\
+    \sqrt{1 - \left(\frac{v}{c}\right)^2} &\leq 1 - \frac{l_p}{l_0} \\
+    1 - \left(\frac{v}{c}\right)^2 &\leq \left( 1 - \frac{l_p}{l_0} \right)^2 \\
+    1 - \left( 1 - \frac{l_p}{l_0} \right)^2 &\leq \left(\frac{v}{c}\right)^2 \\
+    \left(\frac{v}{c}\right)^2 &\geq 1 - \left( 1 - \frac{l_p}{l_0} \right)^2 \\
+    \left\lvert \frac{v}{c} \right\rvert &\geq \sqrt{1 - \left( 1 - \frac{l_p}{l_0} \right)^2} \\
+    \left\lvert v \right\rvert &\geq c \sqrt{1 - \left( 1 - \frac{l_p}{l_0} \right)^2} \\
+    \left\lvert v \right\rvert &\geq c \sqrt{\left( \frac{l_p}{l_0} \right)^2 - 2\frac{l_p}{l_0}} \\
+    \left\lvert v \right\rvert &\geq c \sqrt{\left( \frac{l_p}{l_0} - 1 \right)^2 - 1}
+  \end{align*}
+  
+  \begin{align*}
+    t = \gamma\,t_0, \gamma &= \frac{1}{\sqrt{1 - \left(\frac{v}{c}\right)^2}}\\
+    t - t_0 &\geq t_p \\
+    \gamma\,t_0 - t_0 &\geq t_p \\
+    t_0 \left( \gamma - 1 \right) &\geq t_p \\
+    \gamma - 1 &\geq \frac{t_p}{t_0} \\
+    \gamma &\geq \frac{t_p}{t_0} + 1 \\
+    \frac{1}{\sqrt{1 - \left( \frac{v}{c} \right)^2}} &\geq \frac{t_p}{t_0} + 1 \\
+    \sqrt{1 - \left( \frac{v}{c} \right)^2} &\leq \frac{1}{\frac{t_p}{t_0} + 1} \\
+    1 - \left( \frac{v}{c} \right)^2 &\leq \frac{1}{\left( \frac{t_p}{t_0} + 1 \right)^2} \\
+    1 - \frac{1}{\left( \frac{t_p}{t_0} + 1 \right)^2} &\leq \left( \frac{v}{c} \right)^2 \\
+    \left( \frac{v}{c} \right)^2 &\geq 1 - \frac{1}{\left( \frac{t_p}{t_0} + 1 \right)^2} \\
+    \left\lvert \frac{v}{c} \right\rvert &\geq \sqrt{1 - \frac{1}{\left( \frac{t_p}{t_0} + 1 \right)^2}} \\
+    \left\lvert v \right\rvert &\geq c \sqrt{1 - \frac{1}{\left( \frac{t_p}{t_0} + 1 \right)^2}} \\
+  \end{align*}
+\end{document}
