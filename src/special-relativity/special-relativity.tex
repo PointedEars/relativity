@@ -1,0 +1,1382 @@
+% vim:set fileencoding=utf-8 tabstop=2 shiftwidth=2 softtabstop=2 expandtab:
+%% Page layout
+% Scientific report, European style (A4) (from KOMA-Script)
+% BCOR: binding correction
+% DIV=calc: Calculate page spread now (recalculated below)
+% pagesize: Add page info to (PDF/PS) output
+% parskip=half: Do not indent paragraphs, add one half line spacing instead
+%   (FFHS requirement)
+% Default font size: 10pt (FFHS requirement)
+% BCOR=1cm too much?
+\documentclass[pagesize,headsepline,10pt,parskip=half]{scrreprt}
+
+% Line spacing should be 1.5 times the line height (FFHS requirement)
+\usepackage{setspace}
+\onehalfspacing{}
+
+% float compatibility for KOMA-Script
+\usepackage{scrhack}
+
+% Use English orthography and hyphenation by default
+\usepackage[latin,italian,english]{babel}
+
+% Allow using non-ASCII characters verbatim; disable for LuaLaTeX
+% \usepackage[utf8]{inputenc}
+
+% Special characters
+\usepackage{textcomp}
+
+% Use fonts having non-ASCII characters; disable fontenc for LuaLaTeX
+% \usepackage[T1]{fontenc}
+\usepackage{fontspec}
+\newfontfamily\DejaSans{DejaVu Sans}
+
+% User-defined English hyphenation
+\hyphenation{InfoWorld}
+
+% Use language-specific quotes
+\usepackage[autostyle,english=american]{csquotes}
+\DeclareQuoteAlias{italian}{latin}
+
+% Advanced Computer Modern fonts
+\usepackage{lmodern}
+
+% Allow strike-through with \sout, keep italic for \emph
+\usepackage[normalem]{ulem}
+
+% Use medieval numbers except in math mode
+% \usepackage{hfoldsty}
+
+% Use sans-serif font ('Arial') by default for headings and normal text;
+% disable helvet for LuaLaTeX
+% (FFHS requirement)
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{mathptmx}
+%\usepackage[scaled=.90]{helvet}
+\usepackage{courier}
+
+% Improved typography, like hyphenation in words with non-ASCII characters,
+% see also http://homepage.ruhr-uni-bochum.de/georg.verweyen/pakete.html
+\usepackage[babel]{microtype}
+
+% Number also \subsubsection, but not \paragraph and below
+\setcounter{secnumdepth}{3}
+
+% Page heading and footer
+\usepackage{scrpage2}
+\pagestyle{scrheadings}
+\automark[section]{chapter}
+% heading on the top inner margin only
+\ohead[]{\headmark}
+\chead[]{}
+% page number on the bottom outer margin only
+\ofoot[\pagemark]{\pagemark}
+\cfoot[]{}
+
+% Support for list of acronyms
+\usepackage[footnote,nohyperlinks,withpage]{acronym}
+
+% References: can use section names
+\usepackage{nameref}
+
+% References: generate hyperlinks
+\usepackage[plainpages=false]{hyperref}
+
+% References style (default: 'numerical')
+\usepackage[backend=biber,
+style=authoryear-ibid,
+maxcitenames=1,
+maxbibnames=3]{biblatex}
+\defbibheading{lit}{\chapter*{References}\markboth{References}{References}}
+% References: bibliography database
+\addbibresource{main.bib}
+
+% prints author names as small caps
+\renewcommand{\mkbibnamefirst}[1]{\textsc{#1}}
+\renewcommand{\mkbibnamelast}[1]{\textsc{#1}}
+\renewcommand{\mkbibnameprefix}[1]{\textsc{#1}}
+\renewcommand{\mkbibnameaffix}[1]{\textsc{#1}}
+
+% References: use English ordinal numbers
+\usepackage[super]{nth}
+
+% Automatically use teletype for \url argument, use content verbatim
+\usepackage{url}
+\urlstyle{tt}
+
+% Less vertical spacing between list items (in `compactitem' environment)
+\usepackage{paralist}
+
+% Multi-row table cells
+\usepackage{multirow}
+
+% Support for horizontal rules in tables (professional style)
+\usepackage{booktabs}
+
+% Footnotes in tables
+\usepackage{threeparttable}
+
+% Tables across pages (for results)
+\usepackage{longtable}
+
+% Word wrap in table columns (calculate p width)
+\usepackage{calc}
+
+% Automatic column stretching
+% \usepackage{tabularx}
+
+% Stretched tables across pages (for results); requires longtable
+% tabularx
+\usepackage{ltxtable}
+
+% Improved table formatting
+\usepackage{array}
+
+% Support for including PDFs
+\usepackage{pdfpages}
+
+% Support for figures
+\usepackage{graphicx}
+
+\usepackage{amsthm}
+\newtheorem{mydef}{Definition}
+
+\usepackage[fleqn]{amsmath}
+\newlength{\normalparindent}
+\AtBeginDocument{\setlength{\normalparindent}{\parindent}}
+\newcommand{\longintertext}[1]{%
+  \intertext{%
+    \parbox{\linewidth}{%
+      \setlength{\parindent}{\normalparindent}
+      \noindent#1%
+    }%
+  }%
+}
+
+% cancel terms in equations
+\usepackage[makeroom]{cancel}
+
+% for boxes around equations, with \Aboxed
+\usepackage{mathtools}
+
+\usepackage{esint}
+\usepackage{amssymb}
+% \usepackage{commath}
+\allowdisplaybreaks{}
+
+% degree symbol etc.
+\usepackage{gensymb}
+
+% dingbats
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}
+
+% SI units
+\usepackage{siunitx}
+\sisetup{per-mode = fraction,%
+  math-micro = \text{µ}, text-micro = µ%
+}
+% Margin notes
+\usepackage{marginnote}
+
+% FSM graphs
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+
+% Captions
+\usepackage{caption}
+
+% Recalculate page spread based on the definitions above
+\recalctypearea{}
+
+%% User commands
+% Formatting and languages
+\newcommand{\strong}[1]{\textbf{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\var}[1]{\textit{#1}}
+\newcommand{\en}[1]{\foreignlanguage{english}{#1}}
+
+% Abbreviations
+\usepackage{xspace}
+\newcommand{\ao}{\mbox{u.\,a.}\xspace}
+\newcommand{\cf}{\mbox{vgl.}\xspace}
+\newcommand{\ie}{\mbox{d.\,h.}\xspace}
+\newcommand{\eg}{\mbox{e.g.}\xspace}
+\newcommand{\ital}{\mbox{ital.}\xspace}
+
+% Common terms
+\newcommand{\sectionname}{Section}
+\newcommand{\eq}{equation\xspace}
+
+% Commands for common math expressions
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\renewcommand\d[1]{\:\textrm{d}#1}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+\newcommand*\mdelta[1]{\ensuremath{\mathrm{\Delta\,}#1}}
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+
+% Chemistry
+\newcommand*\chem[1]{\ensuremath{\mathrm{#1}}}
+
+% alignment in \cases
+\makeatletter
+\renewcommand{\env@cases}[1][@{}l@{\quad}l@{}]{%
+ \let\@ifnextchar\new@ifnextchar{}
+ \left\lbrace{}
+ \def\arraystretch{1.2}%
+ \array{#1}%
+}
+\makeatother
+
+% asides
+\usepackage{mdframed}
+\newenvironment{aside}
+{\begin{mdframed}[style=0,%
+  leftline=false,rightline=false,leftmargin=2em,rightmargin=2em,%
+  innerleftmargin=0pt,innerrightmargin=0pt,linewidth=0.75pt,%
+  skipabove=7pt,skipbelow=7pt]\small}
+{\end{mdframed}}
+
+%% Shortcuts
+%%% arrays (vectors, matrixes, tensors)
+\newcommand{\vecb}[1]{\mathbf{#1}}
+\newcommand{\parray}[2]{\left(\begin{array}{#1}#2\end{array}\right)}
+%% Vector norm
+\newcommand{\norm}[1]{\left\|{#1}\right\|}
+%% Constants
+\newcommand{\const}[1]{\ensuremath{\mathrm{#1}}}
+% Speed of light
+\renewcommand{\c}{\const{c}}
+
+\begin{document}
+  % User-defined language-specific hyphenation
+  %  \hyphenation{bezüg-lich einer Da-ten-bank-ope-ra-ti-onen
+  %  effizienz-stei-gernd ECMA ECMAScript Firefox Google JavaScript JavaScript-Core
+  %  Kom-pa-ti-bi-li-täts-matrix lauf-fähig lenny Linux MySQL proto-typ-ba-sier-ter
+  %  robusteren SquirrelFish Wine}
+  \hyphenation{nanosecond}
+
+  \begin{titlepage}
+    \title{\href{https://www.coursera.org/learn/einstein-relativity/}{Understanding Einstein:\\The Special Theory of Relativity}}
+    \subtitle{Notes made in the Stanford University Online Course}
+    \author{Larry Randles Lagerstrom, Instructor\\\href{http://PointedEars.de/}{Thomas Lahn}, Student}
+    \maketitle
+  \end{titlepage}
+
+  \clearpage
+  \pagenumbering{Roman}
+  \begin{spacing}{1}
+    % Print TOC
+    \tableofcontents
+    \thispagestyle{empty}
+  \end{spacing}
+
+  %   \clearpage
+  %   \begin{spacing}{1}
+  %     \chapter*{List of acronyms} \label{chapter:acronyms}
+  %     \begin{acronym}[]
+  %       \setlength{\itemsep}{-\parsep}
+  %        \acro{RFC}{Request for Comments (Internet-Standard)}
+  %     \end{acronym}
+  %   \end{spacing}
+
+  \clearpage
+  \pagenumbering{arabic}
+  \chapter{Week 1}
+    \section{Introduction to the Course}
+      \subsection{Why take this course?}
+        \begin{enumerate}
+          \item \href{http://content.time.com/time/magazine/article/0,9171,993017,00.html?iid=sr-link1}{Albert Einstein: Time Magazine’s “Person of the century”}
+          \item Miracle year of 1905
+          \item Albert Einstein:
+            \begin{quote}
+              “The important thing is not to stop questioning.
+              Curiosity has its own reason for existing.
+              One cannot help but be in awe when one contemplates the mystery of eternity,
+              of life, of the marvelous structure of reality.
+              It is enough if one tries to comprehend only a little of this mystery every day.”
+            \end{quote}
+        \end{enumerate}
+
+      \subsection{How to succeed in the course?}
+        \begin{enumerate}
+          \item
+            \begin{samepage}
+              \emph{Cultivate a “growth mindset”} (see~\cite{dweck2017mindset}):\\
+              How do you deal with a bad day – are you discouraged (“fixed mindset”)
+              or \emph{working towards a better one} (“growth mindset”)?
+
+              See also: neuroplasticity\\
+              \begin{aside}
+                As a parent, praise the \emph{effort} of your child, \underline{not}
+                its success or intelligence.  Otherwise your praise encourages
+                the \emph{fixed} mindset, and is actually \emph{counterproductive}:
+                If your child hears you saying to it “you are smart”, it implies
+                to it that it will always be smart, and that no effort by it
+                would be required.  Encouraging the \emph{fixed} mindset
+                will cause self-doubt in your child as things \emph{will} become
+                more difficult for it later.
+              \end{aside}
+            \end{samepage}
+          \item \emph{Knowledge is constructed, not received}:\\
+            It is not sufficient to take in new information.
+          \item \emph{Embrace the struggle}:\\
+            \textquote[Albert Einstein]{It is not the result of scientific research
+            that ennobles humans and enriches their nature, but \emph{the struggle
+            to understand} while performing creative and open-minded intellectual
+            work.}
+          \item Practical tips:
+            \begin{enumerate}[a)]
+              \item \emph{Take notes}: The writing process helps with understanding
+              \item \emph{Visualize}: Depictions are easier to understand than text
+              \item \emph{Repeat}:\\
+                Understanding improves the more often you are exposed to the same ideas
+              \item \emph{Testing is better than rehearsing}:\\
+                Do not learn things by heart, but \emph{test yourself} so that you can know
+                if you have \emph{understood} what you have learned.
+              \item \emph{Don’t multitask}: this reduces concentration (see~\cite{medina2009brain}).
+                \begin{aside}
+                  The \emph{Pomodoro Technique}\footnote{\ital\foreignquote{italian}{pomodoro} “tomato”
+                  because kitchen timers often come in such a shape} can help you to focus:
+                  Set a timer for 20 minutes, then focus your attention on whatever
+                  you need to do, for that time.  Then take a break for 5 minutes.
+                  Then set the timer for 20 minutes again and continue working, or
+                  start working on something else.  And so on.
+                \end{aside}
+            \end{enumerate}
+          \item \foreignquote{latin}{\emph{Festina lente}} – “Make haste slowly” (classical adage and oxymoron):\\
+            \textquote[Wikipedia]{[…] activities should be performed with a proper balance of urgency and diligence.
+            If tasks are overly rushed, mistakes are made and good long-term results are not achieved.}
+        \end{enumerate}
+
+        \paragraph{Other good websites re.\ tips ``How to succeed in this course''}
+          \begin{itemize}
+            \item \url{http://duckstop.stanford.edu/}
+            \item \url{http://resilience.stanford.edu/}
+          \end{itemize}
+
+      \subsection{Rules of Engagement}
+        \begin{enumerate}
+          \item Course rules and etiquette
+            \begin{enumerate}[a)]
+              \item Do your own work\\
+                \textquote[Albert~Einstein]{I have little patience for a scientist
+                who’d take a board of wood, look for its thinnest part, and drill
+                a great number of holes where drilling is easy.}
+              \item Assume the best of people – this is a NSZ (No Snark Zone)
+            \end{enumerate}
+          \item Strengths and limitations of a course like this
+            \begin{itemize}
+              \item Strengths: Videos can be paused, fast-forwarded, and watched again
+              \item Limitations: Not all questions can be answered
+            \end{itemize}
+          \item What this course is not about
+            \begin{itemize}
+              \item We are not covering Einstein’s whole life and work,
+                like (topics of) General Relativity.
+              \item It’s not about why “Einstein was wrong”,
+                not about alternative theories and fringe science.
+            \end{itemize}
+        \end{enumerate}
+
+      \clearpage
+      \subsection{Math review}
+        \begin{enumerate}
+          \item How exponents work\\
+            Examples (using powers of 2):
+            \begin{align*}
+              2^4 &= 2 \times 2 \times 2 \times 2 = 16\\
+              2^1 &= 2\\
+              2^0 &= 1\\
+              2^{-2} &= \frac{1}{2^2} = \frac{1}{4}\\
+              2^3 \times 2^5 &= 2^{3+5} = 2^8 = 256
+            \end{align*}
+          \item Square roots:
+            \begin{align*}
+              \sqrt{3} \sqrt{3} &= 3\\
+              \sqrt{a} \sqrt{a} &= a\\
+              \sqrt{a} &= a^{\frac{1}{2}}\\
+              \left(a^{\frac{1}{2}}\right)\left(a^{\frac{1}{2}}\right) &= a^{\frac{1}{2}+\frac{1}{2}} = a^1 = a
+            \end{align*}
+          \item Factoring out:
+            \begin{align*}
+              a + b &= \left(a\right)\left(1 + \frac{b}{a}\right)\\
+              a^2 + b^2 &= \left(a^2\right)\left(1 + \frac{b^2}{a^2}\right)
+            \end{align*}
+          \item Creating a common denominator in order to add two fractions:
+            \begin{align*}
+              \frac{a}{b} + \frac{c}{d}
+              = \left(\frac{a}{b}\right)\left(\frac{d}{d}\right) + \left(\frac{c}{d}\right)\left(\frac{b}{b}\right)
+              = \frac{ad + bc}{bd}
+            \end{align*}
+          \item Basic plotting of y vs.\ x \\
+            \\
+            Examples of $y = x^2$ (parabola) and $y = Ax + B$ (a line with slope A and y-intercept B) \\
+            \\
+            Graphical meaning of larger vs.\ smaller values for the slope of a line, and a negative slope
+        \end{enumerate}
+
+    \clearpage
+    \section{Einstein in Context}
+      \subsection{To the Miracle Year}
+        \paragraph{Youth in Munich}
+        \paragraph{Stateless}
+        \paragraph{Polytechnic on second try}
+        \paragraph{Herr Professor Weber}
+        \paragraph{Mileva}
+        \paragraph{Graduation}
+        \paragraph{Career anxieties}
+        \paragraph{A friend in need}
+        \paragraph{Lasting memories}
+        \paragraph{Zigzagging}
+        \paragraph{The Patent Office}
+        \paragraph{The Olympia Academy}
+        \paragraph{Lieserl}
+        \paragraph{The miracle year}
+
+      \subsection{The Miracle Year}
+        \paragraph{March 1905: The light quantum idea, a “heuristic proposal”}
+        \paragraph{April 1905: The size of molecules (doctoral dissertation)}
+        \paragraph{May 1905: The existence of atoms (Brownian motion)}
+        \paragraph{June 1905: On the electrodynamics of moving bodies (special relativity)}
+        \paragraph{September 1905: $E = mc^2$}
+
+  \chapter{Week 2: Events, Clocks, and Reference Frames}
+    \section{Introduction}
+      \subsection{Reading “The Electrodynamics of Moving Bodies”}
+        \subsubsection{Introduction}
+          \begin{itemize}
+            \item Problems:
+              \begin{enumerate}
+                \item Asymmetries in Maxwell’s electrodynamics:
+                  For example, contrary to the theory, no matter if the conductor is considered
+                  moving or the magnet, an electric current is induced in the conductor by the magnet.
+                \item Impossibility to detect the luminiferous ether
+              \end{enumerate}
+            \item Postulates, supported by previous experimental results:
+              \begin{enumerate}
+                \item Principle of relativity – laws of physics are the same in all inertial frames of reference
+                \item Principle of light constancy – The speed of light is the same and constant in all inertial frames of reference
+              \end{enumerate}
+            \item Assumption: This solves both problems
+            \item All electrodynamics deals with the kinematics of rigid bodies only, so Einstein’s too.
+          \end{itemize}
+
+        \subsubsection{Kinematics}
+          \paragraph{§ 1. Definition of Simultaneity}
+            \begin{itemize}
+              \item To describe motion, one needs a measure of space and time.
+              \item What is time?  Its definition depends on simultaneity,
+                defined only by how light travels from an event to an observer.
+              \item Conclusion: One can use light to measure times and lengths.
+                Synchronize clocks by sending light from a clock to another and back.
+                This way we can define and measure the speed of light.
+            \end{itemize}
+
+          \paragraph{§ 2. The Relativity of Lengths and Times}
+            \begin{itemize}
+              \item Clarification of the two postulates
+              \item Rod moving along the x-axis.  What is the length of the moving rod?
+                \begin{enumerate}[a)]
+                  \item as measured using a meter by an observer moving with the rod (in his rest frame);
+                  \item as measured using synchronized, stationary clocks;
+                    the length of the rod at certain times is the distance
+                    between the (imagined) clocks on the ends of the rod.
+                \end{enumerate}
+              \item Length (a) is the length of the rod (principle of relativity);
+                length (b) is \emph{classically} assumed to be equal to length (a), but \emph{actually} is not.
+              \item Ends of the rod are labeled “A” and “B”.
+              \item Send light from A to B\@: this is related to the length of the rod, the relative speed of the rod, and the speed of light
+              \item Observation: Observer in clocks’ rest frame would see clocks being synchronous, moving observer would not.
+              \item Conclusion: Simultaneity is not an \emph{absolute} concept, but depends on the \emph{relative} motion.
+            \end{itemize}
+
+            \paragraph{§ 3. Coordinate Transformation From Rest Frame to Motion Frame}
+              \begin{itemize}
+                \item TODO
+              \end{itemize}
+
+    \clearpage
+    \section{Events, Clocks, and Observers}
+
+    \clearpage
+    \section{Spacetime Diagrams}
+
+    \clearpage
+    \section{Frames of Reference}
+
+    \clearpage
+    \section{A Few More Words on World Lines}
+
+    \clearpage
+    \section{The Galilean Transformation}
+      \paragraph{Priming the brain}
+        Bob’s position at any given time $t$: $x(t) = \SI{3}{\meter\per\second} \times t$ \\
+        Bob’s position with a head start of 4 m: $x(t) = \SI{4}{\meter} + \SI{3}{\meter\per\second} \times t$ \\
+        In general: $ x(t) = x_0 + v \, t $
+
+      \paragraph{Lecture}
+        Question: Given a location and time of an event in Bob’s frame of reference,
+        what is the corresponding location and time in Alice’s frame of reference?
+        (Assuming that at $t = 0$, Alice and Bob are side-by-side at $x_A = 0, x_B = 0$.)
+
+        \begin{align*}
+          {(x_A)}_{flash} &= {(x_B)}_{flash} + v \; t \\
+          {(x_B)}_{flash} &= {(x_A)}_{flash} - v \; t \\
+          t_A &= t_B
+        \end{align*}
+
+    \section{Week 2 Summary}
+      \begin{enumerate}
+        \item Spacetime location of event → (x, y, z, t) or (x, t)
+        \item How to specify the time? “Photo clock principle”
+        \item How to synchronize clocks? Slow distribution or setting distant clocks ahead
+        \item Spacetime diagrams
+        \item Frames of reference, inertial frame of reference, velocities addition (classical)
+        \item Galilean transformation
+          \begin{align*}
+            x_{Lab} &= x_{Rocket} + v \; t \qquad \text{Rocket is moving to the right}\\
+            x_{Lab} &= x_{Rocket} - v \; t \qquad \text{Rocket is moving to the left}
+          \end{align*}
+      \end{enumerate}
+
+  \chapter{Week 3: Ethereal Problems and Solutions}
+    \section{Einsteins Starting Point: The Two Postulates}
+      \paragraph{The June 1905 paper and the context leading up to it}
+        \begin{itemize}
+          \item Einstein already worked 8 to 10 years at least on the problem
+          \item in April 1905, he went on a walk and talk with friend Michèle Besso,
+            and shortly after said that “time is suspect”
+          \item Other physicists working on the problem: Hendrik Antoon Lorentz, Henri Poincaré
+        \end{itemize}
+      \paragraph{The magnet and the coil}
+      \paragraph{The two parts of the paper}
+      \paragraph{The principle of relativity}
+      \paragraph{The luminiferous ether}
+      \paragraph{The principle of light constancy}
+
+    \section{A Few Words About Waves}
+      \subsection{Part 1}
+        \subsubsection{Diagram}
+        \subsubsection{Key terms}
+          \paragraph{Medium}
+            thing of which a wave is a propagating disturbance
+          \paragraph{Periodic}
+            something with a regularly repeated pattern; synonymous: harmonic wave
+          \paragraph{Transverse}
+            disturbance is perpendicular to the propagation of the wave
+          \paragraph{Longitudinal}
+            (density) disturbance propagates parallel to the direction of the wave
+          \paragraph{Amplitude}
+            absolute of the maximum value (for a transversal wave, the vertical distance to the rest position)
+          \paragraph{Wavelength}
+            $\lambda$: distance between two peaks or two troughs of the wave,
+            or between two points with the same value and same ascent
+          \paragraph{Period}
+            $T$: time from one peak to the next one, measured \eg{} in seconds ($\mathrm{s}$)
+          \paragraph{Frequency}
+            $f$ or $\nu$ (Greek small letter Nu): how frequent are the up and down movements of the wave per unit time;
+            $T = \frac{1}{f}$
+          \paragraph{Velocity}
+            \begin{itemize}
+              \item Distance that the wave travels per unit time
+              \item If we are told that there is a simple relationship between the velocity of the wave,
+                its period and its wavelength, and we know the units in which they are measured
+                ($[x] = \mathrm{y}$ means “the quantity $x$ is measured in the unit $\mathrm{y}$”),
+                we can infer it thus:
+                \begin{align*}
+                  [v] &= \frac{\mathrm{m}}{\mathrm{s}}\\
+                  [T] &= \mathrm{s}\\
+                  T &= \frac{1}{f} \rightarrow~f = \frac{1}{T} \rightarrow~[f] = s^{-1}\\
+                  [\lambda] &= \mathrm{m}\\
+                  \rightarrow~v &= \lambda f = \frac{\lambda}{T}
+                \end{align*}
+            \end{itemize}
+
+      \subsection{Part 2}
+        \subsubsection{Diagram}
+        \subsubsection{Key terms}
+          \paragraph{Phase}
+          \paragraph{Constructive interference}
+            If waves are in phase, peaks and troughs add, respectively;
+            the amplitude of the resulting wave is greater than each of the individual waves
+          \paragraph{Destructive interference}
+          If waves are out of phase, peaks and troughs subtract, respectively;
+          the amplitude of the resulting wave is lower than each of the individual waves;
+          worst case: they cancel out
+          \paragraph{In phase}
+            Two waves are “in phase” if they are in sync with each other
+            (their peaks and troughs are aligned, respectively)
+          \paragraph{Out of phase}
+            Two waves are “out of phase” if they are not in sync with each other
+            (their peaks and troughs are not aligned, respectively; worst case:
+            peaks are aligned with troughs [180° out of phase])
+
+      \subsection{Part 3}
+        \begin{aside}
+          Einstein and Picasso were contemporaries (\cite{miller2008einstein}).
+        \end{aside}
+        \begin{itemize}
+          \item Three key facts about the speed of waves\footnote{Speed is the magnitude of velocity, but we are not making that distinction here}:
+            \begin{enumerate}
+              \item it depends on the medium
+              \item moving source \rightarrow~no change in wave speed
+                (because more/less peaks are generated per unit time
+                and $v = \lambda \, f$), but change in wavelength (Doppler effect)\\
+                example: 24 = 4 \times \, 6 = 3 \times \, 8
+              \item moving medium \rightarrow~wave speed changes
+            \end{enumerate}
+        \end{itemize}
+
+    \clearpage
+    \section{The Michelson–Morley Experiment}
+      \subsection{Part 1}
+        \subsubsection{The goal}
+          Albert Michelson (1881), Edward Morley (1887, now Case Western University, Ohio; more precise experiment):
+          \emph{Detect the “ether wind”}
+
+        \subsubsection{Math reminders}
+          [more basic stuff already covered in the math review]
+          \begin{align*}
+            \frac{a}{c} + \frac{b}{d} &= \left(\frac{a}{c}\right)\left(\frac{d}{d}\right) + \left(\frac{b}{d}\right)\left(\frac{c}{c}\right) \\
+            &= \frac{ad + bc}{cd}\\
+            \\
+            \sqrt{a^2 - b^2} &= \sqrt{a^2 \left(1 - \frac{b^2}{a^2}\right)} \\
+            &= \sqrt{a^2} \sqrt{1 - \frac{b^2}{a^2}}\\
+            &= a \sqrt{1 - \frac{b^2}{a^2}}
+          \end{align*}
+          “Binomial expansion” (\emph{“physicists are using this all the time”}):\label{eq:binomial-expansion}
+          \begin{align*}
+            {\left(1 + a\right)}^n &\approx 1 + na\text{, if } a \ll 1\\
+            {\left(1 - a\right)}^n &\approx 1 - na\text{, if } a \ll 1\\
+            {\left(1 + a\right)}^{-n} &\approx 1 - na\text{, if } a \ll 1\\
+            \text{For example: }a &= \frac{v}{\c}
+          \end{align*}
+        \subsubsection{The idea behind the experiment (Earth’s motion through the luminiferous ether)}
+          \begin{itemize}
+            \item Assumption: The ether is a stationary medium, so as the Earth moves around, it moves through the ether
+              \rightarrow~“ether wind”.
+            \item Send light beam against and with direction of the “ether wind”
+              \rightarrow~there should be a difference in observed frequency
+          \end{itemize}
+
+      \subsection{Part 2}
+        \emph{Note}: The diagrams showing the A to B path of the airplane (and back again) are from the perspective of
+        an observer looking down from above (like a map). In other words, imagine up is North, down is South,
+        right is East, and left is West.
+
+        \subsubsection{The airplane example}
+          Plane travels from A and B and back\\
+          D – distance between A and B\\
+          $v_P$ – velocity of plane\\
+          $v_W$ – velocity of wind blowing from B towards A\\
+
+        \subsubsection{The “no wind” case}\label{section-no-wind}
+          \begin{align*}
+            \text{Total time required by plane} = \frac{D}{v_P} + \frac{D}{v_P} = \frac{2D}{v_P}
+          \end{align*}
+
+        \subsubsection{The “headwind/tailwind” case}
+          \begin{align*}
+            \text{A to B trip: Time} &= \frac{D}{v_P - v_W}\\
+            \text{B to A trip: Time} &= \frac{D}{v_P + v_W}\\
+            \text{Total time} &= \frac{D}{v_P - v_W} + \frac{D}{v_P + v_W}\\
+            &= \frac{D\left(v_P + v_W\right) + D\left(v_P - v_W\right)}{\left(v_P - v_W\right) \left(v_P + v_W\right)}\\
+            &= \frac{2 D v_P}{\left(v_P - v_W\right) \left(v_P + v_W\right)}\\
+            &= \frac{2 D v_P}{{v_P}^2 + v_P v_W - v_W v_P + {v_W}^2}\\
+            &= \frac{2 D v_P}{{v_P}^2 - {v_W}^2}\\
+            &= \frac{2 D v_P}{{v_P}^2 \left(1 - \frac{{v_W}^2}{{v_P}^2}\right)}\\
+            &= \frac{2 D}{{v_P} \left(1 - \frac{{v_W}^2}{{v_P}^2}\right)}\\
+            \text{Total time with headwind/tailwind} &= \left(\frac{2 D}{v_P}\right) \left(\frac{1}{1 - \frac{{v_W}^2}{{v_P}^2}}\right)\\
+            \text{Total time without wind} &= \frac{2 D}{v_P} \qquad \text{(see~\ref{section-no-wind})}
+          \end{align*}
+
+          The result of the “headwind/tailwind” case is \emph{obviously not equal}
+          to that of the “no~wind” case.  So the time ``gained'' by flying with
+          the wind does \emph{not} compensate for the time ``lost'' by flying
+          against the wind earlier!  (To double-check the result, set $v_W = 0$
+          \rightarrow~$\text{Total time} = \frac{2D}{v_P}$. QED.)
+
+          \begin{samepage}
+            Extreme example to demonstrate this more intuitively:
+            \begin{align*}
+              v_P &= \SI{300}{\kilo\meter\per\hour}\\
+              v_W &= \SI{299}{\kilo\meter\per\hour}\\
+              v_P - v_W &= \SI{1}{\kilo\meter\per\hour}\\
+              v_P + v_W &= \SI{599}{\kilo\meter\per\hour} \qquad \text{returns 599 times as fast, \emph{not} twice as fast}
+            \end{align*}
+          \end{samepage}
+
+          To do this with light and the Earth moving in the either, Michelson and Morley
+          thought that because the speed of light is so large compared to the speed
+          of Earth relative to the ether the increase in total traveling time could not
+          be~measured.  As an alternative, they considered the “crosswind” case.
+
+      \subsection{Part 3}
+        \paragraph{The “crosswind” case}
+        \paragraph{The flowing river analogy}
+          If you try to swim across a river from A to B, you have to swim against
+          the direction of the river flow to cross in a straight line ($v_P$ is
+          diagonal to the flow $v_W$).
+          \begin{align*}
+            \vec{v}_{actual} &= \vec{v}_P + \vec{v}_W\\
+            \vec{v}_{actual} &\perp \vec{v}_W\\
+            {v_P}^2 &= {v_W}^2 + {v_{actual}}^2 \qquad \text{Pythagorean theorem}\\
+            {v_{actual}}^2 &= {v_P}^2 - {v_W}^2\\
+            v_{actual} &= \sqrt{{v_P}^2 - {v_W}^2}
+          \end{align*}
+
+        \paragraph{The total time for the plane’s round trip}
+          The river is always flowing/the wind is always blowing
+          in the same direction.  So it does not matter if you are
+          going from A to B or B to A: the total time required
+          for the round trip is twice the time for each leg:
+          \begin{align*}
+            \text{Time} &= \frac{D}{v_{actual}}\\
+            &= \frac{D}{\sqrt{{v_P}^2 - {v_W}^2}}\\
+            \text{Total time} &= \frac{2D}{\sqrt{{v_P}^2 - {v_W}^2}}\\
+            &= \frac{2D}{\sqrt{{v_P}^2\,\left(1 - \frac{{v_W}^2}{{v_P}^2}\right)}}\\
+            &= \frac{2D}{v_P\,\sqrt{1 - \frac{{v_W}^2}{{v_P}^2}}}\\
+            \text{Total time with crosswind} &= \left(\frac{2D}{v_P}\right)\left(\frac{1}{\sqrt{1 - \frac{{v_W}^2}{{v_P}^2}}}\right)
+          \end{align*}
+
+      \clearpage
+      \subsection{Part 4}
+        \paragraph{The experimental set-up}
+          \begin{itemize}
+            \item Path~A: Light beam crossing the ether wind (if any);
+              then being reflected by a half-silvered mirror in the center
+              towards the ether wind;
+              reflected back by a full mirror, with the ether wind,
+              through the half-silvered mirror,
+              then going with the ether wind, onto the detector;
+            \item Path~B: Light beam going through the half-silvered mirror,
+              crossing the ether wind; being reflected back by full mirror,
+              crossing the wind again;
+              then reflected by the half-silvered mirror,
+              then going with the ether wind, onto the detector.
+          \end{itemize}
+        \paragraph{Different travel times}
+          \begin{align*}
+            \text{Path~A time} &= \left(\frac{2D}{\c}\right)\left(\frac{1}{1 - \frac{{v_W}^2}{\c^2}}\right)\\
+            \text{Path~B time} &= \left(\frac{2D}{\c}\right)\left(\frac{1}{\sqrt{1 - \frac{{v_W}^2}{\c^2}}}\right)\\
+            \text{Path~A time} - \text{Path~B time}
+              = \mdelta{t} &= \left(\frac{2D}{\c}\right)
+                \left(
+                  \frac{1}{\left(1 - \frac{{v_W}^2}{\c^2}\right)}
+                  - \frac{1}{{\left(1 - \frac{{v_W}^2}{\c^2}\right)}^{\frac{1}{2}}}
+                \right)\\
+            \mdelta{t}  &= \left(\frac{2D}{\c}\right)
+                \left(
+                  {\left(1 - \frac{{v_W}^2}{\c^2}\right)}^{-1}
+                  - {{\left(1 - \frac{{v_W}^2}{\c^2}\right)}}^{-\frac{1}{2}}
+                \right)
+            \intertext{Binomial expansion (\ref{eq:binomial-expansion}),
+            because with ${v_W \approx \SI{29.78}{\kilo\meter\per\second}}$
+            (orbital speed of Earth), ${\frac{{v_W}^2}{\c^2} \ll 1}$:}
+            \mdelta{t} &\approx \left(\frac{2D}{\c}\right)
+              \left(
+                \left(1 - \left(-1\right)\left(\frac{{v_W}^2}{\c^2}\right)\right)
+                - \left(1 - \left(-\frac{1}{2}\right)\left(\frac{{v_W}^2}{\c^2}\right)\right)
+              \right)\\
+            &= \left(\frac{2D}{\c}\right)
+              \left(
+                \left(1 + \frac{{v_W}^2}{\c^2}\right)
+                - \left(1 + \frac{1}{2} \frac{{v_W}^2}{\c^2}\right)
+              \right)\\
+            &= \left(\frac{2D}{\c}\right)
+              \left(
+                1 + \frac{{v_W}^2}{\c^2}
+                - 1 - \frac{1}{2} \frac{{v_W}^2}{\c^2}
+              \right)\\
+            &= \left(\frac{2D}{\c}\right)
+              \left(\frac{1}{2} \frac{{v_W}^2}{\c^2}\right)\\
+            \mdelta{t} &\approx \left(\frac{D}{\c}\right)
+              \left(\frac{{v_W}^2}{\c^2}\right).
+          \end{align*}
+
+        \paragraph{Some actual numbers}
+          \begin{align*}
+            \text{For the experiment, }D \approx \SI{11}{\meter},\text{ so}\\
+            \mdelta{t} &\approx \SI{3.67e-16}{\second}.
+          \end{align*}
+          If you rotate the table by 90°, you can get differences of
+          ca. \SI{7e-16}{\second}.\textsuperscript{why?} But this is still too short a time to measure
+          with clocks.
+
+        \paragraph{The key technique Michelson and Morley used, and the “null result”}
+          \begin{itemize}
+            \item \begin{samepage}Key technique: Interference patterns.
+              If there is no time difference, the light waves of the beams
+              of the two paths are in phase \rightarrow~constructive interference.
+
+              They used sodium (\chem{Na}) light:
+              \begin{align*}
+                \lambda &= \SI{508}{\nano\meter}\\
+                f &= \frac{\c}{\lambda}\\
+                T &= \frac{1}{f} = \frac{\lambda}{\c} = \SI{2e-15}{\second}
+              \end{align*}
+              The time difference \mdelta{t} to be expected because of
+              the ether wind (if any) is smaller than that, so if one wave
+              is out of phase by only
+              \begin{align*}
+                \frac{T}{\mdelta{t}} &= \frac{\SI{7e-16}{\second}}{\SI{2e-15}{\second}} = 0.37
+              \end{align*}
+              of a wavelength, you can see a different interference pattern
+              (\emph{“fringe pattern”}) in the detector.\end{samepage}
+            \item But they observed, with different orientations, at different
+              times of the year, at most a \emph{fringe shift of
+              only 0.005, well within experimental error
+              \rightarrow~“null result”.}
+            \item Physicists of the time were surprised.  Interpretation:
+              Is there no ether at all {--} or has it properties that make it
+              undetectable?
+            \item Possible explanation: Earth could drag the ether with it
+              when it is rotating, so you could not measure the ether wind on
+              the surface of Earth (ether dragging).  But this has been shown
+              \emph{not} to be the case \emph{either}, by
+              \rightarrow~stellar aberration.
+          \end{itemize}
+
+    \section{Stellar Aberration}
+      \paragraph{Case 1: Ether dragged by Earth as it travels around the Sun}
+        Light gets straight into the telescope as it Earth is rotating,
+        because the ether is dragged along by the rotation of Earth.
+        No correction necessary.
+
+      \paragraph{Case 2: Ether not dragged by Earth as it travels around the Sun}
+        Light does not get straight into the telescope as it Earth is rotating,
+        bcause the ether is not dragged along by the rotation of Earth, and
+        the light travels in a straight line.  Before it reaches the observer,
+        he and his telescope have already changed position because
+        of the moving, rotating Earth.  The telescope must be slightly tilted
+        ahead so that the light gets in straight.
+
+    \section{Ethereal Solutions}
+      \paragraph{G.F. Fitzgerald}
+        \begin{itemize}
+          \item Assumption: Compression effect of the measuring apparatus when moving against the ether
+          \item sent letter to American journal
+        \end{itemize}
+
+      \paragraph{H.A. Lorentz}
+        \begin{itemize}
+          \item he had the same idea as Fitzgerald, and gave credit to Fitzgerald
+          \rightarrow~Lorentz–Fitzgerald contraction
+        \end{itemize}
+
+      \paragraph{The Lorentz-Fitzgerald contraction hypothesis}
+
+      \paragraph{Henri Poincaré}
+      \begin{itemize}
+        \item built on the Lorentz-Fitzgerald contraction hypothesis
+        \item Idea: Time may be changing
+      \end{itemize}
+
+      \paragraph{Einstein’s approach}
+        Not certain that he was influenced by the MM experiment
+        \subparagraph{Combining the principle of light constancy with the principle of relativity}
+
+        \subparagraph{Einstein’s conclusion about the speed of light}
+        \subparagraph{Einstein’s conclusion about the ether}
+
+  \chapter{Week 4: The Weirdness Begins}
+    \section{Introduction}
+      \paragraph{Our journey up to this point}
+      \paragraph{Quotes of the week}
+      \paragraph{\textquote{Time is suspect}}
+
+    \section{\textquote{Time is suspect}: The Relativity of Simultaneity}
+      \subsection{Diagram 1: Alice and Bob stationary}
+      \subsection{Diagram 2: Paintball experiment (Alice moving, Bob observing)}
+      \subsection{Diagram 3: Light pulse experiment (Alice moving, Bob observing)}
+      \subsection{Summary}
+        \textquote{Leading clocks lag}
+
+    \section{The Light Clock, and Exploring the Lorentz Factor}
+      \subsection{The light clock, part 1}
+      \subsection{The light clock, part 2}
+        \begin{align*}
+          \intertext{One tick of Alice’s clock as she sees it (light pulse up and down again):}
+          \mdelta{t_A} &= \frac{2\,L}{\c}
+          \intertext{One tick of Bob’s clock as he sees it:}
+          \mdelta{t_B} &= \frac{2\,L}{\c}
+          \intertext{One tick of Alice’s clock as Bob sees it:}
+          \mdelta{t_B} &= \frac{2\,D}{\c}\\
+          \text{qualitatively: }\mdelta{t_B} &> \mdelta{t_A}\\
+          \\
+          D^2 &= L^2 + {\left(\frac{x}{2}\right)}^2 \\
+          D &= \frac{\c\,\mdelta{t_B}}{2}\\
+          L &= \frac{\c\,\mdelta{t_A}}{2}\\
+          x &= v \, \mdelta{t_B}\\
+          \\
+          \frac{\c^2\,{\mdelta{t_B}}^2}{4} &= \frac{\c^2\,{\mdelta{t_A}}^2}{4} + \frac{v^2\,{\mdelta{t_B}}^2}{4}\\
+          \c^2\,{\mdelta{t_B}}^2 &= \c^2\,{\mdelta{t_A}}^2 + v^2\,{\mdelta{t_B}}^2\\
+          \c^2\,{\mdelta{t_B}}^2 - v^2\,{\mdelta{t_B}}^2 &= \c^2\,{\mdelta{t_A}}^2\\
+          {\mdelta{t_B}}^2 \left(\c^2 - v^2\right) &= \c^2\,{\mdelta{t_A}}^2\\
+          {\mdelta{t_B}}^2 &= \frac{\c^2\,{\mdelta{t_A}}^2}{\c^2 - v^2}\\
+          &= \frac{\c^2}{\c^2 - v^2} \, {\mdelta{t_A}}^2\\
+          {\mdelta{t_B}}^2 &= \frac{1}{1 - \frac{v^2}{\c^2}} \, {\mdelta{t_A}}^2\\
+          \mdelta{t_B} &= \sqrt{\frac{1}{1 - \frac{v^2}{\c^2}}} \, \mdelta{t_A}\\
+          \mdelta{t_B} &= \frac{1}{\sqrt{1 - \frac{v^2}{\c^2}}} \, \mdelta{t_A}\\
+          \gamma &= \frac{1}{\sqrt{1 - \frac{v^2}{\c^2}}} \geq 1 \qquad \text{Lorentz factor}\\
+          \mdelta{t_B} &>^? \mdelta{t_A} \text{\cmark} \qquad \text{Time dilation}
+        \end{align*}
+
+        \begin{samepage}
+          \begin{aside}
+            My approach:
+            \begin{align*}
+              D &= \sqrt{L^2 + {\left(\frac{x}{2}\right)}^2} \\
+              \mdelta{t_B} &= \frac{2\,\sqrt{L^2 + {\left(\frac{x}{2}\right)}^2} }{\c}\\
+              L &= \frac{\mdelta{t_A}\,\c}{2}\\
+              L^2 &= \frac{{\mdelta{t_A}}^2\,\c^2}{4}\\
+              \mdelta{t_B} &= \frac{2\,\sqrt{\frac{{\mdelta{t_A}}^2\,\c^2}{4} + {\left(\frac{x}{2}\right)}^2} }{\c}\\
+                &= \frac{\sqrt{\frac{4\,{\mdelta{t_A}}^2\,\c^2}{4} + 4\,{\left(\frac{x}{2}\right)}^2} }{\c}\\
+                &= \frac{\sqrt{{\mdelta{t_A}}^2\,\c^2 + 4\,{\left(\frac{x}{2}\right)}^2} }{\c}\\
+                &= \frac{\sqrt{{\mdelta{t_A}}^2\,\c^2 + 4\,\left(\frac{x^2}{4}\right)} }{\c}\\
+                &= \frac{\sqrt{{\mdelta{t_A}}^2\,\c^2 + x^2} }{\c}\\
+                &= \frac{\c^2\,\sqrt{{\mdelta{t_A}}^2\, + \frac{x^2}{\c^2}} }{\c}\\
+                &= \c\,\sqrt{{\mdelta{t_A}}^2\, + \frac{x^2}{\c^2}}\\
+                \mdelta{t_B} &= \c\,\sqrt{{\mdelta{t_A}}^2\, + \frac{v^2\,{\mdelta{t_B}}^2}{\c^2}}\\
+                \mdelta{t_B} &= \c\,\sqrt{{\mdelta{t_A}}^2\, + \frac{v^2\,{\mdelta{t_B}}^2}{\c^2}}\\
+            \end{align*}
+          \end{aside}
+        \end{samepage}
+
+    \section{Time Dilation}
+      \paragraph{Duration of one click tick on moving clock compared to clock at rest}
+        \begin{align*}
+          {\left(\mdelta{t}\right)}_{\text{moving}} &= \gamma\,{\left(\mdelta{t}\right)}_{\text{rest}}
+        \end{align*}
+      \paragraph{Elapsed time on moving clock compared to clock at rest}
+        \begin{align*}
+          {\left(\text{Elapsed time}\right)}_{\text{moving}} &= \frac{1}{\gamma}\,{\left(\text{Elapsed time}\right)}_{\text{rest}}\\
+          {\left(\mdelta{T}\right)}_{\text{moving}} &= \frac{1}{\gamma}\,{\left(\mdelta{T}\right)}_{\text{rest}}
+        \end{align*}
+
+        \emph{Note: This does \underline{not} mean that time slows down \underline{for you} if you are moving.}
+
+      \paragraph{1. Is the light clock simply a special case?
+        2. Does time dilation occur for all types of clocks?}
+        1. No; 2. Yes.
+
+        Because if Alice had a normal clock, and the light clock were special,
+        the former would get out of sync with her light clock if, and only if,
+        she were moving (because that is what Bob would have to observe, too).
+
+        But this would violate the special principle of relativity (which says
+        that if you are moving uniformly the laws of physics apply exactly as if
+        you were at rest; IOW, there is no experiment that allows you
+        to determine if you are moving uniformly or not; IYOW, there is no
+        absolute velocity; velocity depends on the frame of reference).
+
+    \section{Measuring Length (length contraction)}
+      Alice’s result for the length of Bob’s ship:
+      \begin{align*}
+        {\left(L_B\right)}_{Alice} &= v \left(T_{A2} - T_{A1}\right) = v\,\mdelta{T_A}
+      \end{align*}
+
+      Bob’s result for the length of his ship:
+      \begin{align*}
+        {\left(L_B\right)}_{Bob} &= v \left(T_{B2} - T_{B1}\right) = v\,\mdelta{T_B}
+      \end{align*}
+
+      For Bob:
+      \begin{align*}
+        \mdelta{T_A} &= \frac{1}{\gamma} \mdelta{T_B}\\
+        {\left(L_B\right)}_{Alice} &= v\,\mdelta{T_A}\\
+        &= v\,\frac{1}{\gamma} \mdelta{T_B}\\
+        &= \frac{1}{\gamma} \mdelta{T_B}\,v\\
+        {\left(L_B\right)}_{Alice} &= \frac{1}{\gamma} {\left(L_B\right)}_{Bob}
+      \end{align*}
+
+      \subsubsection{Summary}
+        Time dilation:
+        \begin{align*}
+          {\left(\mdelta{T}\right)}_{moving} &= \frac{1}{\gamma} {\left(\mdelta{T}\right)}_{rest} \qquad  \text{Time dilation}\\
+          \mdelta{T}\text{ – \underline{elapsed} time}
+          \mdelta{T}_{rest}\text{ – Proper time}
+        \end{align*}
+
+        Time dilation:
+        \begin{align*}
+          L_{moving} &= \frac{1}{\gamma} L_{rest} \qquad \text{Length contraction}\\
+          L_{rest}\text{ – Proper length}
+        \end{align*}
+
+    \section{What is Not Suspect, and the Invariant Interval}
+      \subsection{What is not suspect (invariants)}
+        \strong{Lengths not in the direction of motion stay are not shortened.}
+
+        If it were different,
+        \begin{itemize}
+          \item as to \strong{width}, Alice would observe the wheels of Bob’s
+            moving train cars to fall off as its width reduces, while Bob
+            would see the width of the tracks get narrower;
+          \item as to \strong{height}, supposed there would be a tunnel through
+            which Bob’s train car would just fit while at rest, then he would
+            observe that his car would into that tunnel as it its height were
+            reduced, while Alice would observe that he has more room to get
+            through the tunnel.
+        \end{itemize}
+
+        Either case would be a contradiction; if you take a photo while on
+        the car, both Alice and Bob must agree as to its status.
+
+      \subsection{The invariant interval}
+        \begin{samepage}
+          Consider the time and distance between two events in, as observed
+          in different frames of reference:
+
+          [see handout]
+          \begin{align*}
+            h &\text{ {--} height of the light clocks}\\
+            x_A &\text{ {--} distance between Bob's events for Alice}\\
+            x_K &\text{ {--} distance between Bob's events for Kris}\\
+            t_A &\text{ {--} one tick of Bob's clock from Alice's perspective}\\
+            t_K &\text{ {--} one tick of Bob's clock from Kris's perspective}\\
+            t_B &\text{ {--} one tick of Bob's clock according to him}\\
+            \\
+            h^2 + {\left(\frac{x_A}{2}\right)}^2 &= {\left(\frac{\c\,t_A}{2}\right)}^2\\
+            h^2 + \frac{{x_A}^2}{4} &= \frac{\c^2\,{t_A}^2}{4}\\
+            4\,h^2 + {x_A}^2 &= \c^2\,{t_A}^2\\
+            4\,h^2 &= \c^2\,{t_A}^2 - {x_A}^2\\
+            4\,h^2 &= \c^2\,{t_K}^2 - {x_K}^2\\
+            2\,h &= \c\,\frac{t_B}{2} + \c\,\frac{t_B}{2}\\
+            &= \c\,t_B\\
+            4\,h^2 &= \c^2\,{t_B}^2
+            \intertext{or}
+            4\,h^2 &= \c^2\,{t_B}^2 - {x_B}^2
+            \intertext{but $x_B = 0$.}
+          \end{align*}
+        \end{samepage}
+
+    \clearpage
+    \section{A Real-Life Example: The Muon}
+      \begin{align*}%
+        \text{Average muon (proper) lifetime: } \tau &= \SI{2.2}{\micro\second}\\
+        \text{Average velocity: } v &= \SI{0.998}{\c}\\
+        \text{\rightarrow~Distance traveled: } s &\approx \SI{660}{\meter}\\
+        \text{Altitude where they are generated by cosmic rays: } h &\approx \SI{10}{\kilo\meter}
+        \longintertext{But a lot of atmospheric muons are detected near
+          Terra's surface.  How is that possible?\\
+          \\
+          \emph{Special relativity!}}
+        \gamma &= \frac{1}{\sqrt{1 - \frac{v^2}{\c^2}}} \approx 15
+        \intertext{From our perspective, time dilation:}
+        \tau_{observer} &= \gamma \, \tau \\
+          &= 15 \times \SI{2.2}{\micro\second}\\
+          &= \SI{33}{\micro\second}\\
+        s_{observer} &= v \, \tau_{observer}\\
+          &= \SI{0.998}{\c} \times \SI{33}{\micro\second}\\
+          &\approx \SI{9.873}{\kilo\meter} \approx h. \qed
+        \intertext{From the muon's perspective, length contraction:}
+        h_{\mu} &= \frac{1}{\gamma} \, h\\
+          &= \frac{\SI{10}{\kilo\meter}}{15} \\
+          &\approx \SI{667}{\meter}
+          \approx s. \qed
+      \end{align*}
+
+  \chapter{Week 5: Spacetime Switches}
+    \section{Quotations of the week}
+    \section{Convenient units for the speed of light}
+      \paragraph{Calculating the Lorentz factor when writing the velocity in terms of \c{} (e.g.,~$v~=~\SI{0.9}{\c}$)}
+        \begin{align*}
+          \gamma &= \frac{1}{\sqrt{1 - \frac{v^2}{\c^2}}}\\
+          \gamma(v = \SI{0.9}{\c}) &= \frac{1}{\sqrt{1 - \frac{{\left(\SI{0.9}{\c}\right)}^2}{\c^2}}}\
+            = \frac{1}{\sqrt{1 - \frac{{\left(0.9\right)}^2{\c}^2}{\c^2}}}\
+            = \frac{1}{\sqrt{1 - {\left(0.9\right)}^2}}\\
+        \end{align*}
+      \paragraph{The concept of light-years (and light-months, light-days, light-seconds)}
+        1~light-year~[\SI{1}{ly}] is the distance that light travels in vacuum
+        in 1~year [\SI{1}{a}].
+        \begin{align*}
+          \c_0 &= 1\,\frac{\text{ly}}{\text{a}}
+        \end{align*}
+      \paragraph{The speed of light in meters/second, km/second, light-years/year, feet/nanosecond, and so on}
+        \begin{align*}
+          \c_0 &\approx 1\,\frac{\text{ft}}{\text{ns}}
+        \end{align*}
+
+    \section{Exploring time dilation and length contraction (Star Tours, part 1)}
+      \paragraph{“Star Tours” set-up:} A trip to a star 5 light-years away.
+        \begin{align*}
+          v &= \SI{0.943}{\c} \rightarrow~\gamma = 3
+        \end{align*}
+
+      \paragraph{Analysis done from the perspective of the observer on Earth (the Earth-Star reference frame)}
+        \begin{align*}
+          \text{Travel time } \mdelta{T}_{rest} &= \frac{\SI{5}{ly}}{\SI{0.943}{\c}} = \SI{5.3}{a}\\
+          \mdelta{T}_{moving} &= \frac{1}{\gamma} \mdelta{T}_{rest} = \frac{\SI{5.3}{a}}{\gamma} \approx \SI{1.77}{a}
+        \end{align*}
+
+      \paragraph{Analysis done from the perspective of the observer on the rocket (the rocket reference frame)}
+        Observes that the Earth--Star distance is contracted
+        \begin{align*}
+          L_{moving} &= \frac{1}{\gamma} L_{rest} = \frac{\SI{5}{ly}}{\gamma} \approx \SI{1.67}{ly}\\
+          \text{Time for star to reach Bob } \mdelta{T}_{Rocket} &= \frac{\SI{1.67}{ly}}{\SI{0.943}{\c}} = \SI{1.77}{a}(!)\\
+        \end{align*}
+
+      \paragraph{The puzzle/conundrum}
+        \begin{align*}
+          \text{Bob's observation of Alice's elapsed time} &= \frac{\mdelta{T}_{Rocket}}{\gamma}\\
+            &= \frac{\SI{1.77}{a}}{\gamma} \approx \SI{0.59}{a} \text{ (???)}
+        \end{align*}
+        (Hint: relativity of simultaneity, ``leading clocks lag'')
+
+    \section{Deriving the Lorentz transformation}
+      \subsection{Part 1}
+        Bob in a spaceship moving relative to Alice
+
+        At start:
+        \begin{align*}
+          t_A = 0 \qquad t_B = 0\\
+          x_A = 0 \qquad x_B = 0
+        \end{align*}
+        \paragraph{The question/goal}
+          Given $(x_B, \, y_B, \, z_B, \, t_B)$,
+          what is $(x_A, \, y_A, \, z_A, \, t_A)$?
+
+          Or: $(x_A, \, y_A, \, z_A, \, t_A) \leftrightarrow (x_B, \, y_B, \, z_B, \, t_B)$
+
+        \paragraph{Reminder of the Galilean transformation}
+          \begin{align*}
+            x_A &= x_B + v \, t_B\\
+            y_A &= y_B\\
+            z_A &= z_B\\
+            t_A &= t_B
+          \end{align*}
+
+        \paragraph{Bob and Alice and the flash of light}
+          Later, at time $t_B$, there is a flash of light in Bob's cockpit.
+
+          We know:
+          \begin{align*}
+            t_A &= \gamma \, t_B, \, \gamma = \frac{1}{\sqrt{1 - \frac{v^2}{\c^2}}}
+          \end{align*}
+          \emph{But note:} This was derived for $x_B = 0$.
+
+        \paragraph{Applying the invariant interval equation}
+          We also know:
+          \begin{align*}
+            \c^2 \, {t_A}^2 - {x_A}^2 &= \c^2 \, {t_B}^2 - {x_B}^2 \qquad \text{Invariant interval}
+          \end{align*}
+
+          Consider first the case when the flash of light occurs at $x_B = 0$:
+          \begin{align*}
+             {\left(x_B\right)}_{flash} &= 0\\
+             {\left(x_A\right)}_{flash} &= v \, t_A
+             \intertext{Because $x_B = 0$, we can apply the known time dilation equation:}
+             {\left(x_A\right)}_{flash} &= \gamma \, v \, t_B
+             \intertext{Using the invariant interval:}
+              \c^2 \, {t_A}^2 - {x_A}^2 &= \c^2 \, {t_B}^2 - \cancel{{x_B}^2} 0\\
+              \c^2 \, {t_A}^2 - {\left(v \, t_A\right)}^2 &= \c^2 \, {t_B}^2\\
+              \c^2 \, {t_A}^2 - v^2 \, {t_A}^2 &= \c^2 \, {t_B}^2\\
+              {t_A}^2 \left(\c^2 - v^2\right) &= \c^2 \, {t_B}^2\\
+              {t_A}^2 &= \frac{\c^2}{\c^2 - v^2} \, {t_B}^2\\
+                &= \frac{\cancel{\c^2}}{\cancel{\c^2} \left(1 - \frac{v^2}{\c^2}\right)} \, {t_B}^2\\
+              {t_A}^2 &= \frac{1}{1 - \frac{v^2}{\c^2}} \, {t_B}^2\\
+              t_A &= \frac{1}{\sqrt{1 - \frac{v^2}{\c^2}}} \, t_B\\
+              \Aboxed{t_A &= \gamma \, t_B}\\
+              x_A &= v \, t_A\\
+              \Aboxed{x_A &= \gamma \, v \, t_B.}
+          \end{align*}
+
+      \subsection{Part 2}
+        \paragraph{Review of Part 1 and the overall goal}
+          Goal: For an event at $(x_B, \, t_B)$, what are $x_A$ and $t_A$?
+          That is
+          \begin{align*}
+            x_A &= \text{some formula involving $x_B$ and $t_B$}\\
+            t_A &= \text{some formula involving $x_B$ and $t_B$}
+          \end{align*}
+
+        \paragraph{Restrictions on the possible formula}
+          \begin{enumerate}
+            \item The units have to match, so e.g., $x_A = {x_B}^2 + \gamma \, t_B$ cannot
+              be correct.
+            \item It has to work for $x_B = 0$
+          \end{enumerate}
+
+        \paragraph{Why the clock ticks have to be uniform}
+          \begin{align*}
+            t_A = \frac{{t_B}^2}{\frac{x_B}{v}} \text{ could work dimensionally.}
+            \intertext{Why can there not be a ${t_B}^2$ on the right-hand side?  Assume}
+            t_A &= {t_B}^2,
+            \intertext{then:}
+            t_B &= 0, \, 1, \, 2, \, 3 \rightarrow 1, \, 2 \, 3, \, 4\\
+            t_A &= 0, \, 1, \, 4, \, 9 \rightarrow 1, \, 4 \, 9, \, 16
+          \end{align*}
+          \emph{The clock ticks have to be uniform, but would not be for later times.}
+
+        \paragraph{A linear form for the desired equations}
+          \begin{samepage}
+            Therefore, the transformation has to have a linear form:
+            \begin{align*}
+              t_A &= G \, x_B + H \, t_B\\
+              x_A &= M \, x_B + N \, t_B
+            \end{align*}
+          \end{samepage}
+
+        \paragraph{Finding two of the four unknown coefficients (G, H, M, N)}
+          If $x_B = 0$, $t_A = \gamma \, t_B$ and $x_A = \gamma \, v \, t_B$ and
+          \begin{align*}
+            t_A &= G \, \cancel{x_B} 0 + H \, t_B = \gamma \, \t_B \rightarrow~H = \gamma\\
+            x_A &= M \, \cancel{x_B} 0 + N \, t_B = \gamma \, v \, t_B \rightarrow~N = \gamma \, v
+            \intertext{so:}
+            t_A &= G \, x_B + \gamma \, t_B\\
+            x_A &= M \, x_B + \gamma \, v \, t_B
+          \end{align*}
+
+      \subsection{Part 3}
+        \paragraph{Finding the remaining coefficients (G and M) using the invariant interval equation}
+          \begin{align*}
+            \c^2 \, {t_A}^2 - {x_A}^2 &= \c^2 \, {t_B}^2 - {x_B}^2
+            \intertext{Insert the terms for $x_A$ and $t_A$:}
+            \c^2 \, {(G \, x_B + \gamma \, t_B)}^2 - {(M \, x_B + \gamma \, v \, t_B)}^2 &= \c^2 \, {t_B}^2 - {x_B}^2\\
+            \c^2 \, (G^2 \, {x_B}^2 + 2 \, G \, x_B \gamma \, t_B + {\gamma}^2 {t_B}^2)
+              - (M^2 \, {x_B}^2 + 2 \, M \, \gamma \, v \, x_B \, t_B + {\gamma}^2 \, v^2 \, {t_B}^2)
+              &= \c^2 \, {t_B}^2 - {x_B}^2\\
+            \c^2 \, (G^2 \, {x_B}^2 + 2 \, G \, \gamma \, x_B \, t_B + {\gamma}^2 {t_B}^2)
+              - M^2 \, {x_B}^2 - 2 \, M \, \gamma \, v \, x_B \, t_B  - {\gamma}^2 \, v^2 \, {t_B}^2
+              &= \c^2 \, {t_B}^2 - {x_B}^2\\
+            (\c^2 \, {\gamma}^2 {t_B}^2 - {\gamma}^2 v^2 {t_B}^2)
+              + (2 \, G \, \gamma \, \c^2 \, x_B \, t_B - 2 \, M \, \gamma \, v \, x_B \, t_B)
+              + (\c^2 \, G^2 {x_B}^2 - M^2 \, {x_B}^2) &= \c^2 \, {t_B}^2 - {x_B}^2\\
+            (\c^2 \, {\gamma}^2 - {\gamma}^2 v^2) \, {t_B}^2
+              + (2 \, G \, \gamma \, \c^2 - 2 \, M \, \gamma \, v) \, x_B \, t_B
+              + (\c^2 \, G^2 - M^2) \, {x_B}^2 &= \c^2 \, {t_B}^2 - {x_B}^2\\
+          \end{align*}
+          Therefore:
+          \begin{align*}
+            \c^2 \, {\gamma}^2 - {\gamma}^2 v^2 &= c^2\\
+            {\gamma}^2 \, (\c^2 - v^2) &= c^2\\
+            {\gamma}^2 &= \frac{c^2}{\c^2 - v^2}\\
+            {\gamma}^2 &= \frac{1}{1 - \frac{v^2}{c^2}}\\
+            {\gamma} &= \frac{1}{\sqrt{1 - \frac{v^2}{c^2}}} \qed\\
+            2 \, G \, \gamma \, \c^2 - 2 \, M \, \gamma &= 0\\
+            (2 \, \gamma) (G \, \c^2 - \, M \, v) &= 0\\
+            \gamma \neq 0 \rightarrow~G \, \c^2 - \, M \, v &= 0\\
+            G \, \c^2 &= M \, v\\
+            G &= \frac{M \, v}{\c^2}\\
+            \c^2 \, G^2 - M^2 &= -1\\
+            -\c^2 \, G^2 + M^2 &= 1\\
+            M^2 - \c^2 \, G^2 &= 1
+            \intertext{Insert $G$:}
+            M^2 - \c^2 \, {\left(\frac{M \, v}{\c^2}\right)}^2 &= 1\\
+            M^2 - \c^2 \, \frac{M^2 \, v^2}{\c^4} &= 1\\
+            M^2 - \frac{M^2 \, v^2}{\c^2} &= 1\\
+            M^2 \, \left(1 - \frac{v^2}{\c^2}\right) &= 1\\
+            M^2 &= \frac{1}{1 - \frac{v^2}{\c^2}}\\
+            M &= \frac{1}{\sqrt{1 - \frac{v^2}{\c^2}}} = \gamma\\
+            G &= \frac{M \, v}{\c^2} = \frac{\gamma \, v}{\c^2}
+          \end{align*}
+
+        \paragraph{The final form of the Lorentz transformation}
+          \begin{align*}
+            t_A &= G \, x_B + \gamma \, t_B\\
+            t_A &= \frac{\gamma \, v}{\c^2} \, x_B + \gamma \, t_B\\
+            x_A &= M \, x_B + \gamma \, v \, t_B\\
+            x_A &= \gamma \, x_B + \gamma \, v \, t_B
+          \end{align*}
+          \begin{align*}
+            \Aboxed{t_A &= \gamma \, \left(t_B + \frac{v}{\c^2} \, x_B\right)}\\
+            \Aboxed{x_A &= \gamma \, \left(x_B + v \, t_B\right)}
+          \end{align*}
+
+    \section{Exploring the Lorentz transformation}
+      \subsection{Part 1}
+        \paragraph{Summary of results so far}
+          Rewriting the transformation equations in order to avoid confusion:
+          \begin{align*}
+            \Aboxed{t_{rest} &= \gamma \, \left(t_{moving} + \frac{v}{\c^2} \, x_{moving}\right)}\\
+            \Aboxed{x_{rest} &= \gamma \, \left(x_{moving} + v \, t_{moving}\right)}
+          \end{align*}
+
+        \paragraph{What happens when $v = 0$?}
+          \begin{samepage}
+            Let $v = 0$ → $\gamma = 1$, then:
+            \begin{align*}
+              t_{rest} &= \cancel{\gamma} \, 1 \, \left(t_{moving} + \cancel{\frac{\cancel{v} \, 0}{\c^2} \, x_{moving}}\right)\\
+              t_{rest} &= t_{moving}\\
+              x_{rest} &= \cancel{\gamma} \, 1 \, \left(x_{moving} + \cancel{\cancel{v} \,  0 \, t_{moving}}\right)\\
+              x_{rest} &= x_{moving}
+            \end{align*}
+            \emph{[Observers not moving relative to each other agree on times and locations.]}
+          \end{samepage}
+        \paragraph{What happens when $v$ is much less than \c{} (the speed of light)?}
+          Let $v \ll \c$ → $\gamma \approx 1$ and $\frac{v}{\c^2} \approx 0$, then:
+          \begin{align*}
+            t_{rest} &= \cancel{\gamma} \, 1 \, \left(t_{moving} + \cancel{\frac{\cancel{v} \, 0}{\c^2} \, x_{moving}}\right)\\
+            t_{rest} &= t_{moving}\\
+            x_{rest} &= \cancel{\gamma} \, 1 \, \left(x_{moving} + v \, t_{moving}\right)\\
+            x_{rest} &= x_{moving} + v \, t_{moving}
+          \end{align*}
+          \emph{This is the Galilean transformation.}
+        \paragraph{What happens when $v$ is large?}
+          At $t_{moving} = 0$, we get \emph{length contraction}:
+          \begin{align*}
+            x_{rest} &= \gamma \, \left(x_{moving} + \cancel{\cancel{v} \, 0 \, t_{moving}}\right)\\
+            x_{rest} &= \gamma \, x_{moving}\\
+            x_{moving} &= \frac{x_{rest}}{\gamma}
+          \end{align*}
+
+      \subsection{Part 2: Exploring the time transformation equation}
+        \paragraph{What happens when $x = 0$ (as measured in the moving frame of reference)?}
+          If $x_{moving} = 0$, we get \emph{time dilation}:
+          \begin{align*}
+            t_{rest} &= \gamma \, t_{moving} + \cancel{\gamma \, \frac{v}{\c^2} \, 0 \, \cancel{x_{moving}}}\\
+            t_{rest} &= \gamma \, t_{moving}\\
+            t_{moving} &= \frac{t_{rest}}{\gamma}
+          \end{align*}
+        \paragraph{What happens in general (Alice’s lattice of clocks vs. Bob’s lattice of clocks)?}
+          If $x_{moving} = 0$, we get \emph{time dilation}:
+          \begin{align*}
+            t_{rest} &= \gamma \, t_{moving} + \cancel{\gamma \, \frac{v}{\c^2} \, \cancel{x_{moving}} \, 0}\\
+            t_{rest} &= \gamma \, t_{moving}\\
+            t_{moving} &= \frac{t_{rest}}{\gamma}
+          \end{align*}
+        \paragraph{The result (leading clocks lag)}
+          From
+          \begin{align*}
+            t_{rest} &= \gamma \, t_{moving} + \gamma \, \frac{v}{\c^2} \, x_{moving}
+          \end{align*}
+          also follows: For the same time $t_{rest}$ measured on the clocks
+          at rest, as $x_{moving}$ is increasing, $t_{moving}$ has to decrease.
+          IOW, the farther away the moving clocks are, the more are they behind
+          the clocks at rest: \emph{Leading clocks lag.}
+
+      \subsection{Part 3: The inverse transformation (movement to the left, or negative $x$ direction)}
+        [This is easier to understand with Alice at rest and Bob moving,
+         hence the old indexes here.]
+        \begin{align*}
+          t_A &= \gamma \, \left(t_B + \frac{v}{\c^2} \, x_B\right)\\
+          x_A &= \gamma \, \left(x_B + v \, t_B\right)
+        \end{align*}
+        From Bob's perspective, he is at rest and Alice is moving in the negative
+        $x$ direction.
+
+        If the direction of the velocity is reversed, we just have to reverse
+        the sign of $v$:
+        \begin{align*}
+          t_B &= \gamma \, \left(t_A + \frac{-v}{\c^2} \, x_A\right)\\
+          t_B &= \gamma \, \left(t_A - \frac{v}{\c^2} \, x_A\right)\\
+          x_B &= \gamma \, \left(x_A + (-v) \, t_A\right)
+          x_B &= \gamma \, \left(x_A - v \, t_A\right)
+          \intertext{$\gamma$ also contains $v$, but:}
+          \gamma &= \frac{1}{\sqrt{1 - \frac{v^2}{c^2}}} = \frac{1}{\sqrt{1 - \frac{{(-v)}^2}{c^2}}}
+        \end{align*}
+
+    \section{Leading clocks lag, revisited}
+    \section{Star Tours, part 2}
+    \section{The ultimate speed limit}
+    \section{Combining velocities}
+
+  % References
+  \begingroup
+  %     \raggedright
+      %\sloppy
+    \printbibliography[heading=lit]
+  \endgroup
+\end{document}

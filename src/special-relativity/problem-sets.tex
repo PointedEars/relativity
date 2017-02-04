@@ -1,0 +1,507 @@
+% vim:set fileencoding=utf-8 tabstop=2 shiftwidth=2 softtabstop=2 expandtab:
+%% Page layout
+% Scientific report, European style (A4) (from KOMA-Script)
+% BCOR: binding correction
+% DIV=calc: Calculate page spread now (recalculated below)
+% pagesize: Add page info to (PDF/PS) output
+% parskip=half: Do not indent paragraphs, add one half line spacing instead
+%   (FFHS requirement)
+% Default font size: 10pt (FFHS requirement)
+% BCOR=1cm too much?
+\documentclass[pagesize,headsepline,10pt,parskip=half]{scrreprt}
+
+% Line spacing should be 1.5 times the line height (FFHS requirement)
+\usepackage{setspace}
+\onehalfspacing{}
+
+% float compatibility for KOMA-Script
+\usepackage{scrhack}
+
+% Use English orthography and hyphenation by default
+\usepackage[latin,italian,english]{babel}
+
+% Allow using non-ASCII characters verbatim; disable for LuaLaTeX
+% \usepackage[utf8]{inputenc}
+
+% Special characters
+\usepackage{textcomp}
+
+% Use fonts having non-ASCII characters; disable fontenc for LuaLaTeX
+% \usepackage[T1]{fontenc}
+\usepackage{fontspec}
+\newfontfamily\DejaSans{DejaVu Sans}
+
+% User-defined English hyphenation
+\hyphenation{InfoWorld}
+
+% Use language-specific quotes
+\usepackage[autostyle,english=american]{csquotes}
+\DeclareQuoteAlias{italian}{latin}
+
+% Advanced Computer Modern fonts
+\usepackage{lmodern}
+
+% Allow strike-through with \sout, keep italic for \emph
+\usepackage[normalem]{ulem}
+
+% Use medieval numbers except in math mode
+% \usepackage{hfoldsty}
+
+% Use sans-serif font ('Arial') by default for headings and normal text;
+% disable helvet for LuaLaTeX
+% (FFHS requirement)
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{mathptmx}
+%\usepackage[scaled=.90]{helvet}
+\usepackage{courier}
+
+% Improved typography, like hyphenation in words with non-ASCII characters,
+% see also http://homepage.ruhr-uni-bochum.de/georg.verweyen/pakete.html
+\usepackage[babel]{microtype}
+
+% Number also \subsubsection, but not \paragraph and below
+\setcounter{secnumdepth}{3}
+
+% Page heading and footer
+\usepackage{scrpage2}
+\pagestyle{scrheadings}
+\automark[section]{chapter}
+% heading on the top inner margin only
+\ohead[]{\headmark}
+\chead[]{}
+% page number on the bottom outer margin only
+\ofoot[\pagemark]{\pagemark}
+\cfoot[]{}
+
+% Support for list of acronyms
+\usepackage[footnote,nohyperlinks,withpage]{acronym}
+
+% References: can use section names
+\usepackage{nameref}
+
+% References: generate hyperlinks
+\usepackage[plainpages=false]{hyperref}
+
+% References style (default: 'numerical')
+\usepackage[backend=biber,
+style=authoryear-ibid,
+maxcitenames=1,
+maxbibnames=3]{biblatex}
+\defbibheading{lit}{\chapter*{References}\markboth{References}{References}}
+% References: bibliography database
+\addbibresource{main.bib}
+
+% prints author names as small caps
+\renewcommand{\mkbibnamefirst}[1]{\textsc{#1}}
+\renewcommand{\mkbibnamelast}[1]{\textsc{#1}}
+\renewcommand{\mkbibnameprefix}[1]{\textsc{#1}}
+\renewcommand{\mkbibnameaffix}[1]{\textsc{#1}}
+
+% References: use English ordinal numbers
+\usepackage[super]{nth}
+
+% Automatically use teletype for \url argument, use content verbatim
+\usepackage{url}
+\urlstyle{tt}
+
+% Less vertical spacing between list items (in `compactitem' environment)
+\usepackage{paralist}
+
+% Multi-row table cells
+\usepackage{multirow}
+
+% Support for horizontal rules in tables (professional style)
+\usepackage{booktabs}
+
+% Footnotes in tables
+\usepackage{threeparttable}
+
+% Tables across pages (for results)
+\usepackage{longtable}
+
+% Word wrap in table columns (calculate p width)
+\usepackage{calc}
+
+% Automatic column stretching
+% \usepackage{tabularx}
+
+% Stretched tables across pages (for results); requires longtable
+% tabularx
+\usepackage{ltxtable}
+
+% Improved table formatting
+\usepackage{array}
+
+% Support for including PDFs
+\usepackage{pdfpages}
+
+% Support for figures
+\usepackage{graphicx}
+
+\usepackage{amsthm}
+\newtheorem{mydef}{Definition}
+
+\usepackage[fleqn]{amsmath}
+\newlength{\normalparindent}
+\AtBeginDocument{\setlength{\normalparindent}{\parindent}}
+\newcommand{\longintertext}[1]{%
+  \intertext{%
+    \parbox{\linewidth}{%
+      \setlength{\parindent}{\normalparindent}
+      \noindent#1%
+    }%
+  }%
+}
+
+\usepackage{esint}
+\usepackage{amssymb}
+% \usepackage{commath}
+\allowdisplaybreaks{}
+
+% degree symbol etc.
+\usepackage{gensymb}
+
+% dingbats
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}
+
+% SI units
+\usepackage{siunitx}
+\sisetup{per-mode = fraction, math-micro = \text{µ}, text-micro = µ}
+% Margin notes
+\usepackage{marginnote}
+
+% FSM graphs
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+
+% Captions
+\usepackage{caption}
+
+% Recalculate page spread based on the definitions above
+\recalctypearea{}
+
+%% User commands
+% Formatting and languages
+\newcommand{\strong}[1]{\textbf{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\var}[1]{\textit{#1}}
+\newcommand{\en}[1]{\foreignlanguage{english}{#1}}
+
+% Abbreviations
+\usepackage{xspace}
+\newcommand{\ao}{\mbox{u.\,a.}\xspace}
+\newcommand{\cf}{\mbox{vgl.}\xspace}
+\newcommand{\ie}{\mbox{d.\,h.}\xspace}
+\newcommand{\eg}{\mbox{e.g.}\xspace}
+\newcommand{\ital}{\mbox{ital.}\xspace}
+
+% Common terms
+\newcommand{\sectionname}{Section}
+\newcommand{\eq}{equation\xspace}
+
+% Commands for common math expressions
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\renewcommand\d[1]{\:\textrm{d}#1}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+\newcommand*\mdelta[1]{\ensuremath{\mathrm{\Delta\,}#1}}
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+
+% Chemistry
+\newcommand*\chem[1]{\ensuremath{\mathrm{#1}}}
+
+% alignment in \cases
+\makeatletter
+\renewcommand{\env@cases}[1][@{}l@{\quad}l@{}]{%
+ \let\@ifnextchar\new@ifnextchar{}
+ \left\lbrace{}
+ \def\arraystretch{1.2}%
+ \array{#1}%
+}
+\makeatother
+
+% asides
+\usepackage{mdframed}
+\newenvironment{aside}
+{\begin{mdframed}[style=0,%
+  leftline=false,rightline=false,leftmargin=2em,rightmargin=2em,%
+  innerleftmargin=0pt,innerrightmargin=0pt,linewidth=0.75pt,%
+  skipabove=7pt,skipbelow=7pt]\small}
+{\end{mdframed}}
+
+%% Shortcuts
+%%% arrays (vectors, matrixes, tensors)
+\newcommand{\vecb}[1]{\mathbf{#1}}
+\newcommand{\parray}[2]{\left(\begin{array}{#1}#2\end{array}\right)}
+%% Vector norm
+\newcommand{\norm}[1]{\left\|{#1}\right\|}
+%% Constants
+\newcommand{\const}[1]{\mathrm{#1}}
+% Speed of light
+\renewcommand{\c}{\const{c}}
+
+% Calculate numbers
+\usepackage{fp}
+
+% Use programming in commands
+% \usepackage{etoolbox}
+
+%% Relativistic calculations
+% Define command #1 as Lorentz factor for a speed #2 in multiples of speed of light
+\newcommand{\lorentz}[2]{\FPeval{#1}{1/root(2, 1 - #2^2)}}
+
+% Speed of light
+\FPeval{\sol}{299792458}
+
+% Define command #1 as relative speed for a Lorentz factor #2
+\newcommand{\lorentztospeed}[2]{\FPeval{#1}{sol * root(2, 1 - 1/(#2^2))}}
+
+% Define command #1 as length contraction of length #2
+% for a speed #3 in multiples of speed of light
+\newcommand{\lencon}[3]{\FPeval{#1}{#2 * root(2, 1 - #3^2)}}
+
+% Define command #1 as time dilation of time #2
+% for a speed #3 in multiples of speed of light
+\newcommand{\timedil}[3]{\FPeval{#1}{1/root(2, 1 - #3^2) * #2}}
+
+\begin{document}
+  % User-defined language-specific hyphenation
+  %  \hyphenation{bezüg-lich einer Da-ten-bank-ope-ra-ti-onen
+  %  effizienz-stei-gernd ECMA ECMAScript Firefox Google JavaScript JavaScript-Core
+  %  Kom-pa-ti-bi-li-täts-matrix lauf-fähig lenny Linux MySQL proto-typ-ba-sier-ter
+  %  robusteren SquirrelFish Wine}
+
+  \begin{titlepage}
+    \title{\href{https://www.coursera.org/learn/einstein-relativity/}{Understanding Einstein:\\The Special Theory of Relativity}}
+    \subtitle{Own solutions for the problem sets from the Stanford University Online Course}
+    \author{Larry Randles Lagerstrom, Instructor\\\href{http://PointedEars.de/}{Thomas Lahn}, Student}
+    \maketitle
+  \end{titlepage}
+
+  \clearpage
+  \pagenumbering{Roman}
+  \begin{spacing}{1}
+    % Print TOC
+    \tableofcontents
+    \thispagestyle{empty}
+  \end{spacing}
+
+  %   \clearpage
+  %   \begin{spacing}{1}
+  %     \chapter*{List of acronyms} \label{chapter:acronyms}
+  %     \begin{acronym}[]
+  %       \setlength{\itemsep}{-\parsep}
+  %        \acro{RFC}{Request for Comments (Internet-Standard)}
+  %     \end{acronym}
+  %   \end{spacing}
+
+  \clearpage
+  \pagenumbering{arabic}
+  \chapter{Week 4}
+    \section{Problem 1: Velocity → Lorentz factor}
+      Calculate the value of the Lorentz factor for the following velocities.
+      \newcommand{\lorentzr}[2]{
+        \lorentz{#1}{#2}
+        \FPround{#1}{#1}{5}
+      }
+      \FPeval{velocitya}{0.01}
+      \lorentzr{\resulta}{\velocitya}
+      \FPeval{velocityb}{0.1}
+      \lorentzr{\resultb}{\velocityb}
+      \FPeval{velocityc}{0.25}
+      \lorentzr{\resultc}{\velocityc}
+      \FPeval{velocityd}{0.5}
+      \lorentzr{\resultd}{\velocityd}
+      \FPeval{velocitye}{0.75}
+      \lorentzr{\resulte}{\velocitye}
+      \FPeval{velocityf}{0.9}
+      \lorentzr{\resultf}{\velocityf}
+      \FPeval{velocityg}{0.99}
+      \lorentzr{\resultg}{\velocityg}
+      \FPeval{velocityh}{0.999}
+      \lorentzr{\resulth}{\velocityh}
+      \begin{align*}
+        \gamma &= \frac{1}{\sqrt{1 - {\left(\frac{v}{c}\right)}^2}}\\
+        \text{(a) } \gamma(v = \SI{\velocitya}{\c}) &= \frac{1}{\sqrt{1 - {\velocitya}^2}}\\
+        &= \frac{1}{\sqrt{1 - 0.0001}}\\
+        &= \frac{1}{\sqrt{0.9999}}\\
+        &= \frac{1}{\sqrt{\frac{9999}{10000}}}\\
+        &= \frac{1}{\frac{99.995}{100}}\\
+        &= \frac{100}{99.995}\\
+        &= \resulta\\
+        \text{(b) } \gamma(v = \SI{\velocityb}{\c}) &\approx \resultb\\
+        \text{(c) } \gamma(v = \SI{\velocityc}{\c}) &\approx \resultc\\
+        \text{(d) } \gamma(v = \SI{\velocityd}{\c}) &\approx \resultd\\
+        \text{(e) } \gamma(v = \SI{\velocitye}{\c}) &\approx \resulte\\
+        \text{(f) } \gamma(v = \SI{\velocityf}{\c}) &\approx \resultf\\
+        \text{(g) } \gamma(v = \SI{\velocityg}{\c}) &\approx \resultg\\
+        \text{(h) } \gamma(v = \SI{\velocityh}{\c}) &\approx \resulth
+      \end{align*}
+
+    \section{Problem 2: Lorentz factor →~velocity}
+      Calculate the value of the relative velocity in km/second between two frames of reference
+      for the following values of the Lorentz factor. (Use 300,000 km/second for the speed of light.)
+      \newcommand{\lorentztospeedr}[2]{
+        \lorentztospeed{#1}{#2}
+        \FPround{#1}{#1}{3}
+      }
+      \FPeval{\sol}{300000}
+      \FPeval{gammaa}{1.1}
+      \lorentztospeedr{\resulta}{\gammaa}
+      \FPeval{gammab}{1.25}
+      \lorentztospeedr{\resultb}{\gammab}
+      \FPeval{gammac}{1.5}
+      \lorentztospeedr{\resultc}{\gammac}
+      \FPeval{gammad}{2}
+      \lorentztospeedr{\resultd}{\gammad}
+      \FPeval{gammae}{5}
+      \lorentztospeedr{\resulte}{\gammae}
+      \FPeval{gammaf}{10}
+      \lorentztospeedr{\resultf}{\gammaf}
+      \begin{align*}
+        \gamma &= \frac{1}{\sqrt{1 - \frac{v^2}{c^2}}}\\
+         \sqrt{1 - \frac{v^2}{c^2}} &= \frac{1}{\gamma}\\
+         1 - \frac{v^2}{c^2} &= \frac{1}{\gamma^2}\\
+         - \frac{v^2}{c^2} &= \frac{1}{\gamma^2} - 1\\
+         \frac{v^2}{c^2} &= 1 - \frac{1}{\gamma^2}\\
+         v^2 &= c^2 \, \left(1 - \frac{1}{\gamma^2}\right)\\
+         v &= \sqrt{c^2 \, \left(1 - \frac{1}{\gamma^2}\right)}\\
+         v &= c \, \sqrt{1 - \frac{1}{\gamma^2}}\\
+         \text{(a) } v(\gamma = \gammaa) &\approx \SI{\resulta}{\kilo\meter\per\second}\\
+         \text{(b) } v(\gamma = \gammab) &\approx \SI{\resultb}{\kilo\meter\per\second}\\
+         \text{(c) } v(\gamma = \gammac) &\approx \SI{\resultc}{\kilo\meter\per\second}\\
+         \text{(d) } v(\gamma = \gammad) &\approx \SI{\resultd}{\kilo\meter\per\second}\\
+         \text{(e) } v(\gamma = \gammae) &\approx \SI{\resulte}{\kilo\meter\per\second}\\
+         \text{(f) } v(\gamma = \gammaf) &\approx \SI{\resultf}{\kilo\meter\per\second}
+      \end{align*}
+
+    \section{Problem 3: Length contraction}
+      Alice and Bob have identical spaceships, each with a proper length of [$L_0 = $] 50 meters. Bob docks
+      his ship at the spaceport while Alice flies by him to the right at a speed of [$v =$]~\SI{0.6}{\c}.
+      \begin{enumerate}[(a)]
+        \item As Alice flies by, Bob measures the length of Alice’s ship. What value does he get?
+          \FPeval{shiplen}{50}
+          \FPeval{valuea}{0.6}
+          \lencon{\resulta}{\shiplen}{\valuea}
+          \FPround{\resulta}{\resulta}{0}
+          \begin{align*}
+            {L_{Bob}}_{Alice} &= \frac{L_0}{\gamma} = L_0 \, \sqrt{1 - \frac{v^2}{c^2}}\\
+            {L_{Bob}}_{Alice}\left(v = \SI{0.6}{\c}\right) &= \SI{\resulta}{\meter}.
+          \end{align*}
+        \item At the same time, Alice measures the length of Bob’s ship. What value does she get?
+          \begin{align*}
+            {L_{Alice}}_{Bob}\left(v = \SI{0.6}{\c}\right) &= {L_{Bob}}_{Alice}\left(v = \SI{0.6}{\c}\right) = \SI{\resulta}{\meter}.
+          \end{align*}
+        \item Alice flies by a second time and this time Bob measures the length of Alice’s ship
+          and gets a value of [${L_{Bob}}_{Alice} = $] 20 meters. How fast is Alice going with respect to Bob?
+          \FPeval{valuec}{20}
+          \FPeval{gammac}{round(shiplen/valuec :1)}
+          \lorentztospeedr{\resultc}{\gammac}
+          \FPeval{resultcinc}{round(resultc / sol :3)}
+          \begin{align*}
+            v &= c \, \sqrt{1 - \frac{1}{\gamma^2}}\\
+            {L_{Bob}}_{Alice} &= \frac{L_0}{\gamma} \rightarrow~\gamma = \frac{L_0}{{L_{Bob}}_{Alice}} = \frac{\SI{\shiplen}{\meter}}{\SI{\valuec}{\meter}} = \gammac\\
+            v(\gamma = \gammac) &= \SI{\resultc}{\kilo\meter\per\second} \approx \SI{\resultcinc}{\c}.
+          \end{align*}
+      \end{enumerate}
+
+    \section{Problem 4: Time dilation}
+      Alice and Bob have identical spaceships, each equipped with identical
+      light clocks. Bob docks his ship at the spaceport while Alice flies by
+      him to the right at a speed of [$v = $]~\SI{0.6}{c}.
+      \FPeval{velocitya}{0.6}
+      \begin{enumerate}[(a)]
+        \item
+          With his light clock next to him, Bob measures the length of one tick
+          of the clock to be [$\mdelta{t_{Bob}} =$] \SI{0.001}{seconds}.
+          (This value isn’t necessarily very realistic, i.e., it would be
+          much shorter, on the order of a nanosecond.  But use the value given
+          as it makes the numbers a little easier to work with.)
+
+          As Alice flies by, he compares one tick of his clock to one tick
+          of her clock. According to his observation, what is the length of
+          her clock tick?
+          \FPeval{timea}{0.001}
+          \timedil{\resulta}{\timea}{\velocitya}
+          \FPround{\resulta}{\resulta}{5}
+          \begin{align*}
+            \mdelta{{t_{Bob}}_{Alice}} &= \gamma(v) \, \mdelta{t_{Bob}} = \SI{\resulta}{\second}.
+          \end{align*}
+        \item
+          Bob observes that, according to his clock (or really, his lattice of
+          synchronized clocks), Alice’s ship takes [$\mdelta{{T_{Bob}}Alice} =$]
+          60 minutes to travel from his location to a distant space station.
+
+          When Alice passes that space station, Bob records the time on
+          his clock (located at the space station, i.e., it’s part of his lattice
+          of synchronized clocks) and the time on Alice’s clock by taking a photo
+          of them.
+
+          According to Bob’s photo, how much time [$\mdelta{T_{Alice}}$]
+          has elapsed on Alice’s clock between the time she passed him and
+          the time she passes the space station?
+          \FPeval{timeb}{60}
+          \FPeval{resultb}{\timeb * root(2, 1 - \velocitya^2)}
+          \FPround{\resultb}{\resultb}{0}
+          \begin{align*}
+            \mdelta{T_{Alice}} &= \frac{\mdelta{{T_{Bob}}_{Alice}}}{\gamma(v)} = \SI{\resultb}{\minute}.
+          \end{align*}
+        \item
+          \begin{samepage}
+            How does Alice, in her frame of reference, see and explain
+            the distances and times involved?
+
+            \begin{itemize}
+              \item For Alice, the \strong{distance} to the space station is
+                length-contracted, so she needs less time to travel to it
+                than Bob measures.
+              \item \strong{Time} is running normally for Alice in her frame of reference, so
+                she has to conclude that Bob's clocks are not synchronized:
+                his leading clock (the one at the space station) lags.
+            \end{itemize}
+          \end{samepage}
+      \end{enumerate}
+
+  \section{Problem 5: Relativistic particles}
+    Imagine that you are a physicist studying particles created by cosmic rays
+    colliding with atoms in the upper atmosphere at a height of [$h = $]~10 kilometers
+    above the surface of the Earth. Using special equipment attached to a large
+    weather balloon, you discover that a certain kind of particle is detected
+    as low as [$ h_{min} =$]~1500 meters above the surface, but no lower.
+    In other words, it is created at a height of 10 kilometers and travels down
+    to a height of 1.5 kilometers, where it decays into other particles. You
+    also measure the speed of the original particle and get a value of
+    [$v =$]~\SI{0.9}{\c}.
+
+    Given this information, what is the lifetime [$\tau_0$] of the particle
+    (in seconds) in its own frame of reference (i.e., when it is at rest, not
+    in motion)?  (The lifetime is the amount of time it exists between being
+    created and decaying into other particles. Also note: The numbers given here
+    do not correspond to any actual particle, but are just for the exercise.)
+    \FPeval{height}{10}
+    \FPeval{minheight}{1.5}
+    \FPeval{speed}{0.9}
+    \lorentz{\gammas}{\speed}
+    \FPeval{taume}{(height - minheight)/(speed * sol)}
+    \FPeval{result}{(height - minheight)/(speed * sol * gammas)}
+    \FPround{\gammas}{\gammas}{5}
+    \FPround{\taume}{\taume}{7}
+    \FPround{\result}{\result}{7}
+    \begin{align*}
+      h &= \SI{10}{\kilo\meter}\
+        \qquad h_{min} = \SI{1500}{\meter}\
+        \qquad v = \SI{0.9}{\c}\\
+      \mdelta{h} &= h - h_{min} = \SI{8.5}{\kilo\meter}\\
+      \tau_{me} &= \frac{\mdelta{h}}{v} \approx \SI{\taume}{\second}\\
+      \tau_0 &= \frac{\tau_{me}}{\gamma(v)} = \frac{\mdelta{h}}{v \, \gamma(v)}\\
+        &\approx \frac{\SI{\height}{\kilo\meter} - \SI{\minheight}{\kilo\meter}}{\speed \times \SI{\sol}{\kilo\meter\per\second} \times \gammas}\
+        \approx \SI{\result}{\second}.
+    \end{align*}
+
+  % % References
+  % \begingroup
+  % %     \raggedright
+  %     %\sloppy
+  %   \printbibliography[heading=lit]
+  % \endgroup
+\end{document}
