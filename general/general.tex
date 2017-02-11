@@ -21,8 +21,8 @@
 \usepackage[ngerman,english]{babel}
 % \usepackage[ngerman=ngerman-x-latest]{hyphsubst}
 
-% Allow using non-ASCII characters verbatim
-\usepackage[utf8]{inputenc}
+% Allow using non-ASCII characters verbatim -- not required for lualatex
+% \usepackage[utf8]{inputenc}
 
 % Special characters
 \usepackage{textcomp}
@@ -40,7 +40,8 @@
 \usepackage{lmodern}
 
 % Allow strike-through with \sout, keep italic for \emph
-\usepackage[normalem]{ulem}
+%\usepackage[normalem]{ulem}
+\usepackage[makeroom]{cancel}
 
 % Use medieval numbers except in math mode
 % \usepackage{hfoldsty}
@@ -78,9 +79,12 @@
 \usepackage[plainpages=false]{hyperref}
 
 % References style (default: 'numerical')
-\usepackage[style=authoryear-ibid,
-              maxcitenames=1,
-              maxbibnames=3]{biblatex}
+\usepackage[
+  backend=biber,
+  style=authoryear-ibid,
+  maxcitenames=1,
+  maxbibnames=3
+]{biblatex}
 \defbibheading{lit}{\chapter*{Literaturverzeichnis}\markboth{Literaturverzeichnis}{Literaturverzeichnis}}
 % References: bibliography database
 %\addbibresource{main.bib}
@@ -144,6 +148,15 @@
 % Recalculate page spread based on the definitions above
 \recalctypearea
 
+% asides
+\usepackage{mdframed}
+\newenvironment{aside}
+{\begin{mdframed}[style=0,%
+  leftline=false,rightline=false,leftmargin=2em,rightmargin=2em,%
+  innerleftmargin=0pt,innerrightmargin=0pt,linewidth=0.75pt,%
+  skipabove=7pt,skipbelow=7pt]\small}
+{\end{mdframed}}
+
 %% User commands
 % Formatting and languages
 \newcommand{\code}[1]{\texttt{#1}}
@@ -168,7 +181,7 @@
 %  robusteren SquirrelFish Wine}
 
   \begin{titlepage}
-    \title{Einstein's Theory of Relativity}
+    \title{Einstein's General Theory of Relativity}
     \subtitle{as taught by Leonard\xspace Susskind,
     Ph.D.\xspace \\
       at Stanford University, 2008}
@@ -269,7 +282,7 @@
         Newton's force law (equation~\ref{eq:newton-diff}):
         \begin{align}
           m\frac{d^2\vec x}{dt^2} &= -mg \\
-          \xout{m}\frac{d^2\vec x}{dt^2} &= -\xout{m}g
+          \cancel{m}\frac{d^2\vec x}{dt^2} &= -\cancel{m}g
         \end{align}
 
         As the mass cancels out from both sides, the motion of an
@@ -324,48 +337,52 @@
         gravitational forces are equal? Because (per equation~\ref{eq:newton}) acceleration involves the force \emph{and}
         the mass.  The bigger the mass, the less the acceleration.
 
-        [Q: How did Newton derive his law? A: Probably from
-        Kepler's Laws of planetary motion. Audience: Edmund Halley
-        asked him (Newton) ``What kind of force law do you need for
-        elliptical orbits?''. Audience: I think he asked the
-        question for inverse square laws, and that Newton already
-        knew it was a ellipse.
-        A: An ellipse was not necessary, the orbits might have been
-        circular.  It was the fact that the period varies as the
-        three-halves power of the radius. Circular motion has an
-        acceleration towards the center. If you know the period and
-        the radius, then you know the acceleration toward the
-        center:
+        \begin{aside}
+          Q: How did Newton derive his law? A: Probably from
+          Kepler's Laws of planetary motion. Audience: Edmund Halley
+          asked him (Newton) ``What kind of force law do you need for
+          elliptical orbits?''. Audience: I think he asked the
+          question for inverse square laws, and that Newton already
+          knew it was a ellipse.
+          A: An ellipse was not necessary, the orbits might have been
+          circular.  It was the fact that the period varies as the
+          three-halves power of the radius. Circular motion has an
+          acceleration towards the center. If you know the period and
+          the radius, then you know the acceleration toward the
+          center:
 
-        $\omega^2 R$ is the acceleration, where $\omega$ is the
-        angular period of going round in an orbit, roughly the
-        inverse period (number of cycles per second).  Suppose
-        Newton set that equal to some unknown force law
-        \begin{align}
-          \omega^2 R = F(R)
-        \end{align}
-        and divided by $R$:
-        \begin{align}
-          \omega^2 = \frac{F(R)}{R}
-        \end{align}
-        For the real case, inverse square law:
-        \begin{align}
-          \omega^2 = \frac{F(R)}{R} = \frac{\frac{X}{R^2}}{R} =
-          \frac{X}{R^3}
-        \end{align}
-        and in that form it is Kepler's Third Law: ``The square of
-        the orbital period of a planet is directly proportional to
-        the cube of the semi-major axis of its orbit.''
+          $\omega^2 R$ is the acceleration, where $\omega$ is the
+          angular period of going round in an orbit, roughly the
+          inverse period (number of cycles per second).  Suppose
+          Newton set that equal to some unknown force law
+          \begin{align}
+            \omega^2 R = F(R)
+          \end{align}
+          and divided by $R$:
+          \begin{align}
+            \omega^2 = \frac{F(R)}{R}
+          \end{align}
+          For the real case, inverse square law:
+          \begin{align}
+            \omega^2 = \frac{F(R)}{R} = \frac{\frac{X}{R^2}}{R} =
+            \frac{X}{R^3}
+          \end{align}
+          and in that form it is Kepler's Third Law: ``The square of
+          the orbital period of a planet is directly proportional to
+          the cube of the semi-major axis of its orbit.''
 
-        Then he realized that if you did not have a perfectly
-        circular orbit, the inverse square law was the unique law
-        which would give elliptical orbits.]
+          Then he realized that if you did not have a perfectly
+          circular orbit, the inverse square law was the unique law
+          which would give elliptical orbits.
+        \end{aside}
 
-        [Q: What happens if the objects are touching? A: Then it
-        (the law) breaks down. Other forces come into play, for
-        example electrostatic forces. The force then is not
-        proportional to mass, but \eg to electric charge: $F
-        \propto C$.]
+        \begin{aside}
+          Q: What happens if the objects are touching? A: Then it
+          (the law) breaks down. Other forces come into play, for
+          example electrostatic forces. The force then is not
+          proportional to mass, but \eg to electric charge: $F
+          \propto C$.
+        \end{aside}
 
         Equation~\ref{eq:newton-gravity} written as a vector
         equation, where $M$ is placed in the origin:
@@ -395,7 +412,7 @@
         \begin{align}\label{eq:newton-combined}
           m_i \vec a &= \sum_{j \neq i}{\frac{m_i
           M_jG\vec R_{ij}}{{R_{ij}}^3}} \\
-          \xout{m_i} \vec a &= \sum_{j \neq i}{\frac{\xout{m_i}
+          \cancel{m_i} \vec a &= \sum_{j \neq i}{\frac{\cancel{m_i}
           M_jG\vec R_{ij}}{{R_{ij}}^3}}
         \end{align}
         [As the $m_i$ cancel out, again the acceleration of
@@ -451,7 +468,7 @@
         \begin{align}
           m_i \vec A &= \sum_{j \neq i}{\frac{m_i
           M_jG\vec R_{ij}}{{R_{ij}}^3}} \\
-          \xout{m_i} \vec A &= \sum_{j \neq i}{\frac{\xout{m_i}
+          \cancel{m_i} \vec A &= \sum_{j \neq i}{\frac{\cancel{m_i}
           M_jG\vec R_{ij}}{{R_{ij}}^3}}
         \end{align}
 
@@ -524,8 +541,8 @@
         concentrated inside the spherical region, the left-hand
         side of the equation does not depend on the size of the
         surface.  The left hand side is a number, $Q$.
-        \begin{align}\label{eq:gauss}
-          Q &= \int A_\perp\, \mathrm{d}\sigma
+        \begin{align}\label{eq:gauss2}
+          Q &= \int A_\perp \, \mathrm{d}\sigma
         \end{align}
         As for the right-hand side, if the flow is radially going
         outward, it is perpendicular to the surface of $\vec A$
@@ -534,7 +551,7 @@
         the sphere $d \sigma$ is just the surface of the sphere,
         $4 \pi R^2$:
         \begin{align}
-          Q &= \int A_\perp\, \mathrm{d}\sigma \\
+          Q &= \int A_\perp \, \mathrm{d}\sigma \\
             &= 4 \pi A R^2
         \end{align}
         So the magnitude of the field is equal to the total
@@ -636,7 +653,7 @@
         -4 \pi G \int \rho\,\mathrm{d}^3\vec x &= \int \vec
         A_\perp\,\mathrm{d}\sigma\\
         -4 \pi G M &= A_\perp 4 \pi R^2\\
-        -\xout{4 \pi} G M &= A_\perp \xout{4 \pi} R^2\\
+        -\cancel{4 \pi} G M &= A_\perp \cancel{4 \pi} R^2\\
         A_\perp &= \frac{-G M}{R^2}
       \end{align}
       where $\vec R$ goes from the center of mass to the
