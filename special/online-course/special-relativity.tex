@@ -1369,7 +1369,103 @@ maxbibnames=3]{biblatex}
         \end{align*}
 
     \section{Leading clocks lag, revisited}
+      \subsection{Quantitative analysis}
+        $L_A$~-- Length of Bob's ship as measured by Alice
+        \paragraph{Rearward light beam}
+          When it hits the rear clock on Bob's ship, Alice
+          reads ${(T_A)}_{rear}$ on her lattice of clocks.
+          \begin{align*}
+            \text{Distance covered} &= \frac{L_A}{2} - v \, {(T_A)}_{rear}\\
+            \text{Elapsed time } {(T_A)}_{rear} &= \frac{\text{Distance covered}}{\c}\\
+            {(T_A)}_{rear} &= \frac{\frac{L_A}{2} - v \, {(T_A)}_{rear}}{\c}\\
+            \c \, {(T_A)}_{rear} &= \frac{L_A}{2} - v \, {(T_A)}_{rear}\\
+            \c \, {(T_A)}_{rear} + v \, {(T_A)}_{rear} &= \frac{L_A}{2}\\
+            {(T_A)}_{rear} (\c + v) &= \frac{L_A}{2}\\
+            {(T_A)}_{rear} &= \left(\frac{L_A}{2}\right)\left(\frac{1}{\c + v}\right)
+          \end{align*}
+
+        \paragraph{Frontward light beam}
+          When it hits the front clock on Bob's ship, Alice
+          reads ${(T_A)}_{front}$ on her lattice of clocks. She has to wait
+          longer for that than ${(T_A)}_{rear}$, because the light beam also
+          has to cover the distance that Bob's ship has moved in the meantime.
+          \begin{align*}
+            \text{Distance covered} &= \frac{L_A}{2} + v \, {(T_A)}_{front} \\
+            \text{Elapsed time } {(T_A)}_{front} &= \frac{\text{Distance covered}}{\c}\\
+            {(T_A)}_{front} &= \frac{\frac{L_A}{2} + v \, {(T_A)}_{rear}}{\c}\\
+            \c \, {(T_A)}_{front} &= \frac{L_A}{2} + v \, {(T_A)}_{front}\\
+            \c \, {(T_A)}_{front} - v \, {(T_A)}_{front} &= \frac{L_A}{2}\\
+            {(T_A)}_{front} (\c - v) &= \frac{L_A}{2}\\
+            {(T_A)}_{front} &= \left(\frac{L_A}{2}\right)\left(\frac{1}{\c - v}\right)\\
+            {(T_A)}_{front} &>^? {(T_A)}_{rear}\\
+            \left(\frac{L_A}{2}\right)\left(\frac{1}{\c - v}\right) &>^? \left(\frac{L_A}{2}\right)\left(\frac{1}{\c + v}\right)\\
+            \frac{1}{\c - v} &>^! \frac{1}{\c + v}. \text{ \emph{Leading clocks lag.}} \qed
+          \end{align*}
+
+        \paragraph{\emph{By how much time} do leading clocks lag?}
+          \begin{align*}
+            \mdelta{T_A} &= {(T_A)}_{front} - {(T_A)}_{rear}\\
+              &= \left(\frac{L_A}{2}\right)\left(\frac{1}{\c - v}\right)
+                - \left(\frac{L_A}{2}\right)\left(\frac{1}{\c + v}\right)\\
+              &= \left(\frac{L_A}{2}\right)
+                 \left(\frac{1}{\c - v} - \frac{1}{\c + v}\right)\\
+              &= \left(\frac{L_A}{2}\right)
+                 \left(\frac{\cancel{\c} + v - (\cancel{\c} - v)}{(\c - v)(\c + v)}\right)\\
+              &= \left(\frac{L_A}{\cancel{2}}\right)
+                 \left(\frac{\cancel{2} \, v}{\c^2 - v^2}\right)\\
+              &= L_A \,
+                 \left(\frac{v}{\c^2 \left(1 - \frac{v^2}{\c^2}\right)}\right)\\
+              &= \left(\frac{L_A \, v}{\c^2}\right)
+                 \left(\frac{1}{1 - \frac{v^2}{\c^2}}\right)\\
+            \Aboxed{\mdelta{T_A} &= \left(\frac{L_A \, v}{\c^2}\right)
+              \, {\gamma}^2}
+            \intertext{Alice sees Bob's ship length-contracted:}
+            L_A &= \frac{L_B}{\gamma}\\
+            \mdelta{T_A} &= \left(\frac{L_B \, v}{\gamma \, \c^2}\right)
+              \, {\gamma}^2\\
+            \mdelta{T_A} &= \left(\frac{L_B \, v}{\c^2}\right)
+              \, \gamma
+            \intertext{$\mdelta{T_A}$ is the time difference that Alice sees on her clocks.
+              She sees time on Bob's clocks time-dilated:}
+            \mdelta{T_B} &= \frac{\mdelta{T_A}}{\gamma}\\
+            \Aboxed{\mdelta{T_B} &= \frac{L_B \, v}{\c^2}
+              \qquad \text{Time that Bob's front clock lags behind his rear clock}}
+            \intertext{This can be generalized to}
+            \Aboxed{\mdelta{T_B} &= \frac{D \, v}{\c^2}
+              \qquad \text{Time that the front clock lags behind the rear clock}}
+            \intertext{where $D$ is the distance between any two clocks in Bob's frame of reference.}
+          \end{align*}
+
+      \subsection{Using the Lorentz transformation}
+        \begin{samepage}
+          Proper length of Bob's ship: L\\
+          Bob's front clock: B1\\
+          Bob's rear clock: B2\\
+          Alice's clock aligned with Bob's front clock: A1\\
+          Alice's clock aligned with Bob's rear clock: A2
+          \begin{align*}
+            t_A &= \gamma \, \left(t_B + \frac{v}{\c^2} \, x_B\right)\\
+            t_B &= \gamma \, \left(t_A - \frac{v}{\c^2} \, x_A\right)
+            \intertext{Assume}
+            t_{A1} &= t_{A2} = 0 \qquad \text{(Alice's clocks are synchronized)}\\
+            t_{B1} &= 0\\
+            x_{A1} &= 0\\
+            x_{A2} &= x_{A1} - \frac{L}{\gamma} = -\,\frac{L}{\gamma} \text{ due to length contraction,}
+            \intertext{then:}
+            t_{B2} &= \gamma \, \left(t_{A2} - \frac{v}{\c^2} \, x_{A2}\right)\\
+              &= \gamma \, \left(0 - \frac{v}{\c^2} \, \left(-\,\frac{L}{\gamma}\right)\right)\\
+              &= \gamma \, \left(\frac{L \, v}{\gamma \, \c^2}\right)\\
+            t_{B2} &= \frac{L \, v}{\c^2} \qed
+          \end{align*}
+        \end{samepage}
+
     \section{Star Tours, part 2}
+      \paragraph{“Star Tours” set-up:}
+        
+      \paragraph{Analysis done from the perspective of the observer on Earth (the Earth-Star reference frame)}
+      \paragraph{Analysis done from the perspective of the observer on the rocket (the rocket reference frame)}
+      \paragraph{The answer to the puzzle (via “leading clocks lag”)}
+
     \section{The ultimate speed limit}
     \section{Combining velocities}
 
