@@ -83,10 +83,11 @@
 \usepackage[plainpages=false]{hyperref}
 
 % References style (default: 'numerical')
-\usepackage[backend=biber,
-style=authoryear-ibid,
-maxcitenames=1,
-maxbibnames=3]{biblatex}
+\usepackage[
+  style=authoryear-ibid,
+  maxcitenames=1,
+  maxbibnames=3
+]{biblatex}
 \defbibheading{lit}{\chapter*{References}\markboth{References}{References}}
 % References: bibliography database
 \addbibresource{main.bib}
@@ -103,6 +104,9 @@ maxbibnames=3]{biblatex}
 % Automatically use teletype for \url argument, use content verbatim
 \usepackage{url}
 \urlstyle{tt}
+
+\usepackage{makeidx}
+\makeindex
 
 % Less vertical spacing between list items (in `compactitem' environment)
 \usepackage{paralist}
@@ -155,6 +159,8 @@ maxbibnames=3]{biblatex}
 
 % cancel terms in equations
 \usepackage[makeroom]{cancel}
+\usepackage{color}
+%\renewcommand{\CancelColor}{\green}
 
 % for boxes around equations, with \Aboxed
 \usepackage{mathtools}
@@ -169,13 +175,16 @@ maxbibnames=3]{biblatex}
 
 % dingbats
 \usepackage{pifont}
-\newcommand{\cmark}{\ding{51}}
+\newcommand{\cmark}{\, \text{\ding{51}}}
 
 % SI units
 \usepackage{siunitx}
 \sisetup{per-mode = fraction,%
   math-micro = \text{µ}, text-micro = µ%
 }
+\DeclareSIUnit\year{a}
+\DeclareSIUnit\lightyear{ly}
+
 % Margin notes
 \usepackage{marginnote}
 
@@ -614,7 +623,7 @@ maxbibnames=3]{biblatex}
 
       \subsection{Part 3}
         \begin{aside}
-          Einstein and Picasso were contemporaries (\cite{miller2008einstein}).
+          Einstein and Picasso were contemporaries \parencite{miller2008einstein}.
         \end{aside}
         \begin{itemize}
           \item Three key facts about the speed of waves\footnote{Speed is the magnitude of velocity, but we are not making that distinction here}:
@@ -638,20 +647,19 @@ maxbibnames=3]{biblatex}
         \subsubsection{Math reminders}
           [more basic stuff already covered in the math review]
           \begin{align*}
-            \frac{a}{c} + \frac{b}{d} &= \left(\frac{a}{c}\right)\left(\frac{d}{d}\right) + \left(\frac{b}{d}\right)\left(\frac{c}{c}\right) \\
-            &= \frac{ad + bc}{cd}\\
-            \\
-            \sqrt{a^2 - b^2} &= \sqrt{a^2 \left(1 - \frac{b^2}{a^2}\right)} \\
-            &= \sqrt{a^2} \sqrt{1 - \frac{b^2}{a^2}}\\
-            &= a \sqrt{1 - \frac{b^2}{a^2}}
-          \end{align*}
-          “Binomial expansion” (\emph{“physicists are using this all the time”}):\label{eq:binomial-expansion}
-          \begin{align*}
-            {\left(1 + a\right)}^n &\approx 1 + na\text{, if } a \ll 1\\
-            {\left(1 - a\right)}^n &\approx 1 - na\text{, if } a \ll 1\\
-            {\left(1 + a\right)}^{-n} &\approx 1 - na\text{, if } a \ll 1\\
-            \text{For example: }a &= \frac{v}{\c}
-          \end{align*}
+            \sqrt{a^2 - b^2}
+              &= \sqrt{a^2 \left(1 - \frac{b^2}{a^2}\right)}
+               = \sqrt{a^2} \sqrt{1 - \frac{b^2}{a^2}}
+               = a \sqrt{1 - \frac{b^2}{a^2}}
+             \end{align*}
+          \paragraph{Binomial expansion}\label{eq:binomial-expansion}
+            (\emph{“physicists are using this all the time”})
+            \begin{align*}
+              {\left(1 + a\right)}^n &\approx 1 + n \, a\\
+              {\left(1 - a\right)}^n &\approx 1 - n \, a\\
+              {\left(1 + a\right)}^{-n} &\approx 1 - n \, a\\
+              \intertext{if $a \ll 1$. For example, $a = \frac{v}{\c}$ and $v \ll c$.}
+            \end{align*}
         \subsubsection{The idea behind the experiment (Earth’s motion through the luminiferous ether)}
           \begin{itemize}
             \item Assumption: The ether is a stationary medium, so as the Earth moves around, it moves through the ether
@@ -671,24 +679,24 @@ maxbibnames=3]{biblatex}
           $v_P$ – velocity of plane\\
           $v_W$ – velocity of wind blowing from B towards A\\
 
-        \subsubsection{The “no wind” case}\label{section-no-wind}
+        \subsubsection{The “no wind” case}\label{sec:no-wind}
           \begin{align*}
             \text{Total time required by plane} = \frac{D}{v_P} + \frac{D}{v_P} = \frac{2D}{v_P}
           \end{align*}
 
         \subsubsection{The “headwind/tailwind” case}
           \begin{align*}
-            \text{A to B trip: Time} &= \frac{D}{v_P - v_W}\\
-            \text{B to A trip: Time} &= \frac{D}{v_P + v_W}\\
+            \text{A to B trip (headwind): Time} &= \frac{D}{v_P - v_W}\\
+            \text{B to A trip (tailwind): Time} &= \frac{D}{v_P + v_W}\\
             \text{Total time} &= \frac{D}{v_P - v_W} + \frac{D}{v_P + v_W}\\
             &= \frac{D\left(v_P + v_W\right) + D\left(v_P - v_W\right)}{\left(v_P - v_W\right) \left(v_P + v_W\right)}\\
             &= \frac{2 D v_P}{\left(v_P - v_W\right) \left(v_P + v_W\right)}\\
-            &= \frac{2 D v_P}{{v_P}^2 + v_P v_W - v_W v_P + {v_W}^2}\\
+            &= \frac{2 D v_P}{{v_P}^2 + \cancel{v_P v_W} - \cancel{v_W v_P} + {v_W}^2}\\
             &= \frac{2 D v_P}{{v_P}^2 - {v_W}^2}\\
-            &= \frac{2 D v_P}{{v_P}^2 \left(1 - \frac{{v_W}^2}{{v_P}^2}\right)}\\
+            &= \frac{2 D \cancel{v_P}}{{v_P}^{\cancel{2}} \left(1 - \frac{{v_W}^2}{{v_P}^2}\right)}\\
             &= \frac{2 D}{{v_P} \left(1 - \frac{{v_W}^2}{{v_P}^2}\right)}\\
             \text{Total time with headwind/tailwind} &= \left(\frac{2 D}{v_P}\right) \left(\frac{1}{1 - \frac{{v_W}^2}{{v_P}^2}}\right)\\
-            \text{Total time without wind} &= \frac{2 D}{v_P} \qquad \text{(see~\ref{section-no-wind})}
+            \text{Total time without wind} &= \frac{2 D}{v_P} \qquad \text{(see~\ref{sec:no-wind})}
           \end{align*}
 
           The result of the “headwind/tailwind” case is \emph{obviously not equal}
@@ -796,13 +804,12 @@ maxbibnames=3]{biblatex}
           \end{align*}
 
         \paragraph{Some actual numbers}
-          \begin{align*}
-            \text{For the experiment, }D \approx \SI{11}{\meter},\text{ so}\\
-            \mdelta{t} &\approx \SI{3.67e-16}{\second}.
-          \end{align*}
+          For the experiment, $D \approx \SI{11}{\meter}$, so
+          $\mdelta{t} \approx \SI{3.67e-16}{\second}$.
+
           If you rotate the table by 90°, you can get differences of
-          ca. \SI{7e-16}{\second}.\textsuperscript{why?} But this is still too short a time to measure
-          with clocks.
+          ca. \SI{7e-16}{\second}.\textsuperscript{[why?]} But this is still
+          too short a time to measure with clocks.
 
         \paragraph{The key technique Michelson and Morley used, and the “null result”}
           \begin{itemize}
@@ -818,14 +825,14 @@ maxbibnames=3]{biblatex}
               \end{align*}
               The time difference \mdelta{t} to be expected because of
               the ether wind (if any) is smaller than that, so if one wave
-              is out of phase by only
+              is out of phase (\emph{“fringe shift”}) by only
               \begin{align*}
-                \frac{T}{\mdelta{t}} &= \frac{\SI{7e-16}{\second}}{\SI{2e-15}{\second}} = 0.37
+                \frac{\mdelta{t}}{T} &= \frac{\SI{7e-16}{\second}}{\SI{2e-15}{\second}} = 0.35
               \end{align*}
               of a wavelength, you can see a different interference pattern
               (\emph{“fringe pattern”}) in the detector.\end{samepage}
             \item But they observed, with different orientations, at different
-              times of the year, at most a \emph{fringe shift of
+              times of the year, at most a \strong{fringe shift of
               only 0.005, well within experimental error
               \rightarrow~“null result”.}
             \item Physicists of the time were surprised.  Interpretation:
@@ -833,7 +840,7 @@ maxbibnames=3]{biblatex}
               undetectable?
             \item Possible explanation: Earth could drag the ether with it
               when it is rotating, so you could not measure the ether wind on
-              the surface of Earth (ether dragging).  But this has been shown
+              the surface of Earth (ether dragging).  But this had been shown
               \emph{not} to be the case \emph{either}, by
               \rightarrow~stellar aberration.
           \end{itemize}
@@ -856,7 +863,7 @@ maxbibnames=3]{biblatex}
       \paragraph{G.F. Fitzgerald}
         \begin{itemize}
           \item Assumption: Compression effect of the measuring apparatus when moving against the ether
-          \item sent letter to American journal
+          \item sent letter to American journal, not noticed
         \end{itemize}
 
       \paragraph{H.A. Lorentz}
@@ -920,7 +927,7 @@ maxbibnames=3]{biblatex}
           \mdelta{t_B} &= \sqrt{\frac{1}{1 - \frac{v^2}{\c^2}}} \, \mdelta{t_A}\\
           \mdelta{t_B} &= \frac{1}{\sqrt{1 - \frac{v^2}{\c^2}}} \, \mdelta{t_A}\\
           \gamma &= \frac{1}{\sqrt{1 - \frac{v^2}{\c^2}}} \geq 1 \qquad \text{Lorentz factor}\\
-          \mdelta{t_B} &>^? \mdelta{t_A} \text{\cmark} \qquad \text{Time dilation}
+          \mdelta{t_B} &>^? \mdelta{t_A} \cmark \qquad \text{Time dilation}
         \end{align*}
 
         \begin{samepage}
@@ -985,9 +992,9 @@ maxbibnames=3]{biblatex}
       For Bob:
       \begin{align*}
         \mdelta{T_A} &= \frac{1}{\gamma} \mdelta{T_B}\\
-        {\left(L_B\right)}_{Alice} &= v\,\mdelta{T_A}\\
+        {\left(L_B\right)}_{Alice} &= v \, \mdelta{T_A}\\
         &= v\,\frac{1}{\gamma} \mdelta{T_B}\\
-        &= \frac{1}{\gamma} \mdelta{T_B}\,v\\
+        &= \frac{1}{\gamma} \, \mdelta{T_B}\,v\\
         {\left(L_B\right)}_{Alice} &= \frac{1}{\gamma} {\left(L_B\right)}_{Bob}
       \end{align*}
 
@@ -995,13 +1002,13 @@ maxbibnames=3]{biblatex}
         Time dilation:
         \begin{align*}
           {\left(\mdelta{T}\right)}_{moving} &= \frac{1}{\gamma} {\left(\mdelta{T}\right)}_{rest} \qquad  \text{Time dilation}\\
-          \mdelta{T}\text{ – \underline{elapsed} time}
+          \mdelta{T}\text{ – \underline{elapsed} time}\\
           \mdelta{T}_{rest}\text{ – Proper time}
         \end{align*}
 
         Time dilation:
         \begin{align*}
-          L_{moving} &= \frac{1}{\gamma} L_{rest} \qquad \text{Length contraction}\\
+          L_{moving} &= \frac{1}{\gamma} \, L_{rest} \qquad \text{Length contraction}\\
           L_{rest}\text{ – Proper length}
         \end{align*}
 
@@ -1024,7 +1031,7 @@ maxbibnames=3]{biblatex}
         Either case would be a contradiction; if you take a photo while on
         the car, both Alice and Bob must agree as to its status.
 
-      \subsection{The invariant interval}
+      \subsection{The invariant interval}\label{sec:invariant-interval}
         \begin{samepage}
           Consider the time and distance between two events in, as observed
           in different frames of reference:
@@ -1043,7 +1050,7 @@ maxbibnames=3]{biblatex}
             4\,h^2 + {x_A}^2 &= \c^2\,{t_A}^2\\
             4\,h^2 &= \c^2\,{t_A}^2 - {x_A}^2\\
             4\,h^2 &= \c^2\,{t_K}^2 - {x_K}^2\\
-            2\,h &= \c\,\frac{t_B}{2} + \c\,\frac{t_B}{2}\\
+            2\,h &= \c \, \frac{t_B}{2} + \c \, \frac{t_B}{2}\\
             &= \c\,t_B\\
             4\,h^2 &= \c^2\,{t_B}^2
             \intertext{or}
@@ -1059,10 +1066,12 @@ maxbibnames=3]{biblatex}
         \text{Average velocity: } v &= \SI{0.998}{\c}\\
         \text{\rightarrow~Distance traveled: } s &\approx \SI{660}{\meter}\\
         \text{Altitude where they are generated by cosmic rays: } h &\approx \SI{10}{\kilo\meter}
-        \longintertext{But a lot of atmospheric muons are detected near
-          Terra's surface.  How is that possible?\\
-          \\
-          \emph{Special relativity!}}
+      \end{align*}
+      But a lot of atmospheric muons are detected near
+      Terra's surface.  How is that possible?
+
+      \emph{Special relativity!}
+      \begin{align*}
         \gamma &= \frac{1}{\sqrt{1 - \frac{v^2}{\c^2}}} \approx 15
         \intertext{From our perspective, time dilation:}
         \tau_{observer} &= \gamma \, \tau \\
@@ -1088,39 +1097,43 @@ maxbibnames=3]{biblatex}
             = \frac{1}{\sqrt{1 - \frac{{\left(0.9\right)}^2{\c}^2}{\c^2}}}\
             = \frac{1}{\sqrt{1 - {\left(0.9\right)}^2}}\\
         \end{align*}
-      \paragraph{The concept of light-years (and light-months, light-days, light-seconds)}
-        1~light-year~[\SI{1}{ly}] is the distance that light travels in vacuum
+        1~light-year~[\SI{1}{\lightyear}] is the distance that light travels in vacuum
+        in 1~year [\SI{1}{\year}].
         in 1~year [\SI{1}{a}].
         \begin{align*}
+          \c_0 &= \SI{1}{\frac{\lightyear}{\year}}
           \c_0 &= 1\,\frac{\text{ly}}{\text{a}}
         \end{align*}
       \paragraph{The speed of light in meters/second, km/second, light-years/year, feet/nanosecond, and so on}
         \begin{align*}
+          \c_0 &\approx \SI{1}{\frac{ft}{\nano\second}}
           \c_0 &\approx 1\,\frac{\text{ft}}{\text{ns}}
         \end{align*}
 
     \section{Exploring time dilation and length contraction (Star Tours, part 1)}
       \paragraph{“Star Tours” set-up:} A trip to a star 5 light-years away.
         \begin{align*}
-          v &= \SI{0.943}{\c} \rightarrow~\gamma = 3
+          v &= \SI{0.943}{\c} \rightarrow \gamma = 3
         \end{align*}
 
       \paragraph{Analysis done from the perspective of the observer on Earth (the Earth-Star reference frame)}
         \begin{align*}
-          \text{Travel time } \mdelta{T}_{rest} &= \frac{\SI{5}{ly}}{\SI{0.943}{\c}} = \SI{5.3}{a}\\
+          \text{Travel time } \mdelta{T}_{rest} &= \frac{\SI{5}{\lightyear}}{\SI{0.943}{\c}} = \SI{5.3}{\year}\\
+          \mdelta{T}_{moving} &= \frac{1}{\gamma} \mdelta{T}_{rest} = \frac{\SI{5.3}{\year}}{\gamma} \approx \SI{1.77}{\year}
           \mdelta{T}_{moving} &= \frac{1}{\gamma} \mdelta{T}_{rest} = \frac{\SI{5.3}{a}}{\gamma} \approx \SI{1.77}{a}
         \end{align*}
 
       \paragraph{Analysis done from the perspective of the observer on the rocket (the rocket reference frame)}
-        Observes that the Earth--Star distance is contracted
+        Observes that the Earth{--}Star distance is contracted
         \begin{align*}
-          L_{moving} &= \frac{1}{\gamma} L_{rest} = \frac{\SI{5}{ly}}{\gamma} \approx \SI{1.67}{ly}\\
+          L_{moving} &= \frac{1}{\gamma} L_{rest} = \frac{\SI{5}{\lightyear}}{\gamma} \approx \SI{1.67}{\lightyear}\\
+          \text{Time for star to reach Bob } \mdelta{T}_{Rocket} &= \frac{\SI{1.67}{\lightyear}}{\SI{0.943}{\c}} = \SI{1.77}{\year}(!)\\
           \text{Time for star to reach Bob } \mdelta{T}_{Rocket} &= \frac{\SI{1.67}{ly}}{\SI{0.943}{\c}} = \SI{1.77}{a}(!)\\
         \end{align*}
 
       \paragraph{The puzzle/conundrum}
         \begin{align*}
-          \text{Bob's observation of Alice's elapsed time} &= \frac{\mdelta{T}_{Rocket}}{\gamma}\\
+            &= \frac{\SI{1.77}{\year}}{\gamma} \approx \SI{0.59}{\year} \text{ (???)}
             &= \frac{\SI{1.77}{a}}{\gamma} \approx \SI{0.59}{a} \text{ (???)}
         \end{align*}
         (Hint: relativity of simultaneity, ``leading clocks lag'')
@@ -1169,7 +1182,7 @@ maxbibnames=3]{biblatex}
              {\left(x_A\right)}_{flash} &= v \, t_A
              \intertext{Because $x_B = 0$, we can apply the known time dilation equation:}
              {\left(x_A\right)}_{flash} &= \gamma \, v \, t_B
-             \intertext{Using the invariant interval:}
+              \c^2 \, {t_A}^2 - {x_A}^2 &= \c^2 \, {t_B}^2 - \cancelto{0}{{x_B}^2}\\
               \c^2 \, {t_A}^2 - {x_A}^2 &= \c^2 \, {t_B}^2 - \cancel{{x_B}^2} 0\\
               \c^2 \, {t_A}^2 - {\left(v \, t_A\right)}^2 &= \c^2 \, {t_B}^2\\
               \c^2 \, {t_A}^2 - v^2 \, {t_A}^2 &= \c^2 \, {t_B}^2\\
@@ -1204,8 +1217,8 @@ maxbibnames=3]{biblatex}
             t_A = \frac{{t_B}^2}{\frac{x_B}{v}} \text{ could work dimensionally.}
             \intertext{Why can there not be a ${t_B}^2$ on the right-hand side?  Assume}
             t_A &= {t_B}^2,
-            \intertext{then:}
-            t_B &= 0, \, 1, \, 2, \, 3 \rightarrow 1, \, 2 \, 3, \, 4\\
+            t_B &= 0, \, 1, \, 2, \, 3 \rightarrow 1, \, 2, \, 3, \, 4\\
+            t_A &= 0, \, 1, \, 4, \, 9 \rightarrow 1, \, 4, \, 9, \, 16
             t_A &= 0, \, 1, \, 4, \, 9 \rightarrow 1, \, 4 \, 9, \, 16
           \end{align*}
           \emph{The clock ticks have to be uniform, but would not be for later times.}
@@ -1222,7 +1235,8 @@ maxbibnames=3]{biblatex}
         \paragraph{Finding two of the four unknown coefficients (G, H, M, N)}
           If $x_B = 0$, $t_A = \gamma \, t_B$ and $x_A = \gamma \, v \, t_B$ and
           \begin{align*}
-            t_A &= G \, \cancel{x_B} 0 + H \, t_B = \gamma \, \t_B \rightarrow~H = \gamma\\
+            t_A &= G \, \cancelto{0}{x_B} + H \, t_B = \gamma \, t_B \rightarrow~H = \gamma{}\\
+            x_A &= M \, \cancelto{0}{x_B} + N \, t_B = \gamma \, v \, t_B \rightarrow~N = \gamma \, v
             x_A &= M \, \cancel{x_B} 0 + N \, t_B = \gamma \, v \, t_B \rightarrow~N = \gamma \, v
             \intertext{so:}
             t_A &= G \, x_B + \gamma \, t_B\\
@@ -1268,8 +1282,8 @@ maxbibnames=3]{biblatex}
             M^2 - \c^2 \, \frac{M^2 \, v^2}{\c^4} &= 1\\
             M^2 - \frac{M^2 \, v^2}{\c^2} &= 1\\
             M^2 \, \left(1 - \frac{v^2}{\c^2}\right) &= 1\\
-            M^2 &= \frac{1}{1 - \frac{v^2}{\c^2}}\\
-            M &= \frac{1}{\sqrt{1 - \frac{v^2}{\c^2}}} = \gamma\\
+            M &= \frac{1}{\sqrt{1 - \frac{v^2}{\c^2}}} = \gamma{}\\
+            M &= \frac{1}{\sqrt{1 - \frac{v^2}{\c^2}}} = \gamma{}\\
             G &= \frac{M \, v}{\c^2} = \frac{\gamma \, v}{\c^2}
           \end{align*}
 
@@ -1298,8 +1312,9 @@ maxbibnames=3]{biblatex}
           \begin{samepage}
             Let $v = 0$ → $\gamma = 1$, then:
             \begin{align*}
+              t_{rest} &= \cancelto{1}{\gamma} \, \left(t_{moving} + \cancelto{0}{\frac{\cancel{v} \, 0}{\c^2} \, x_{moving}}\right)\\
               t_{rest} &= \cancel{\gamma} \, 1 \, \left(t_{moving} + \cancel{\frac{\cancel{v} \, 0}{\c^2} \, x_{moving}}\right)\\
-              t_{rest} &= t_{moving}\\
+              x_{rest} &= \cancelto{1}{\gamma} \, \left(x_{moving} + \cancelto{0}{\cancel{v} \, t_{moving}}\right)\\
               x_{rest} &= \cancel{\gamma} \, 1 \, \left(x_{moving} + \cancel{\cancel{v} \,  0 \, t_{moving}}\right)\\
               x_{rest} &= x_{moving}
             \end{align*}
@@ -1308,8 +1323,9 @@ maxbibnames=3]{biblatex}
         \paragraph{What happens when $v$ is much less than \c{} (the speed of light)?}
           Let $v \ll \c$ → $\gamma \approx 1$ and $\frac{v}{\c^2} \approx 0$, then:
           \begin{align*}
+            t_{rest} &= \cancelto{1}{\gamma} \, \left(t_{moving} + \cancelto{0}{\frac{\cancel{v}}{\c^2} \, x_{moving}}\right)\\
             t_{rest} &= \cancel{\gamma} \, 1 \, \left(t_{moving} + \cancel{\frac{\cancel{v} \, 0}{\c^2} \, x_{moving}}\right)\\
-            t_{rest} &= t_{moving}\\
+            x_{rest} &= \cancelto{1}{\gamma} \, \left(x_{moving} + v \, t_{moving}\right)\\
             x_{rest} &= \cancel{\gamma} \, 1 \, \left(x_{moving} + v \, t_{moving}\right)\\
             x_{rest} &= x_{moving} + v \, t_{moving}
           \end{align*}
@@ -1317,6 +1333,7 @@ maxbibnames=3]{biblatex}
         \paragraph{What happens when $v$ is large?}
           At $t_{moving} = 0$, we get \emph{length contraction}:
           \begin{align*}
+            x_{rest} &= \gamma \, \left(x_{moving} + \cancelto{0}{\cancel{v} \, t_{moving}}\right)\\
             x_{rest} &= \gamma \, \left(x_{moving} + \cancel{\cancel{v} \, 0 \, t_{moving}}\right)\\
             x_{rest} &= \gamma \, x_{moving}\\
             x_{moving} &= \frac{x_{rest}}{\gamma}
@@ -1326,14 +1343,8 @@ maxbibnames=3]{biblatex}
         \paragraph{What happens when $x = 0$ (as measured in the moving frame of reference)?}
           If $x_{moving} = 0$, we get \emph{time dilation}:
           \begin{align*}
+            t_{rest} &= \gamma \, t_{moving} + \cancelto{0}{\gamma \, \frac{v}{\c^2} \, \cancel{x_{moving}}}\\
             t_{rest} &= \gamma \, t_{moving} + \cancel{\gamma \, \frac{v}{\c^2} \, 0 \, \cancel{x_{moving}}}\\
-            t_{rest} &= \gamma \, t_{moving}\\
-            t_{moving} &= \frac{t_{rest}}{\gamma}
-          \end{align*}
-        \paragraph{What happens in general (Alice’s lattice of clocks vs. Bob’s lattice of clocks)?}
-          If $x_{moving} = 0$, we get \emph{time dilation}:
-          \begin{align*}
-            t_{rest} &= \gamma \, t_{moving} + \cancel{\gamma \, \frac{v}{\c^2} \, \cancel{x_{moving}} \, 0}\\
             t_{rest} &= \gamma \, t_{moving}\\
             t_{moving} &= \frac{t_{rest}}{\gamma}
           \end{align*}
@@ -1368,7 +1379,6 @@ maxbibnames=3]{biblatex}
           \gamma &= \frac{1}{\sqrt{1 - \frac{v^2}{c^2}}} = \frac{1}{\sqrt{1 - \frac{{(-v)}^2}{c^2}}}
         \end{align*}
 
-    \section{Leading clocks lag, revisited}
       \subsection{Quantitative analysis}
         $L_A$~-- Length of Bob's ship as measured by Alice
         \paragraph{Rearward light beam}
@@ -1459,15 +1469,735 @@ maxbibnames=3]{biblatex}
           \end{align*}
         \end{samepage}
 
-    \section{Star Tours, part 2}
+    \section{Leading clocks lag, revisited}
       \paragraph{“Star Tours” set-up:}
-        
+
       \paragraph{Analysis done from the perspective of the observer on Earth (the Earth-Star reference frame)}
+        \begin{align*}
+          \text{Time for Bob to reach star } &= \frac{\SI{5}{\lightyear}}{\SI{0.943}{\c}}
+            = \SI{5.30}{\year}
+        \end{align*}
       \paragraph{Analysis done from the perspective of the observer on the rocket (the rocket reference frame)}
+        \begin{align*}
+          \text{Time for star to reach Bob } &= \frac{\SI{1.67}{\lightyear}}{\SI{0.943}{\c}}
+            = \SI{1.77}{\year}\\
+          \text{Bob's observation of elapsed time on Alice's clock}
+            &= \frac{\SI{1.77}{\year}}{\gamma}
+            = \SI{0.59}{\year} \text{ (???)}
+        \end{align*}
       \paragraph{The answer to the puzzle (via “leading clocks lag”)}
+        In addition to time dilation and length contraction, one also has to
+        consider the \emph{relativity of simultaneity: Alice's clocks are not
+        synchronized in Bob's frame of reference.}
+
+        In Bob's frame of reference, Alice's clocks are moving towards him.
+        To him, her clock on Earth, which shows $t_{A2} = 0$, is the
+        leading clock, which lags the one at the star.
+        \begin{align*}
+          \text{Time by which Earth clock lags star clock}
+            &= \frac{D \, v}{\c^2}\\
+            &= \frac{\SI{5}{\lightyear} \times \SI{0.943}{\c}}{\c^2}\\
+            &= \frac{\SI{5}{\lightyear} \times 0.943}{\c} \qquad \c = \SI{1}{\frac{\lightyear}{\year}}\\
+            &= \SI{5}{\lightyear} \times \SI{0.943}{\year\per\lightyear}\\
+            &= \SI{4.715}{\year}
+        \end{align*}
+        IOW: \emph{The clock at the star}, from Bob's perspective, \emph{is
+        \SI{4.715}{\year} ahead of the Earth clock.}  So when Bob reaches it after
+        \SI{1.77}{\year}, it correctly shows \SI{5.3}{\year}.
 
     \section{The ultimate speed limit}
+      \paragraph{Reminder regarding combining velocities in the pre-relativity world}
+        In the Galilean transformation, velocities just add: For example, if
+        a ball is shot from a moving car, the velocity of the ball is
+        the velocity of the car as observed from the ground plus the velocity
+        of the ball as observed from the car.
+      \paragraph{The “\mdelta{}” form of the Lorentz transformation}
+        Situation: Alice (in the \strong{L}ab frame) observes Bob in his
+        \strong{R}ocket moving at speed $v$, from which an escape pod is
+        ejected whose speed is $u_R$ as measured from the rocket.
     \section{Combining velocities}
+        \begin{align*}
+          \text{Lorentz transformation:}\\
+          x_L &= \gamma \, \left(x_R + v \, t_R\right)\\
+          t_L &= \gamma \, \left(t_R + \frac{v}{\c^2} \, x_R\right)\\
+          \\
+          \mdelta{x_L}
+            &= {(x_2)}_L - {(x_1)}_L\\
+            &= \gamma \, \left({(x_2)}_R + v \, {(t_2)}_R\right)
+              -\gamma \, \left({(x_1)}_R + v \, {(t_1)}_R\right)\\
+            &= \gamma \, {(x_2)}_R - \gamma \, {(x_1)}_R
+              + \gamma \, v \, {(t_2)}_R - \gamma \, v \, {(t_1)}_R\\
+            &= \gamma \, \left({(x_2)}_R - {(x_1)}_R\right)
+              + \gamma \, v \, \left({(t_2)}_R - {(t_1)}_R\right)\\
+            &= \gamma \, \mdelta{x_R} + \gamma \, v \, \mdelta{t_R}\\
+          \mdelta{x_L}
+            &= \gamma \, \left(\mdelta{x_R} + v \, \mdelta{t_R}\right)
+          \intertext{Similarly,}
+          \mdelta{t_L}
+            &= \gamma \, \left(\mdelta{t_R} + \frac{v}{\c^2} \mdelta{x_R}\right).
+        \end{align*}
+
+      \paragraph{Reminder regarding the definition of velocity}
+        \begin{align*}
+          \text{Velocity}
+            &= \frac{\text{Distance}}{\text{Time}}
+            = \frac{\mdelta{x}}{\mdelta{t}}\\
+        \end{align*}
+
+      \paragraph{Using the Lorentz transformation to find how to combine velocities according to the theory of relativity}
+        \begin{align*}
+          u_R &= \frac{\mdelta{x_R}}{\mdelta{t_R}}\\
+          u_L
+            &= \frac{\mdelta{x_L}}{\mdelta{t_L}}\\
+            &= \frac{\cancel{\gamma} \, \left(\mdelta{x_R} + v \, \mdelta{t_R}\right)}
+                    {\cancel{\gamma} \, \left(\mdelta{t_R} + \frac{v}{\c^2} \mdelta{x_R}\right)}\\
+            &= \frac{\mdelta{x_R} + v \, \mdelta{t_R}}
+                    {\mdelta{t_R} + \frac{v}{\c^2} \mdelta{x_R}}\\
+            &= \frac{\cancel{\mdelta{t_R}} \, \left(\frac{\mdelta{x_R}}{\mdelta{t_R}} + v\right)}
+                    {\cancel{\mdelta{t_R}} \, \left(1 + \frac{v}{\c^2} \, \frac{\mdelta{x_R}}{\mdelta{t_R}}\right)}\\
+          u_L &= \frac{u_R + v}{1 + \frac{v}{\c^2} \, u_R}\\
+              &= \frac{u_R + v}{1 + \frac{v \, u_R}{\c^2}}
+        \end{align*}
+
+      \paragraph{Checking the result to see if it makes sense}
+        \begin{samepage}
+          \begin{align*}
+            \intertext{If $v \ll \c$ and $u_R \ll \c$,}
+            \frac{v \, u_R}{\c^2} &\approx 0\\
+            1 + \frac{v \, u_R}{\c^2} &\approx 1\\
+            u_L
+              &= \frac{u_R + v}{1 + \frac{v \, u_R}{\c^2}}\\
+              \approx u_R + v
+            \intertext{\emph{This is the addition of velocities according
+              to the Galilean transformation.}}
+            \intertext{If $u_R = 0$ (the escape pod is still onboard Bob's ship),}
+            u_L
+              &= \frac{\cancelto{0}{u_R} + v}{1 + \cancelto{0}{\frac{v \, \cancel{u_R}}{\c^2}}}
+              = v. \qed
+            \intertext{If $v = 0$ (Bob is not moving relative to Alice),}
+            u_L
+              &= \frac{u_R \, + \cancelto{0}{v}}{1 + \cancelto{0}{\frac{\cancel{v} \, u_R}{\c^2}}}
+              = u_R. \qed
+            \intertext{If $v = \SI{0.9}{\c}$ and $u_R = \SI{0.7}{\c}$,}
+            u_L
+              &= \frac{\SI{0.7}{\c} + \SI{0.9}{\c}}{1 + \frac{\SI{0.9}{\c} \times \SI{0.7}{\c}}{\c^2}}\\
+              &= \frac{\SI{1.6}{\c}}{1 + \frac{0.63 \, \cancel{\c^2}}{\cancel{\c^2}}}\\
+              &= \frac{\SI{1.6}{\c}}{1.63} \approx \SI{0.98}{\c} < \c\text{(!)}
+            \intertext{If $v = \SI{0.9}{\c}$ and $u_R = \c$ (Bob points a light beam in the direction of travel),}
+            u_L
+              &= \frac{\c + \SI{0.9}{\c}}{1 + \frac{\SI{0.9}{\c} \times \c}{\c^2}}\\
+              &= \frac{\SI{1.9}{\c}}{1 + \frac{0.9 \, \cancel{\c^2}}{\cancel{\c^2}}}\\
+              &= \frac{\SI{1.9}{\c}}{1.9} = \c. \qed
+            \intertext{\emph{Both Bob and Alice see the light beam travel at \c.}}
+          \end{align*}
+        \end{samepage}
+
+    \section{The ultimate speed limit}
+      \paragraph{What the Lorentz factor equation implies about an ultimate speed limit}
+        \begin{align*}
+          \gamma &= \frac{1}{\sqrt{1 - \frac{v^2}{\c^2}}}
+        \end{align*}
+        As $v \rightarrow~\c$, $\gamma \rightarrow~\infty$, so nothing but light
+        can go at the speed of light.
+
+        If $v > \c$, $\gamma = \frac{1}{\sqrt{a}}$ with $a < 0$, so nothing
+        can go faster than the speed of light.
+
+      \paragraph{What happens to a light clock traveling at the speed of light (as observed by a stationary observer)}
+        Elapsed time on a moving clock is less than the elapsed time on an
+        identical stationary clock (``time dilation''):
+        \begin{align*}
+          {(\mdelta{T})}_{Lab} &= \gamma \, {(\mdelta{T})}_{Rocket}\\
+          \text{or } {(\mdelta{T})}_{Rocket} &= \frac{1}{\gamma} \, {(\mdelta{T})}_{Lab}
+        \end{align*}
+        As $\gamma \rightarrow~\infty$, ${(\mdelta{T})}_{Lab} \rightarrow~\infty$
+        and ${(\mdelta{T})}_{Rocket} \rightarrow~0$.
+
+        For a light clock moving at \c{} this would mean that it would not tick at all.
+        Physically it would mean that the top mirror of the clock would have moved
+        away before the light beam can hit it.
+
+    \clearpage
+    \section{Perpendicular Velocities}
+      \paragraph{The case of the escape pod with a velocity perpendicular to
+        the spaceship’s direction of motion}
+        \begin{align*}
+          \text{Lorentz transformation:}\\
+          x_L &= \gamma \, \left(x_R + v \, t_R\right)\\
+          t_L &= \gamma \, \left(t_R + \frac{v}{\c^2} \, x_R\right)\\
+          y_L &= y_R, \, z_L = z_R\\
+          {(u_L)}_x &= \frac{{(u_R)}_x + v}{1 + \frac{v \, {(u_R)}_x}{\c^2}}\\
+          \\
+          {(u_R)}_x &= \frac{\mdelta{x_R}}{\mdelta{t_R}}\\
+          {(u_R)}_y &= \frac{\mdelta{y_R}}{\mdelta{t_R}}\\
+          {(u_L)}_y
+            &= \frac{\mdelta{y_L}}{\mdelta{t_L}}
+            = \frac{\mdelta{y_R}}{\mdelta{t_L}}\\
+            &= \frac{\mdelta{y_R}}{\gamma \, \left(\mdelta{t_R} + \frac{v}{\c^2} \, \mdelta{x_R}\right)}\\
+            &= \frac{\mdelta{y_R}}{\gamma \, \mdelta{t_R} \, \left(1 + \frac{v}{\c^2} \, \frac{\mdelta{x_R}}{\mdelta{t_R}}\right)}\\
+            &= \frac{\mdelta{y_R}}{\gamma \, \mdelta{t_R} \, \left(1 + \frac{v}{\c^2} \, {(u_R)}_x\right)}
+          \intertext{For Bob, there is no velocity of the pod in the $x$-direction:}
+          \mdelta{x_R} &= 0 \rightarrow~{(u_R)}_x = 0,
+          \intertext{therefore:}
+          {(u_L)}_y &= \frac{\mdelta{y_R}}{\gamma \, \mdelta{t_R} \, \left(1 + \cancelto{0}{\frac{v}{\c^2} \, \cancel{{(u_R)}_x}}\right)}\\
+            &= \frac{\mdelta{y_R}}{\gamma \, \mdelta{t_R}}\\
+          {(u_L)}_y &= \frac{{(u_R)}_y}{\gamma}
+          \intertext{To show this, consider again}
+          {(u_L)}_x &= \frac{\cancelto{0}{{(u_R)}_x} + v}{1 + \frac{v \, {(u_R)}_x}{\c^2}}\\
+            &= \frac{v}{1 + \cancelto{0}{\frac{v \, \cancel{{(u_R)}_x}}{\c^2}}}\\
+            &= v\\
+          {(u_L)}_y &= \frac{{(u_R)}_y}{\gamma} \rightarrow~0 \text{ as } v \rightarrow~\c (\gamma \rightarrow~\infty)
+          \longintertext{\emph{This describes the case of a light clock whose speed approaches
+            and reaches the speed of light, which for a stationary observer
+            would tick ever slower and eventually stop when it moves at the
+            speed of light.}}
+        \end{align*}
+
+  \chapter{Week 6: Breaking the Spacetime Limit?}
+    \section{Spacetime diagrams, revisited}
+      \subsection{Part 1}
+        \paragraph{Review of spacetime diagrams}
+        \paragraph{Lines of simultaneity and lines of same location}
+        \paragraph{Plotting a light beam}
+          If you measure the speed of light in light-years per year,
+          you can measure distance ($x$) in light-years and time ($t$) in years,
+          so that the worldline of a beam of light becomes a straight
+          line at \SI{45}{\degree} (slope: 1).
+
+          \emph{This is equivalent to plotting the vertical axis as $\c{}\,t$.}
+
+      \subsection{Part 2}
+        ``Cool'' plots (``Don't be a square'' ;-))
+        \paragraph{“Normal” plot (90 degree angles)}
+        \paragraph{Plot with horizontal x axis and y axis at a non-90-degree angle}
+        \paragraph{Plot with both axes at non-90-degree angles}
+
+      \subsection{Part 3}
+        \paragraph{Spacetime diagrams for Alice and Bob (separate)}
+        \paragraph{Plotting Bob’s time axis ($x_B = 0$) and lines of
+          same location on Alice’s diagram}
+          Bob’s time axis is where his worldline is in Alice’s diagram
+          \begin{align*}
+            x_B &= 0\\
+            \gamma \, \left(x_A - v \, t_A\right) &= x_B\\
+            \gamma \, \left(x_A - v \, t_A\right) &= 0\\
+            \gamma  &\neq 0\\
+            x_A - v \, t_A &= 0\\
+            x_A &= v \, t_A\\
+            t_A &= \frac{1}{v} \, x_A \qquad \text{Equation for Bob's worldline in Alice's diagram}\\
+            \intertext{Other lines of same location in Bob's frame of reference in Alices diagram:}
+            x_B &= 1\\
+            \gamma \, \left(x_A - v \, t_A\right) &= 1\\
+            x_A - v \, t_A &= \frac{1}{\gamma}\\
+            v \, t_A &= x_A - \frac{1}{\gamma}\\
+            t_A &= \frac{1}{v} \, x_A - \frac{1}{\gamma \, v}
+          \end{align*}
+
+        \paragraph{Plotting Bob’s x axis ($t_B = 0$) and lines of simultaneity on Alice’s diagram}
+          \begin{align*}
+            t_B &= 0\\
+            \gamma \, \left(t_A - \frac{v}{\c^2} \, x_A\right) &= t_B\\
+            \gamma \, \left(t_A - \frac{v}{\c^2} \, x_A\right) &= 0\\
+            \gamma  &\neq 0\\
+            t_A - \frac{v}{\c^2} \, x_A &= 0\\
+            t_A &= \frac{v}{\c^2} \, x_A \qquad \text{Equation for Bob's x-axis in Alice's diagram}
+            \intertext{Other lines of simultaneity in Bob's frame of reference in Alice's diagram:}
+            t_B &= 1\\
+            \gamma \, \left(t_A - \frac{v}{\c^2} \, x_A\right) &= 1\\
+            t_A - \frac{v}{\c^2} \, x_A &= \frac{1}{\gamma}\\
+            t_A &= \frac{v}{\c^2} \, x_A + \frac{1}{\gamma}
+          \end{align*}
+
+        \emph{Bob's axes are skewed in Alice's diagram, so the same event has
+          different coordinates in each frame of reference, and Alice and Bob
+          do not agree on locations and times.}
+
+      \subsection{Part 4}
+        \begin{samepage}
+          \begin{align*}
+           v &= \SI{0.5}{\c} \rightarrow~\gamma = 1.2, \, \c = 1
+          \end{align*}
+
+          \paragraph{Completing the combined spacetime diagrams with scale markings for Bob’s axes}
+            \begin{align*}
+              x_A &= \gamma \, \left(x_B + v \, t_B\right)\\
+              t_A &= \gamma \, \left(t_B + \frac{v}{\c^2} x_B\right)\\
+              \\
+              x_B &= 0, \, t_B = 1\\
+              x_A &= \gamma \, v = 1.2 \times 0.5 = 0.6\\
+              t_A &= \gamma = 1.2\\
+              (x_B &= 0, \, t_B = 1) \rightarrow~(x_A = 0.6, \, t_A = 1.2)\\
+              (x_B &= 0, \, t_B = 1) \rightarrow~(x_A = 1.2, \, t_A = 2.4)\\
+              (x_B &= 1, \, t_B = 0) \rightarrow~(x_A = 1.2, \, t_A = 0.6)\\
+              (x_B &= 2, \, t_B = 0) \rightarrow~(x_A = 2.4, \, t_A = 1.2)
+            \end{align*}
+
+          \paragraph{Verifying time dilation and length contraction using the combined diagram}
+        \end{samepage}
+
+      \subsection{Part 5}
+        \paragraph{Verifying the relativity of simultaneity and
+          “leading clocks lag” using the combined spacetime diagram
+          (series of flashes that are simultaneous in Alice’s frame of reference
+          but not in Bob’s)}
+
+    \section{Regions of spacetime}
+      \paragraph{Combined spacetime diagrams for Bob’s plot on Alice’s regular (90‐degree angles) plot, and vice versa.}
+
+      \paragraph{The light cone}
+        \begin{align*}
+          \c^2 \, t^2 - x^2 = \text{const.} \qquad \text{Invariant interval, see~\ref{sec:invariant-interval}}
+        \end{align*}
+
+      \paragraph{Timelike interval}
+        ``Enough time to make the distance''
+        \begin{align*}
+          \c^2 \, t^2 - x^2 &> 0\\
+          \c^2 \, t^2 &> x^2\\
+          \c \, t &> x
+        \end{align*}
+        The distance to be traveled is less than light could travel
+        in the same time, so one can get there if those events are
+        in the observer's future; also, events from there,
+        if in the observers past, can affect the observer.
+
+      \paragraph{Lightlike interval}
+        \begin{align*}
+          \c^2 \, t^2 - x^2 &= 0\\
+          \c^2 \, t^2 &= x^2\\
+          \c \, t &= x
+        \end{align*}
+        The distance to be traveled is equal to that light could travel
+        in the same time, so only something traveling at the speed of light
+        can get there if it in in the observer's future; or, if it is in
+        the observer's past, can affect the observer.
+
+      \paragraph{Spacelike interval}
+        \begin{samepage}
+          ``Not enough time to make the distance''
+          \begin{align*}
+            \c^2 \, t^2 - x^2 &< 0\\
+            \c^2 \, t^2 &< x^2\\
+            \c \, t &< x
+          \end{align*}
+          The distance to be traveled is greater than light could travel
+          in the same time, so only something traveling faster than
+          the speed of light can get there.  As nothing can go faster than
+          the speed of light, nothing can get there in time nor, if those
+          events are in the past, can they affect the observer.
+        \end{samepage}
+
+    \section{Faster than light?}
+        \emph{Note: This example is an edited version of a problem
+          from~\citetitle[pp.~89--90]{taylor1992spacetime},
+          by~\cite{taylor1992spacetime}.}
+        \paragraph{Rocket trip from San~Francisco to St.~Louis to New~York City}
+        \paragraph{Diagram}
+        \paragraph{Actual distance between where each flash was created
+          (the distance the rocket covered between San~Francisco and St.~Louis):}
+          \begin{samepage}
+            \begin{align*}
+              \text{Distance San~Francisco---St.~Louis}
+              &= v \, \left(t_2 - t_1\right)\\
+              &= v \, \mdelta{t}
+            \end{align*}
+        \end{samepage}
+
+        \paragraph{Distance between flash~\#1 (taken at San~Francisco) and
+          flash~\#2 (taken at St.~Louis) when the flashes are traveling
+          toward New~York, one flash behind the other:}
+          \begin{samepage}
+            \begin{align*}
+              \text{Distance between the two flashes}
+                &= \text{Distance light has traveled to St.~Louis}\\
+                  &- \text{Distance spaceship has traveled to St.~Louis}\\
+                &= \c \, \mdelta{t} - v \, \mdelta{t}\\
+                &= (\c - v) \, \mdelta{t}
+            \end{align*}
+          \end{samepage}
+
+        \paragraph{Time between when flash~\#1 is seen by the New~York observer
+          and when flash~\#2 is seen:}
+          \begin{align*}
+            \text{Time difference between the two flashes}
+              &= \frac{(\c - v) \, \mdelta{t}}{\c}
+          \end{align*}
+
+        \paragraph{The apparent speed of the rocket as seen by the observer
+          in New~York:}
+          \begin{samepage}
+            \begin{align*}
+              \text{Apparent speed of spaceship}
+                &= \frac{\text{Distance San~Francisco---St.~Louis}}
+                        {\text{Time difference between the two flashes}}\\
+                &= \frac{v \, \cancel{\mdelta{t}}}
+                        {\frac{(\c - v) \, \cancel{\mdelta{t}}}{\c}}\\
+                &= \frac{\c \, v}{\c - v}\\
+                &= \frac{v}{1 - v} \qquad \text{($\c := 1$)}\\
+                &= \frac{\SI{0.8}{\c}}{1 - \SI{0.8}{\c}} \qquad \text{$v := \SI{0.8}{\c}$}\\
+                &= \frac{\SI{0.8}{\c}}{\SI{0.2}{\c}}\\
+                &= 4 \, \text{(\c!)}
+            \end{align*}
+          \end{samepage}
+
+    \section{Cause and effect, or vice versa?}
+    \emph{Note: This example is a modified version of a problem
+      from~\citetitle[pp.~108--109]{taylor1992spacetime},
+      by~\cite{taylor1992spacetime}.}
+
+      \paragraph{The situation:}
+        \begin{enumerate}
+          \item Year 0: Peace treaty signed, good guys' negotiation team
+            leaves bad guys' planet at $v = \SI{0.6}{\c}$.
+          \item Year 4: Bad guys invent faster-than-light ship and take off
+            in pursuit at $v = \SI{3}{\c}$.
+          \item Year 5: Bad guys catch up and launch sneak attack.
+        \end{enumerate}
+      \paragraph{Diagram}
+      \paragraph{Spacetime location of the sneak attack in the frame of reference
+        of the bad guys’ planet:}
+        $\left({\left(x_{attack}\right)}_B = 4, \, {\left(t_{attack}\right)}_B = 5\right)$
+
+      \paragraph{Spacetime location of the sneak attack in the frame of reference
+        of the good guys’ spaceship:}
+        \begin{align*}
+          v &= \SI{0.6}{\c} \rightarrow~\gamma = 1.25\\
+          {\left(x_{attack}\right)}_G
+            &= \gamma \, \left({\left(x_{attack}\right)}_B - v \, {\left(t_{attack}\right)}_B\right)\\
+            &= 1.25 \times \left(3 - 0.6 \times 5\right)\\
+            &= 0\\
+          {\left(t_{attack}\right)}_G
+            &= \gamma \, \left({\left(t_{attack}\right)}_B - \frac{v}{\c^2} \, {\left(x_{attack}\right)}_B\right)\\
+            &= 1.25 \times \left(5 - 0.6 \times 4\right)\\
+            &= 4\\
+          \rightarrow~\left({\left(x_{attack}\right)}_B = 4, \, {\left(t_{attack}\right)}_B = 5\right)
+            &\rightarrow~\left({\left(x_{attack}\right)}_G = 0, \, {\left(x_{attack}\right)}_G = 4\right)
+        \end{align*}
+
+      \paragraph{Time of the launch of the bad guys’ faster‐than‐light spaceship
+        according to the frame of reference of the good guys’ spaceship:}
+        \begin{align*}
+          \left({\left(x_{launch}\right)}_B = 0, \, {\left(t_{launch}\right)}_B = 4\right)\\
+          {\left(x_{launch}\right)}_G
+            &= \gamma \, \left({\left(x_{launch}\right)}_B - v \, {\left(t_{launch}\right)}_B\right)\\
+            &= 1.25 \times \left(0 - 0.6 \times 4\right)\\
+            &= -3\\
+          {\left(t_{launch}\right)}_G
+            &= \gamma \, \left({\left(t_{launch}\right)}_B - \frac{v}{\c^2} \, {\left(x_{launch}\right)}_B\right)\\
+            &= 1.25 \times \left(4 - 0.6 \times 0\right)\\
+            &= 5\\
+          \rightarrow~\left({\left(x_{launch}\right)}_B = 0, \, {\left(t_{launch}\right)}_B = 4\right)
+            &\rightarrow~\left({\left(x_{launch}\right)}_G = -3, \, {\left(t_{launch}\right)}_G = 5\right)\\
+          {(t_{attack})}_G &< {(t_{launch})}_G \, \text(!)
+        \end{align*}
+
+        In the frame of reference of the good guys, the bad guys attack
+        the good guys \underline{one year before} the former invented and
+        launched their FTL starship for the attack.  This is a
+        \emph{violation of causality} that strongly indicates that
+        \emph{nothing can go faster than the speed of light}.
+
+    \section{Summary}
+
+  \chapter{Week 7: Paradoxes to Ponder}
+    \section{Cause and effect: spacetime diagram}
+      The diagram (note the significance of the fact that the world line of
+      the faster-than-light spaceship has a slope that is less than
+      the slopes of the lines of simultaneity for the good guys’
+      frame of reference):
+
+      Worldlines for movements faster than the speed of light cross lines
+      of simultaneity in the other frame of reference in the backwards
+      direction.
+    \section{The pole in the barn paradox}
+      \paragraph{The situation and the paradox}
+        Alice moves with her pole into Bob's barn at $v = \SI{0.6}{\c}$, so
+        $\gamma(v) = 1.25$.  There are synchronized clocks on each end of
+        Bob's barn: \#1 at the front, \#2 at the back.  The front of the pole
+        enters the barn at $t_A = t_B = 0$.
+
+      \paragraph{Bob’s (barn) perspective and analysis}
+        \begin{align*}
+          {(L_{barn})}_B &= \SI{8}{\meter}\\
+          {(L_{pole})}_B &= \frac{1}{\gamma} {(L_{pole})}_A = \SI{8}{\meter}
+        \end{align*}
+        Conclusion: The pole will fit into the barn.
+
+        Analysis:
+        Time it takes the pole to reach back door and back of pole to reach front door:
+        \begin{align*}
+          \frac{\SI{8}{\meter}}{\SI{0.6}{c} \frac{\text{m}}{\text{s}}}
+          &= \SI{44.4}{\nano\second} \qquad \text{(two photos taken)}
+        \end{align*}
+
+      \paragraph{Alice’s (pole) perspective and analysis}
+        \begin{align*}
+          {(L_{barn})}_A &= \frac{1}{\gamma} {(L_{barn})}_B = \SI{6.4}{\meter}\\
+          {(L_{pole})}_A &= \SI{10}{\meter}
+        \end{align*}
+        Conclusion: The pole will \underline{not} fit into the barn.
+
+        Analysis:
+        \begin{enumerate}
+          \item
+            The back door takes
+            $\frac{\SI{6.4}{\meter}}{\SI{0.6}{\c}} = \SI{35.6}{\nano\second}$
+            to reach the front of the pole.
+
+            During this time, Alice observes Bob's clock to tick off
+            $\frac{\SI{35.6}{\nano\second}}{\gamma} = \SI{28.4}{\nano\second}$.
+
+            Also, at $t_A = 0$, Bob's clock \#2 was reading ahead
+            $\frac{D \, v}{\c} = \frac{\SI{8}{\meter} \times \SI{0.6}{\c}}{\c}
+            = \SI{16.0}{\nano\second}$ (because clock \#1 ``lagged'').
+
+            So the when the back door reaches the pole, she observes Bob's
+            clock \#2 at $\SI{16.0}{\nano\second} + \SI{28.4}{\nano\second}
+            = \SI{44.4}{\nano\second}$ (\emph{as does he}).
+
+          \item
+            Alice sees the barn to be only \SI{6.4}{\meter} long due to length
+            contraction.  So when the back of the barn has reached the front
+            of the pole, she would have to think that the pole would stick out
+            the front door by
+            $\SI{10}{\meter} - \SI{6.4}{\meter} = \SI{3.6}{\meter}$.
+        \end{enumerate}
+
+      \paragraph{Resolving the paradox}
+        ``Leading clocks lag'': For Alice, when clock \#2 shows
+        \SI{44.4}{\nano\second}, clock \#1 (at the front door of the barn) only
+        shows \SI{28.4}{\nano\second}.  It has to tick off further
+        \SI{16}{\nano\second} to reach the \SI{44.4}{\nano\second} as observed
+        on the photos (\emph{to which both Alice and Bob have to agree}).
+
+        But due to time dilation, this happens within
+        $\gamma \times \SI{16}{\nano\second} = \SI{20}{\nano\second}$
+        for Alice.  And during that time, the barn covers the remaining
+        $\SI{20}{\nano\second} \times \SI{0.6}{\c} = \SI{3.6}{\meter}$. (!)
+
+      \paragraph{The combined spacetime diagram}
+
+    \section{How objects contract, and spaceships on a rope}
+      \subsection{How objects contract}
+        \paragraph{The situation (Bob on a metal rod moving at velocity $v$,
+          Alice observing)}
+          Metal rod of length $L_B$ (measured in Bob's frame).
+          Alice observes it to have length $L_A = \frac{1}{\gamma} \, L_B$.
+          Let the rod be accelerated slightly to new velocity $v + \mdelta{v}$.
+          How does that occur?
+        \paragraph{What has to happen for all parts of the rod to accelerate
+          at the same time (according to Bob)}
+          Consider rod sliced in several small parts, with two clocks
+          synchronized in Bob's frame, attached to the rear part and
+          the front part.
+
+          If Bob can push all parts of the rod by the same amount at
+          the same time then the rod will remain intact but travel
+          faster/slower.
+        \paragraph{Alice’s observation of Bob’s supposedly simultaneous
+          acceleration of the parts of the rod (the key role of
+          the relativity of simultaneity)}
+          When Bob's clocks show the same time to Bob, they do not for Alice.
+          To her, the leading clock lags, i.e.\ the front part will receive
+          the push some time later than the rear part.  This can be explained
+          as the rod contracting in her frame of reference.
+
+        \emph{Note: This is just one possible explanation.  If and how
+          length contraction physically occurs is still being debated
+          by physicists.}
+
+      \subsection{Spaceships on a rope}
+        Paradox developed independently by several people in the 1950s.
+        One of them was J.S. Bell (Bell’s inequality) at CERN
+
+        Book recommendation: ``Speakable and Unspeakable in Quantum Mechanics''
+        \paragraph{The situation (spaceships B and C connected by a rope,
+          with observer A in the middle between them)}
+          On signal from A, spaceships B and C accelerate
+          \underline{at the same time} such that the distance $D$ between them
+          remains constant to A.
+
+        \paragraph{What has to happen for the distance D to remain constant
+          with respect to observer~A?}
+          \emph{Statements like ``at the same time'' have to be thought
+            about with regard to the relativity of simultaneity.}
+
+          The leading and the trailing spaceship have to accelerate at the
+          same time.
+
+          But: As soon as B and C are moving relative to A, they are in a different
+          reference frame than A.  For A, if B and C have synchronized clocks,
+          the clock in the leading spaceship C always lags the one in the trailing
+          spaceship B.  E.g., when clock~B reads \SI{10}{\second}, clock~C reads
+          \SI{7}{\second}.
+
+          Then, if B and C are to accelerate at \SI{10}{\second}, B has already
+          started accelerating while C is not at \SI{10}{\second} yet.  But then
+          B would get closer to C which violates the precondition.
+
+        \paragraph{What happens from the perspective of the reference frame
+          of the spaceships (B and C)?}
+          The only way that the distance can remain constant for A, is if
+          B starts at \SI{10}{\second} and C at \SI{7}{\second}.
+
+        \paragraph{Will the rope break?}
+          Yes.
+
+        \paragraph{Observer A’s perspective and answer}
+          The distance between B and C remains constant, but the rope is
+          length-contracted:
+          $L_A = \frac{1}{\gamma} \, L_{BC} = \frac{1}{\gamma} \, D$.
+
+        \paragraph{Spaceships B and C perspective and answer}
+          As C has to start before B, the rope is pulled apart by C's forward
+          motion.
+
+    \section{The twin paradox}
+      \subsection{Part 1}
+        \paragraph{The situation and diagram}
+          Alice goes at \SI{0.6}{\c} ($\gamma = 1.25$) to a star
+          \SI{3}{\lightyear} away from Bob's home planet, and returns
+          at the same speed.
+
+        \paragraph{Bob’s time dilated observation of Alice’s clock}
+          \begin{align*}
+            \mdelta{t_A} &= \frac{1}{\gamma} \, \mdelta{t_B}
+              = \frac{1}{1.25} \times 5
+              = \SI{4}{\year}
+          \end{align*}
+          Bob's conclusion: When Alice returns, she should be \emph{younger} than Bob.
+
+        \paragraph{Alice’s time dilated observation of Bob’s clock}
+          \begin{align*}
+            \mdelta{t_B} &= \frac{1}{\gamma} \, \mdelta{t_A}
+              = \frac{1}{1.25} \times 4
+              = \SI{3.2}{\year}
+          \end{align*}
+          Alice's conclusion: When Alice returns, \underline{Bob} should be
+            younger than her, she should be \underline{older} than him.
+
+      \subsection{Part 2}
+        \paragraph{The outbound diagram}
+        \paragraph{The inbound diagram}
+        \paragraph{Where the extra/missing time for Bob (from Alice’s perspective) comes from}
+          When Alice turns around, she changes her frame of reference, and
+          Bob's clock have to tick from 3.2 to 6.8 years.
+
+      \subsection{Part 3}
+        \paragraph{Bob’s analysis}
+          \begin{align*}
+            Alice travels
+            \frac{\SI{3}{\lightyear}}{\SI{0.6}{\c}} &= \SI{5}{\year}
+            \intertext{to the star, while he observes Alice's clock to tick}
+            \frac{1}{\gamma} \times \SI{5}{\year} &= \SI{4}{\year}.
+          \end{align*}
+
+        \paragraph{Alice’s analysis (including the “leading clocks lag” effect)}
+          \begin{align*}
+            \intertext{To Alice, the distance to the star is length-contracted:}
+            \text{Distance to star} &= \frac{\SI{3}{\lightyear}}{\gamma}
+              = \SI{2.4}{\lightyear}\\
+            \frac{\SI{2.4}{\lightyear}}{\SI{0.6}{\c}} &= \SI{4}{\year}.
+            \intertext{During her journey to the star, she observes Bob's~clocks
+              to tick}
+            \frac{\SI{4}{\year}}{\gamma} &= \SI{3.2}{\year}.
+            \longintertext{But as she moves towards the star, Bob's~clock
+            at the star is ahead because the leading clock at his planet,
+            lags by}
+            \frac{D \, v}{\c^2}
+              &= \frac{\SI{3}{\lightyear} \times \SI{0.6}{\c}}{\c^2}
+              = \SI{1.8}{\year}
+            \intertext{and she observes Bob's star clock to read}
+            \SI{1.8}{\year} + \SI{3.2}{\year} &= \SI{5}{\year}
+            \intertext{when she arrives (as does Bob).}
+            \longintertext{When she turns around, now \emph{the star~clock} is
+              the leading one, and \emph{lags} by the same amount.}
+            \longintertext{Therefore, when the star clock shows \SI{5}{\year},
+              the clock on Bob's planet reads}
+            \SI{5}{\year} + \SI{1.8}{\year} &= \SI{6.8}{\year}.
+            \longintertext{After ticking \SI{3.2}{\year} more while Alice is
+              returning, it shows \SI{10}{\year} (as she and Bob can observe).}
+          \end{align*}
+
+      \subsection{Part 4}
+        \paragraph{Summary of previous analysis}
+        \paragraph{Comment on asymmetrical role of acceleration}
+        \paragraph{Using the Lorentz transformation to get the same results}
+          \subparagraph{A. Calculating Alice’s results using Bob’s value}
+            Outbound: $(x_L = 3, \, t_L = 5)$
+            \begin{align*}
+              x_R &= \gamma \, \left(x_L - v \, t_L\right) = 0\\
+              t_R &= \gamma \, \left(t_L - \frac{v}{\c^2} \, x_L\right) = 4
+            \end{align*}
+            Inbound: $(x_L = -3, \, t_L = 5)$ (negative, because origin has moved)
+            \begin{align*}
+              x_R &= \gamma \, \left(x_L + v \, t_L\right) = 0\\
+              t_R &= \gamma \, \left(t_L + \frac{v}{\c^2} \, x_L\right) = 4
+            \end{align*}
+          \subparagraph{B. Calculating Bob’s results using Alice’s value}
+            Outbound: $(x_R = 0, \, t_R = 4)$
+            \begin{align*}
+              x_L &= \gamma \, \left(x_R + v \, t_R\right) = 3\\
+              t_L &= \gamma \, \left(t_R + \frac{v}{\c^2} \, x_R\right) = 5
+            \end{align*}
+            Inbound $(x_R = 0, \, t_R = 4)$
+            \begin{align*}
+              x_L &= \gamma \, \left(x_R - v \, t_R\right) = -3\\
+              t_L &= \gamma \, \left(t_R - \frac{v}{\c^2} \, x_R\right) = 5
+            \end{align*}
+
+          \paragraph{Using the invariant interval to get the same results}
+            \begin{align*}
+              \c^2 \, {(\mdelta{t_L})}^2 - {(\mdelta{x_L})}^2
+                &= \c^2 \, {(\mdelta{t_R})}^2 - {(\mdelta{x_R})}^2
+            \end{align*}
+            Outbound
+            \begin{align*}
+              \mdelta{x_L} &= 3\\
+              \mdelta{t_L} &= 5\\
+              \mdelta{x_R} &= 0\\
+              \c &= 1\\
+              \cancel{\c^2} \, {(\mdelta{t_L})}^2 - {(\mdelta{x_L})}^2
+                &= \cancel{\c^2} \, {(\mdelta{t_R})}^2 - \cancel{{(\mdelta{x_R})}^2}\\
+                &= 4
+            \end{align*}
+            Inbound
+            \begin{align*}
+              \mdelta{x_L} &= -3\\
+              \mdelta{t_L} &= 5\\
+              \mdelta{x_R} &= 0\\
+              \c &= 1\\
+              \cancel{\c^2} \, {(\mdelta{t_L})}^2 - {(\mdelta{x_L})}^2
+                &= \cancel{\c^2} \, {(\mdelta{t_R})}^2 - \cancel{{(\mdelta{x_R})}^2}\\
+                &= 4
+            \end{align*}
+
+        \paragraph{Experimental verifications of time dilation}
+          \begin{itemize}
+            \item Atmospheric muons
+            \item Muons at rest vs. Muons traveling in particle accelerator ring:
+              muons at rest decay faster
+            \item 1971: Two atomic clocks on ground, two in air in opposite directions:
+              Westbound clock prediction: $\mdelta{t} = 275 \pm 25 ns$
+              Westbound clock result: $\mdelta{t} = 273 \pm 7 ns$
+
+              Repeated in 1996:
+              Prediction: $\mdelta{t} = 39.8 ns$
+              Result: $\mdelta{t} = 39 \pm 2 ns$
+
+              2010: NIST laboratory experiment
+              Very accurate clock, slow speeds required
+          \end{itemize}
+
+    \section{summary}
+
+  \chapter{To the Center of the Galaxy and Back}
+    \section{Traveling the galaxy}
+    \section{The famous equation}
+    \section{Traveling the galaxy, part 2}
+    \section{The happiest thought}
+    \section{The bending of light}
+    \section{Final comments}
 
   % References
   \begingroup

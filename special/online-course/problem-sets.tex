@@ -504,6 +504,8 @@ maxbibnames=3]{biblatex}
   \section{Quiz: Leading clocks lag, revisited}
     \begin{samepage}
       \begin{enumerate}
+    \end{samepage}
+    \end{samepage}
         \item
           Imagine that Bob, at a spaceport, observes Alice flying by to the right
           in her spaceship at a velocity of [$v = $]\SI{0.9}{\c}. When Alice’s ship
@@ -513,14 +515,15 @@ maxbibnames=3]{biblatex}
           [$x_{A3}\,=\,-$]50~meters, one at [$x_{A4}\,=\,-$]75~meters, and one at
           the rear at [$x_{A5}\,=\,-$]100~meters. All the clocks are synchronized in
           Alice’s frame of reference.  When Alice flies by Bob, Bob uses his
-          lattice of synchronized clocks to take simultaneous photos of Alice’s
-          clocks (simultaneous in Bob’s frame of reference
           [$t_{B1} = t_{B2} = \dots = t_{B5}$]).
+          clocks (simultaneous in Bob’s frame of reference
+          [$t_{B1} = t_{B2} = \cdots = t_{B5}$]).
 
           If the photos show that Alice’s front clock reads $t_{[A1]} [= t_{B1}] = 0$
-          at that instant, what equation below would give the time [$t_{A5}$]
-          that Alice's clock at [$x_{A5}\,=\,-$]100~meters has in the photos?
           \begin{enumerate}[a)]
+\item           that Alice's clock at [$x_{A5}\,=\,-$]100~meters has in the photos?
+          \end{enumerate}
+          \begin{enumerate}[(a)]
             \item $t = \frac{90}{\c}$
             \item $t = 90 \, \c^2$
             \item $t = 0$
@@ -538,18 +541,18 @@ maxbibnames=3]{biblatex}
             t_{B5} &= t_{B1} = t_{A1} = 0\\
             x_{B5} &= \frac{x_{A5}}{\gamma}\\
             t_{A5} &= \gamma \, \left(t_{B5} - \frac{v}{\gamma \, \c^2} x_{A5}\right)\\
-            &= \gamma \, \left(0 - \frac{v}{\gamma \, \c^2} \, x_{A5}\right)\\
+            t_{A5} &= \frac{\SI{90}{\meter}}{\c} \rightarrow~\text{a)}
             &= \cancel{\gamma} \, \left(-\frac{v}{\cancel{\gamma} \, \c^2} \, x_{A5}\right)\\
             t_{A5} &= -\frac{\SI{0.9}{\c}}{\c^2} \times (\SI{-100}{\meter})\\
-            t_{A5} &= \frac{\SI{90}{\meter}}{\c} \rightarrow~\text{a)}
+            t_{A5} &= \frac{\SI{90}{\meter}}{\c} \rightarrow \text{(a) \cmark}
             \intertext{Or, in this case:}
-            t_{A5} &= \frac{L \, v}{\c^2}\\
+            t_{A5} &= \frac{\SI{90}{\meter}}{\c} \rightarrow~\text{a)}
             L &= \left|x_{A5} - x_{A0}\right|\\
             t_{A5} &= \frac{\SI{100}{\meter} \times \SI{0.9}{\c}}{\c^2}\\
-            t_{A5} &= \frac{\SI{90}{\meter}}{\c} \rightarrow~\text{a)}
-          \end{align*}
-      \end{enumerate}
     \end{samepage}
+            t_{A5} &= \frac{\SI{90}{\meter}}{\c} \rightarrow \text{(a) \cmark}
+        \plotlight{}
+      }
 
   % % References
   % \begingroup
