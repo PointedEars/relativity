@@ -1,0 +1,104 @@
+%% Relativistic calculations
+
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{relativity}[2017/03/02 by Thomas 'PointedEars' Lahn (c) 2017 Relativistic calculations and plots for LaTeX]
+
+\RequirePackage{fp}
+\RequirePackage{pgfplots}
+
+% Speed of light
+\FPeval{\solSI}{299792458}
+
+% \setsol{1} to specify coordinates in ly, time in a, and speed in factors of c
+\newcommand{\setsol}[1]{\FPeval{\sol}{#1}}
+\newcommand{\resetsol}{\setsol{\solSI}}
+\resetsol{}
+
+% Define command #1 as Lorentz factor for a speed #2 (see \setsol)
+%
+% NOTE: The version of fp this was developed with used logarithms only, and
+% therefore did not support powers of negative numbers; hence the abs(…).
+\newcommand{\lorentz}[2]{\FPeval{#1}{1/root(2, 1 - abs(#2)^2/abs(sol)^2)}}
+
+% Define command #2 as Lorentz factor for a speed #3 (see \setsol),
+% rounded to #1 digits (default: 4)
+\newcommand{\lorentzr}[3][4]{
+  \lorentz{#2}{#3}
+  \FPround{#2}{#2}{#1}
+}
+
+% Define command #1 as relative speed for a Lorentz factor #2
+% (\setsol{1} for a result in factors of c)
+\newcommand{\lorentztospeed}[2]{\FPeval{#1}{sol * root(2, 1 - 1/(#2)^2)}}
+
+% Define command #2 as relative speed for a Lorentz factor #3
+% (\setsol{1} for a result in factors of c), rounded to #1 digits (default: 0)
+\newcommand{\lorentztospeedr}[3][0]{
+  \lorentztospeed{#2}{#3}
+  \FPround{#2}{#2}{#1}
+}
+
+% Define command #2 as the result of the fp expression #3,
+% rounded to #1 digit(s) (default: 0)
+\newcommand{\FPevalr}[3][0]{
+  \FPeval{#2}{#3}
+  \FPround{#2}{#2}{#1}
+}
+
+% Define command #1 as length contraction of length #2 for a speed #3
+\newcommand{\lencon}[3]{
+  \lorentz{\lencongamma}{#3}
+  \FPeval{#1}{(#2)/lencongamma}
+}
+
+% Define command #1 as time dilation of time #2 for a speed #3
+\newcommand{\timedil}[3]{
+  \lorentz{\timedilgamma}{#3}
+  \FPeval{#1}{timedilgamma * (#2)}
+}
+
+% Define command #1 as the space coordinate and command #2 as the time coordinate
+% after Lorentz transformation of space coordinate #3 and time coordinate #4
+% for a speed #5 (see \setsol)
+\newcommand{\lorentztrafo}[5]{
+  \lorentz{\lorentztrafogamma}{#5}
+  \FPeval{#1}{lorentztrafogamma * ((#3) + (#5) * (#4))}
+  \FPeval{#2}{lorentztrafogamma * ((#4) + (#5)/abs(sol)^2 * (#3))}
+}
+
+% Defines command #1 as the combined speed in multiples of speed of light
+% according to Lorentz transformation of the speeds #2 and #3
+\newcommand{\combinespeeds}[3]{
+  \FPeval{#1}{((#3) + (#2))/(1 + ((#2) * (#3))/abs(sol)^2)}
+}
+
+% Defines command #1 as the spacetime interval between
+% spacetime coordinates (x_1 = #2, t_1 = #3) and (x_2 = #4, t_2 = #5)
+\newcommand{\spacetimeintv}[5]{
+  \FPeval{#1}{abs(\sol)^2 * (abs((#5) - (#3))^2 - abs((#4) - (#2))^2)}
+}
+
+% Plots
+\pgfplotsset{compat=1.5}
+
+\newenvironment{spacetimediagram}[1][Spacetime diagram]
+{\begin{tikzpicture}%
+    \begin{axis}[%
+      title=#1,%
+      axis x line=middle,%
+      axis y line=middle,%
+      xlabel={$x$},%
+      xmin=-4, xmax=4,%
+      ylabel={$t$},%
+      ymin=-4, ymax=4%
+    ]}
+{\end{axis}%
+  \end{tikzpicture}}
+
+% plots for motion at speed of light
+\newcommand{\plotlight}[1][red]{
+  \addplot[#1]{x};
+  \addplot[#1]{-x};
+}
+
+\endinput
