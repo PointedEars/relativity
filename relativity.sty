@@ -1,10 +1,43 @@
 %% Relativistic calculations
 
-\NeedsTeXFormat{LaTeX2e}[1994/06/01]
-\ProvidesPackage{relativity}[2017/03/02 by Thomas 'PointedEars' Lahn (c) 2017 Relativistic calculations and plots for LaTeX]
+\NeedsTeXFormat{LaTeX2e}[2014/05/01]
+\ProvidesPackage{relativity}[2017/03/04 by Thomas 'PointedEars' Lahn (c) 2017 Relativistic calculations and plots for LaTeX]
 
 \RequirePackage{fp}
 \RequirePackage{pgfplots}
+\RequirePackage{xparse}
+
+% Wrappers for fp macros
+
+% Define command #2 as the result of the fp expression #3,
+% rounded to #1 digit(s) (default: 0)
+\newcommand{\FPevalr}[3][0]{
+  \FPeval{#2}{#3}
+  \FPround{#2}{#2}{#1}
+}
+
+% Define command #1 as the negative value of #2 rounded to #3 digits
+\newcommand{\FPnegr}[3]{
+  \FPneg{#1}{#2}
+  \FPround{#1}{#1}{#3}
+}
+
+
+% Generate the negative value of #1
+\newcommand{\FPnegval}[1]{
+  {
+    \FPneg{\negval}{#1}
+    \negval{}
+  }
+}
+
+% Generate the #1 rounded to #2 digits
+\newcommand{\FProundval}[2]{
+  {
+    \FPround{\roundval}{#1}{#2}
+    \roundval{}
+  }
+}
 
 % Speed of light
 \FPeval{\solSI}{299792458}
@@ -35,13 +68,6 @@
 % (\setsol{1} for a result in factors of c), rounded to #1 digits (default: 0)
 \newcommand{\lorentztospeedr}[3][0]{
   \lorentztospeed{#2}{#3}
-  \FPround{#2}{#2}{#1}
-}
-
-% Define command #2 as the result of the fp expression #3,
-% rounded to #1 digit(s) (default: 0)
-\newcommand{\FPevalr}[3][0]{
-  \FPeval{#2}{#3}
   \FPround{#2}{#2}{#1}
 }
 
@@ -81,24 +107,62 @@
 % Plots
 \pgfplotsset{compat=1.5}
 
-\newenvironment{spacetimediagram}[1][Spacetime diagram]
-{\begin{tikzpicture}%
-    \begin{axis}[%
-      title=#1,%
-      axis x line=middle,%
-      axis y line=middle,%
-      xlabel={$x$},%
-      xmin=-4, xmax=4,%
-      ylabel={$t$},%
-      ymin=-4, ymax=4%
-    ]}
-{\end{axis}%
-  \end{tikzpicture}}
+\newenvironment{spacetimediagram}[1]
+{
+  \begin{tikzpicture}
+    \begin{axis}[
+      axis x line=middle,
+      axis y line=middle,
+      #1
+    ]
+}
+{
+    \end{axis}
+  \end{tikzpicture}
+}
 
-% plots for motion at speed of light
-\newcommand{\plotlight}[1][red]{
-  \addplot[#1]{x};
-  \addplot[#1]{-x};
+% Worldline in style #2 (optional)
+% - with star parameter (#1 = *):
+%   * based on constant speed #5 (mandatory)
+%   * shifted in the x-direction by #3 (default: 0),
+%   * and in the t-direction by #4 (default: 0);
+% - without star parameter:
+%   * based on term #5 for t (mandatory)
+%   * other optional arguments are ignored
+\DeclareDocumentCommand{\worldline}{s O{} O{0} O{0} m}{
+  \IfBooleanTF #1 {
+    \addplot[#2]{1/(#5) * (x - (#3)) + (#4)};
+  } {
+    \addplot[#2]{#5};
+  }
+}
+
+% Light-like worldlines in style #1 (optional);
+% use the PGFplots "domain" option to limit x-range
+\newcommand{\lightlike}[1][]{
+  \worldline*[#1]{-1};
+  \worldline*[#1]{1};
+}
+
+% Timelike worldline in style #1 (optional) parallel to the time axis
+% (not function-based) at x = #2 (default: 0) from t = #3 (default: 0)
+% to t = #4 (mandatory, no default)
+\DeclareDocumentCommand{\timelike}{O{} O{0} O{0} m}{
+  \addplot[#1] coordinates {
+    (#2, #3)
+    (#2, #4)
+  };
+}
+
+% Spacelike worldline in style #1 (optional) for speed #5
+% and time #2 (default: 0)
+% shifted in the x-direction by #3 (default: 0),
+% and in the t-direction by #4 (default: 0);
+\DeclareDocumentCommand{\spacelike}{O{} O{0} O{0} O{0} m}{
+  {
+    \lorentz{\gammav}{#5}
+    \worldline[#1]{(#5)/(\sol)^2 * (x - #3) + #2/\gammav + #4};
+  }
 }
 
 \endinput
