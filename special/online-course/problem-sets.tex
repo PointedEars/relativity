@@ -156,6 +156,9 @@ maxbibnames=3]{biblatex}
 % cancel terms in equations
 \usepackage[makeroom]{cancel}
 
+% for boxes around equations, with \Aboxed
+\usepackage{mathtools}
+
 \usepackage{esint}
 \usepackage{amssymb}
 % \usepackage{commath}
@@ -166,17 +169,24 @@ maxbibnames=3]{biblatex}
 
 % dingbats
 \usepackage{pifont}
-\newcommand{\cmark}{\ding{51}}
+\newcommand{\cmark}{\, \text{\ding{51}}}
 
 % SI units
 \usepackage{siunitx}
 \sisetup{per-mode = fraction, math-micro = \text{µ}, text-micro = µ}
+\DeclareSIUnit\year{a}
+\DeclareSIUnit\lightyear{ly}
+
 % Margin notes
 \usepackage{marginnote}
 
 % FSM graphs
-\usepackage{tikz}
-\usetikzlibrary{arrows,automata}
+%\usepackage{tikz}
+%\usetikzlibrary{arrows,automata}
+
+% Plots
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.5}
 
 % Captions
 \usepackage{caption}
@@ -300,55 +310,56 @@ maxbibnames=3]{biblatex}
 
   \clearpage
   \pagenumbering{arabic}
-  \chapter{Week 4}
+  \chapter{Week 4: The Weirdness Begins}
     \section{Problem 1: Velocity → Lorentz factor}
       Calculate the value of the Lorentz factor for the following velocities.
-      \newcommand{\lorentzr}[2]{
-        \lorentz{#1}{#2}
-        \FPround{#1}{#1}{5}
-      }
+      \setsol{300000}
       \FPeval{velocitya}{0.01}
-      \lorentzr{\resulta}{\velocitya}
+      \lorentzr{\resulta}{\velocitya * sol}
       \FPeval{velocityb}{0.1}
-      \lorentzr{\resultb}{\velocityb}
+      \lorentzr{\resultb}{\velocityb * sol}
       \FPeval{velocityc}{0.25}
-      \lorentzr{\resultc}{\velocityc}
+      \lorentzr{\resultc}{\velocityc * sol}
       \FPeval{velocityd}{0.5}
-      \lorentzr{\resultd}{\velocityd}
+      \lorentzr{\resultd}{\velocityd * sol}
       \FPeval{velocitye}{0.75}
-      \lorentzr{\resulte}{\velocitye}
+      \lorentzr{\resulte}{\velocitye * sol}
       \FPeval{velocityf}{0.9}
-      \lorentzr{\resultf}{\velocityf}
+      \lorentzr{\resultf}{\velocityf * sol}
       \FPeval{velocityg}{0.99}
-      \lorentzr{\resultg}{\velocityg}
+      \lorentzr{\resultg}{\velocityg * sol}
       \FPeval{velocityh}{0.999}
-      \lorentzr{\resulth}{\velocityh}
+      \lorentzr{\resulth}{\velocityh * sol}
       \begin{align*}
         \gamma &= \frac{1}{\sqrt{1 - {\left(\frac{v}{c}\right)}^2}}\\
-        \text{(a) } \gamma(v = \SI{\velocitya}{\c}) &= \frac{1}{\sqrt{1 - {\velocitya}^2}}\\
-        &= \frac{1}{\sqrt{1 - 0.0001}}\\
-        &= \frac{1}{\sqrt{0.9999}}\\
-        &= \frac{1}{\sqrt{\frac{9999}{10000}}}\\
-        &= \frac{1}{\frac{99.995}{100}}\\
-        &= \frac{100}{99.995}\\
-        &= \resulta\\
-        \text{(b) } \gamma(v = \SI{\velocityb}{\c}) &\approx \resultb\\
-        \text{(c) } \gamma(v = \SI{\velocityc}{\c}) &\approx \resultc\\
-        \text{(d) } \gamma(v = \SI{\velocityd}{\c}) &\approx \resultd\\
-        \text{(e) } \gamma(v = \SI{\velocitye}{\c}) &\approx \resulte\\
-        \text{(f) } \gamma(v = \SI{\velocityf}{\c}) &\approx \resultf\\
-        \text{(g) } \gamma(v = \SI{\velocityg}{\c}) &\approx \resultg\\
-        \text{(h) } \gamma(v = \SI{\velocityh}{\c}) &\approx \resulth
+        \intertext{(a)}
+          \gamma(v = \SI{\velocitya}{\c}) &= \frac{1}{\sqrt{1 - {\velocitya}^2}}\\
+          &= \frac{1}{\sqrt{1 - 0.0001}}\\
+          &= \frac{1}{\sqrt{0.9999}}\\
+          &= \frac{1}{\sqrt{\frac{9999}{10000}}}\\
+          &= \frac{1}{\frac{99.995}{100}}\\
+          &= \frac{100}{99.995}\\
+          &\approx \resulta \cmark
+        \intertext{(b)}
+          \gamma(v = \SI{\velocityb}{\c}) &\approx \resultb \cmark
+        \intertext{(c)}
+          \gamma(v = \SI{\velocityc}{\c}) &\approx \resultc \cmark
+        \intertext{(d)}
+          \gamma(v = \SI{\velocityd}{\c}) &\approx \resultd \cmark
+        \intertext{(e)}
+          \gamma(v = \SI{\velocitye}{\c}) &\approx \resulte \cmark
+        \intertext{(f)}
+          \gamma(v = \SI{\velocityf}{\c}) &\approx \resultf \cmark
+        \intertext{(g)}
+          \gamma(v = \SI{\velocityg}{\c}) &\approx \resultg \cmark
+        \intertext{(h)}
+          \gamma(v = \SI{\velocityh}{\c}) &\approx \resulth \cmark
       \end{align*}
 
-    \section{Problem 2: Lorentz factor →~velocity}
+    \section{Problem 2: Lorentz factor →~velocity}\label{sec:lorentztospeed}
       Calculate the value of the relative velocity in km/second between two frames of reference
       for the following values of the Lorentz factor. (Use 300,000 km/second for the speed of light.)
-      \newcommand{\lorentztospeedr}[2]{
-        \lorentztospeed{#1}{#2}
-        \FPround{#1}{#1}{3}
-      }
-      \FPeval{\sol}{300000}
+      \setsol{300000}
       \FPeval{gammaa}{1.1}
       \lorentztospeedr{\resulta}{\gammaa}
       \FPeval{gammab}{1.25}
@@ -369,17 +380,23 @@ maxbibnames=3]{biblatex}
          \frac{v^2}{c^2} &= 1 - \frac{1}{\gamma^2}\\
          v^2 &= c^2 \, \left(1 - \frac{1}{\gamma^2}\right)\\
          v &= \sqrt{c^2 \, \left(1 - \frac{1}{\gamma^2}\right)}\\
-         v &= c \, \sqrt{1 - \frac{1}{\gamma^2}}\\
-         \text{(a) } v(\gamma = \gammaa) &\approx \SI{\resulta}{\kilo\meter\per\second}\\
-         \text{(b) } v(\gamma = \gammab) &\approx \SI{\resultb}{\kilo\meter\per\second}\\
-         \text{(c) } v(\gamma = \gammac) &\approx \SI{\resultc}{\kilo\meter\per\second}\\
-         \text{(d) } v(\gamma = \gammad) &\approx \SI{\resultd}{\kilo\meter\per\second}\\
-         \text{(e) } v(\gamma = \gammae) &\approx \SI{\resulte}{\kilo\meter\per\second}\\
-         \text{(f) } v(\gamma = \gammaf) &\approx \SI{\resultf}{\kilo\meter\per\second}
+         v &= c \, \sqrt{1 - \frac{1}{\gamma^2}}
+         \intertext{(a)}
+          v(\gamma = \gammaa) &\approx \SI{\resulta}{\kilo\meter\per\second} \cmark
+         \intertext{(b)}
+          v(\gamma = \gammab) &\approx \SI{\resultb}{\kilo\meter\per\second} \cmark
+         \intertext{(c)}
+          v(\gamma = \gammac) &\approx \SI{\resultc}{\kilo\meter\per\second} \cmark
+         \intertext{(d)}
+          v(\gamma = \gammad) &\approx \SI{\resultd}{\kilo\meter\per\second} \cmark
+         \intertext{(e)}
+          v(\gamma = \gammae) &\approx \SI{\resulte}{\kilo\meter\per\second} \cmark
+         \intertext{(f)}
+          v(\gamma = \gammaf) &\approx \SI{\resultf}{\kilo\meter\per\second} \cmark
       \end{align*}
 
-    \section{Problem 3: Length contraction}
-      Alice and Bob have identical spaceships, each with a proper length of [$L_0 = $] 50 meters. Bob docks
+    \section{Problem 3: length contraction}
+      Alice and Bob have identical spaceships, each with a proper length of [$D_0 = $] 50 meters. Bob docks
       his ship at the spaceport while Alice flies by him to the right at a speed of [$v =$]~\SI{0.6}{\c}.
       \begin{enumerate}[(a)]
         \item As Alice flies by, Bob measures the length of Alice’s ship. What value does he get?
@@ -388,23 +405,23 @@ maxbibnames=3]{biblatex}
           \lencon{\resulta}{\shiplen}{\valuea}
           \FPround{\resulta}{\resulta}{0}
           \begin{align*}
-            {L_{Bob}}_{Alice} &= \frac{L_0}{\gamma} = L_0 \, \sqrt{1 - \frac{v^2}{c^2}}\\
-            {L_{Bob}}_{Alice}\left(v = \SI{0.6}{\c}\right) &= \SI{\resulta}{\meter}.
+            {D_{Bob}}_{Alice} &= \frac{D_0}{\gamma} = D_0 \, \sqrt{1 - \frac{v^2}{c^2}}\\
+            {D_{Bob}}_{Alice}\left(v = \SI{0.6}{\c}\right) &= \SI{\resulta}{\meter}. \cmark
           \end{align*}
         \item At the same time, Alice measures the length of Bob’s ship. What value does she get?
           \begin{align*}
-            {L_{Alice}}_{Bob}\left(v = \SI{0.6}{\c}\right) &= {L_{Bob}}_{Alice}\left(v = \SI{0.6}{\c}\right) = \SI{\resulta}{\meter}.
+            {D_{Alice}}_{Bob}\left(v = \SI{0.6}{\c}\right) &= {D_{Bob}}_{Alice}\left(v = \SI{0.6}{\c}\right) = \SI{\resulta}{\meter}. \cmark
           \end{align*}
         \item Alice flies by a second time and this time Bob measures the length of Alice’s ship
-          and gets a value of [${L_{Bob}}_{Alice} = $] 20 meters. How fast is Alice going with respect to Bob?
+          and gets a value of [${D_{Bob}}_{Alice} = $] 20 meters. How fast is Alice going with respect to Bob?
           \FPeval{valuec}{20}
           \FPeval{gammac}{round(shiplen/valuec :1)}
           \lorentztospeedr{\resultc}{\gammac}
           \FPeval{resultcinc}{round(resultc / sol :3)}
           \begin{align*}
             v &= c \, \sqrt{1 - \frac{1}{\gamma^2}}\\
-            {L_{Bob}}_{Alice} &= \frac{L_0}{\gamma} \rightarrow~\gamma = \frac{L_0}{{L_{Bob}}_{Alice}} = \frac{\SI{\shiplen}{\meter}}{\SI{\valuec}{\meter}} = \gammac\\
-            v(\gamma = \gammac) &= \SI{\resultc}{\kilo\meter\per\second} \approx \SI{\resultcinc}{\c}.
+            {D_{Bob}}_{Alice} &= \frac{D_0}{\gamma} \rightarrow \gamma = \frac{D_0}{{L_{Bob}}_{Alice}} = \frac{\SI{\shiplen}{\meter}}{\SI{\valuec}{\meter}} = \gammac{}\\
+            v(\gamma = \gammac) &= \SI{\resultc}{\kilo\meter\per\second} \approx \SI{\resultcinc}{\c}. \cmark
           \end{align*}
       \end{enumerate}
 
@@ -412,6 +429,7 @@ maxbibnames=3]{biblatex}
       Alice and Bob have identical spaceships, each equipped with identical
       light clocks. Bob docks his ship at the spaceport while Alice flies by
       him to the right at a speed of [$v = $]~\SI{0.6}{c}.
+      \setsol{1}
       \FPeval{velocitya}{0.6}
       \begin{enumerate}[(a)]
         \item
@@ -428,7 +446,7 @@ maxbibnames=3]{biblatex}
           \timedil{\resulta}{\timea}{\velocitya}
           \FPround{\resulta}{\resulta}{5}
           \begin{align*}
-            \mdelta{{t_{Bob}}_{Alice}} &= \gamma(v) \, \mdelta{t_{Bob}} = \SI{\resulta}{\second}.
+            \mdelta{{t_{Bob}}_{Alice}} &= \gamma(v) \, \mdelta{t_{Bob}} = \SI{\resulta}{\second}. \cmark
           \end{align*}
         \item
           Bob observes that, according to his clock (or really, his lattice of
@@ -447,65 +465,65 @@ maxbibnames=3]{biblatex}
           \FPeval{resultb}{\timeb * root(2, 1 - \velocitya^2)}
           \FPround{\resultb}{\resultb}{0}
           \begin{align*}
-            \mdelta{T_{Alice}} &= \frac{\mdelta{{T_{Bob}}_{Alice}}}{\gamma(v)} = \SI{\resultb}{\minute}.
+            \mdelta{T_{Alice}} &= \frac{\mdelta{{T_{Bob}}_{Alice}}}{\gamma(v)} = \SI{\resultb}{\minute}. \cmark
           \end{align*}
         \item
           \begin{samepage}
             How does Alice, in her frame of reference, see and explain
-            the distances and times involved?
+            the lengths and times involved?
 
             \begin{itemize}
-              \item For Alice, the \strong{distance} to the space station is
+              \item For Alice, the \strong{length} to the space station is
                 length-contracted, so she needs less time to travel to it
-                than Bob measures.
+                than Bob measures. \cmark
               \item \strong{Time} is running normally for Alice in her frame of reference, so
                 she has to conclude that Bob's clocks are not synchronized:
-                his leading clock (the one at the space station) lags.
+                his leading clock (the one at the space station) lags. \cmark
             \end{itemize}
           \end{samepage}
       \end{enumerate}
 
-  \section{Problem 5: Relativistic particles}
-    Imagine that you are a physicist studying particles created by cosmic rays
-    colliding with atoms in the upper atmosphere at a height of [$h = $]~10 kilometers
-    above the surface of the Earth. Using special equipment attached to a large
-    weather balloon, you discover that a certain kind of particle is detected
-    as low as [$ h_{min} =$]~1500 meters above the surface, but no lower.
-    In other words, it is created at a height of 10 kilometers and travels down
-    to a height of 1.5 kilometers, where it decays into other particles. You
-    also measure the speed of the original particle and get a value of
-    [$v =$]~\SI{0.9}{\c}.
+    \section{Problem 5: Relativistic particles}
+      Imagine that you are a physicist studying particles created by cosmic rays
+      colliding with atoms in the upper atmosphere at a height of [$h = $]~10 kilometers
+      above the surface of the Earth. Using special equipment attached to a large
+      weather balloon, you discover that a certain kind of particle is detected
+      as low as [$ h_{min} =$]~1500 meters above the surface, but no lower.
+      In other words, it is created at a height of 10 kilometers and travels down
+      to a height of 1.5 kilometers, where it decays into other particles. You
+      also measure the speed of the original particle and get a value of
+      [$v =$]~\SI{0.9}{\c}.
 
-    Given this information, what is the lifetime [$\tau_0$] of the particle
-    (in seconds) in its own frame of reference (i.e., when it is at rest, not
-    in motion)?  (The lifetime is the amount of time it exists between being
-    created and decaying into other particles. Also note: The numbers given here
-    do not correspond to any actual particle, but are just for the exercise.)
-    \FPeval{height}{10}
-    \FPeval{minheight}{1.5}
-    \FPeval{speed}{0.9}
-    \lorentz{\gammas}{\speed}
-    \FPeval{taume}{(height - minheight)/(speed * sol)}
-    \FPeval{result}{(height - minheight)/(speed * sol * gammas)}
-    \FPround{\gammas}{\gammas}{5}
-    \FPround{\taume}{\taume}{7}
-    \FPround{\result}{\result}{7}
-    \begin{align*}
-      h &= \SI{10}{\kilo\meter}\
-        \qquad h_{min} = \SI{1500}{\meter}\
-        \qquad v = \SI{0.9}{\c}\\
-      \mdelta{h} &= h - h_{min} = \SI{8.5}{\kilo\meter}\\
-      \tau_{me} &= \frac{\mdelta{h}}{v} \approx \SI{\taume}{\second}\\
-      \tau_0 &= \frac{\tau_{me}}{\gamma(v)} = \frac{\mdelta{h}}{v \, \gamma(v)}\\
-        &\approx \frac{\SI{\height}{\kilo\meter} - \SI{\minheight}{\kilo\meter}}{\speed \times \SI{\sol}{\kilo\meter\per\second} \times \gammas}\
-        \approx \SI{\result}{\second}.
-    \end{align*}
+      Given this information, what is the lifetime [$\tau_0$] of the particle
+      (in seconds) in its own frame of reference (i.e., when it is at rest, not
+      in motion)?  (The lifetime is the amount of time it exists between being
+      created and decaying into other particles. Also note: The numbers given here
+      do not correspond to any actual particle, but are just for the exercise.)
+      \FPeval{height}{10}
+      \FPeval{minheight}{1.5}
+      \setsol{\solSI/1000}
+      \FPround{\sol}{\sol}{0}
+      \FPeval{speed}{0.9}
+      \lorentz{\gammas}{\speed * sol}
+      \FPeval{taume}{(height - minheight)/(speed * sol)}
+      \FPeval{result}{(height - minheight)/(speed * sol * gammas)}
+      \FPround{\gammas}{\gammas}{5}
+      \FPround{\taume}{\taume}{7}
+      \FPround{\result}{\result}{7}
+      \begin{align*}
+        h &= \SI{10}{\kilo\meter}\
+          \qquad h_{min} = \SI{1500}{\meter}\
+          \qquad v = \SI{0.9}{\c}\\
+        \mdelta{h} &= h - h_{min} = \SI{8.5}{\kilo\meter}\\
+        \tau_{me} &= \frac{\mdelta{h}}{v} \approx \SI{\taume}{\second} \cmark\\
+        \tau_0 &= \frac{\tau_{me}}{\gamma(v)} = \frac{\mdelta{h}}{v \, \gamma(v)}\\
+          &\approx \frac{\SI{\height}{\kilo\meter} - \SI{\minheight}{\kilo\meter}}{\speed \times \SI{\sol}{\kilo\meter\per\second} \times \gammas}\
+          \approx \SI{\result}{\second}. \cmark
+      \end{align*}
 
-  \section{Quiz: Leading clocks lag, revisited}
-    \begin{samepage}
+  \chapter{Week 5: Spacetime Switches}
+    \section{Quiz: Leading clocks lag, revisited}
       \begin{enumerate}
-    \end{samepage}
-    \end{samepage}
         \item
           Imagine that Bob, at a spaceport, observes Alice flying by to the right
           in her spaceship at a velocity of [$v = $]\SI{0.9}{\c}. When Alice’s ship
@@ -515,14 +533,13 @@ maxbibnames=3]{biblatex}
           [$x_{A3}\,=\,-$]50~meters, one at [$x_{A4}\,=\,-$]75~meters, and one at
           the rear at [$x_{A5}\,=\,-$]100~meters. All the clocks are synchronized in
           Alice’s frame of reference.  When Alice flies by Bob, Bob uses his
-          [$t_{B1} = t_{B2} = \dots = t_{B5}$]).
+          lattice of synchronized clocks to take simultaneous photos of Alice’s
           clocks (simultaneous in Bob’s frame of reference
           [$t_{B1} = t_{B2} = \cdots = t_{B5}$]).
 
           If the photos show that Alice’s front clock reads $t_{[A1]} [= t_{B1}] = 0$
-          \begin{enumerate}[a)]
-\item           that Alice's clock at [$x_{A5}\,=\,-$]100~meters has in the photos?
-          \end{enumerate}
+          at that instant, what equation below would give the time [$t_{A5}$]
+          that Alice's clock at [$x_{A5}\,=\,-$]100~meters has in the photos?
           \begin{enumerate}[(a)]
             \item $t = \frac{90}{\c}$
             \item $t = 90 \, \c^2$
@@ -541,18 +558,748 @@ maxbibnames=3]{biblatex}
             t_{B5} &= t_{B1} = t_{A1} = 0\\
             x_{B5} &= \frac{x_{A5}}{\gamma}\\
             t_{A5} &= \gamma \, \left(t_{B5} - \frac{v}{\gamma \, \c^2} x_{A5}\right)\\
-            t_{A5} &= \frac{\SI{90}{\meter}}{\c} \rightarrow~\text{a)}
+            &= \gamma \, \left(0 - \frac{v}{\gamma \, \c^2} \, x_{A5}\right)\\
             &= \cancel{\gamma} \, \left(-\frac{v}{\cancel{\gamma} \, \c^2} \, x_{A5}\right)\\
             t_{A5} &= -\frac{\SI{0.9}{\c}}{\c^2} \times (\SI{-100}{\meter})\\
             t_{A5} &= \frac{\SI{90}{\meter}}{\c} \rightarrow \text{(a) \cmark}
             \intertext{Or, in this case:}
-            t_{A5} &= \frac{\SI{90}{\meter}}{\c} \rightarrow~\text{a)}
+            t_{A5} &= \frac{L \, v}{\c^2}\\
             L &= \left|x_{A5} - x_{A0}\right|\\
             t_{A5} &= \frac{\SI{100}{\meter} \times \SI{0.9}{\c}}{\c^2}\\
-    \end{samepage}
             t_{A5} &= \frac{\SI{90}{\meter}}{\c} \rightarrow \text{(a) \cmark}
+          \end{align*}
+      \end{enumerate}
+
+    \section{Light emitted perpendicular to the direction of motion (forum question)}
+      \blockquote[Antonio Rubio Rodríguez]{I am confused with the emision of ligth in perpendicular direction to the velocity of the pod. The velocity observed by rest frame, will be c/gamma, according algebra, but it is not consistent with postulate.}
+
+      Question: Does this equation apply to light as well?
+      \begin{align*}
+        \vec{u_R} &= \left({(u_R)}_x, \, {(u_R)}_y, \, {(u_R)}_z\right)\\
+        {(u_R)}_x &= \frac{\mdelta{x_R}}{\mdelta{t_R}}, \qquad
+        {(u_R)}_y = \frac{\mdelta{y_R}}{\mdelta{t_R}}, \qquad
+        {(u_R)}_z = \frac{\mdelta{z_R}}{\mdelta{t_R}}\\
+        \\
+        {(u_L)}_y &= \frac{\mdelta{y_L}}{\mdelta{t_L}}\\
+          &= \frac{\mdelta{y_R}}{\mdelta{t_L}}\\
+          &= \frac{\mdelta{y_R}}{\gamma \, \mdelta{t_R} \, \left(1 + \frac{v}{\c^2} \, \mdelta{x_R}\right)}\\
+          &= \frac{\mdelta{y_R}}{\gamma \, \mdelta{t_R}}\\
+          &= \frac{{(u_R)}_y}{\gamma}\\
+        \vec{u_L}
+          &= \left({(u_L)}_x, \, {(u_L)}_y, \, {(u_L)}_z\right)\\
+          &= \left(\frac{{(u_R)}_x + v}{1 + \frac{v}{\c^2} \, {(u_R)}_x}, \, \frac{\c}{\gamma}, \, 0\right)\\
+        \left|\vec{u_L}\right|
+          &= \sqrt{{{(u_L)}_x}^2 + {{(u_L)}_y}^2 + {{(u_L)}_z}^2}\\
+          &= \sqrt{v^2 + {\left(\frac{\c}{\gamma}\right)}^2}\\
+        \left|\vec{u_L}\right|
+          &= \sqrt{v^2 + \frac{\c^2}{{\gamma}^2}}\\
+          &= \sqrt{v^2 + \frac{\c^2}{{\left(\frac{1}{\sqrt{1 - \frac{v^2}{\c^2}}}\right)}^2}}\\
+          &= \sqrt{v^2 + \frac{\c^2}{\left(\frac{1}{1 - \frac{v^2}{\c^2}}\right)}}\\
+          &= \sqrt{v^2 + \c^2 \, \left(1 - \frac{v^2}{\c^2}\right)}\\
+          &= \sqrt{v^2 + \c^2 - \c^2 \, \frac{v^2}{\c^2}}\\
+          &= \sqrt{v^2 + \c^2 - v^2}\\
+          &= \sqrt{\c^2}\\
+          &= \c
+          \intertext{In general:}
+          \vec{u_R} &= \left({(u_R)}_x, \, {(u_R)}_y, \, {(u_R)}_z \right)\\
+          \vec{u_L} &= \left({(u_L)}_x, \, {(u_L)}_y, \, {(u_L)}_z \right)\\
+            &= \left(\frac{\Delta{x}_L}{\Delta{t}_L}, \, \frac{\Delta{y}_L}{\Delta{t}_L}, \, \frac{\Delta{z}_L}{\Delta{t}_L} \right)\\
+            &= \left(\frac{{(u_R)}_x + v}{1 + \frac{v}{\c^2} {(u_R)}_x}, \,
+                 \frac{{(u_R)}_y}{\gamma \, \left(1 + \frac{v}{\c^2} \, {(u_R)}_x\right)}, \,
+                 \frac{{(u_R)}_z}{\gamma \, \left(1 + \frac{v}{\c^2} \, {(u_R)}_x\right)} \right)\\
+          \intertext{For a light beam parallel to the coordinate axes:}
+          \vec{u_R}_x &:= \left(\c, \, 0, \, 0 \right)\\
+          \vec{u_L}_x &= \left(\frac{\c + v}{1 + \frac{v}{c}}, \,
+            0, \,0 \right)\\
+          \left|\vec{u_L}_x\right|
+            &= \sqrt{{\left(\frac{\c + v}{1 + \frac{v}{c}}\right)}^2}
+             = \frac{\c + v}{1 + \frac{v}{c}}
+             = \frac{\c \, (1 + \frac{v}{\c})}{1 + \frac{v}{c}} = \c{}\\
+          \vec{u_R}_y &:= \left(0, \, \c, \, 0 \right)\\
+          \vec{u_L}_y &= \left(v, \,
+            \frac{\c}{\gamma}, \,0 \right)\\
+          \left|\vec{u_L}_y\right|
+            &= \sqrt{v^2 + {\left(\frac{\c}{\gamma}\right)}^2}
+             = \sqrt{v^2 + {\left(\frac{\c}{\frac{1}{\sqrt{1 -  \frac{v^2}{\c^2}}}}\right)}^2}
+             = \sqrt{v^2 + {\left(\c \, \sqrt{1 -  \frac{v^2}{\c^2}}\right)}^2}\\
+          &= \sqrt{v^2 + {\c}^2 \, \left(1 -  \frac{v^2}{\c^2}\right)}\\
+          &= \sqrt{v^2 + {\c}^2 - v^2}\\
+          &= \sqrt{{\c}^2}\\
+          &= \c{}\\
+        \vec{u_R}_z &:= \left(0, \, 0, \, \c \right)\\
+        \vec{u_L}_z &= \left(v, \,0, \,
+          \frac{\c}{\gamma} \right)\\
+        \left|\vec{u_L}_z\right| &= \c
+        \intertext{For a light beam in any direction,}
+        \left|\vec{u_R}\right| &= \sqrt{
+            {\left({\left(u_R\right)}_x\right)}^2
+          + {\left({\left(u_R\right)}_y\right)}^2
+          + {\left({\left(u_R\right)}_z\right)}^2
+        } = \c{}\\
+        \intertext{must hold.  That is:}
+        \left|\vec{u_L}\right|
+        &= \sqrt{
+            {\left(\frac{{(u_R)}_x + v}{1 + \frac{v}{\c^2} {(u_R)}_x}\right)}^2 +
+            {\left(\frac{{(u_R)}_y}{\gamma \, \left(1 + \frac{v}{\c^2} \, {(u_R)}_x\right)}\right)}^2 +
+            {\left(\frac{{(u_R)}_z}{\gamma \, \left(1 + \frac{v}{\c^2} \, {(u_R)}_x\right)}\right)}^2
+          }\\
+        &= \sqrt{
+              {\left({\left(u_R\right)}_x\right)}^2
+            + {\left({\left(u_R\right)}_y\right)}^2
+            + {\left({\left(u_R\right)}_z\right)}^2
+          }\\
+        {\left(u_R\right)}_x
+          &= \frac{{(u_R)}_x + v}{1 + \frac{v}{\c^2} {(u_R)}_x}\\
+        {\left(u_R\right)}_x &= {(u_R)}_x + v\\
+        1  &= 1 + \frac{v}{\c^2} {(u_R)}_x\\
+          \intertext{[TODO]}
+        {\left(u_R\right)}_y
+          &= \frac{{(u_R)}_y}{\gamma \, \left(1 + \frac{v}{\c^2} \, {(u_R)}_x\right)}\\
+          \intertext{[TODO]}
+        {\left(u_R\right)}_z
+          &= \frac{{(u_R)}_z}{\gamma \, \left(1 + \frac{v}{\c^2} \, {(u_R)}_x\right)}\\
+          \intertext{[TODO]}
+      \end{align*}
+
+    \section{Lorentz transformation}
+      \subsection{Problem 1: Simple calculations}
+        \setsol{1}
+        \lorentztrafo{\resultax}{\resultat}{0}{10}{0.1}
+        \lorentztrafo{\resultbx}{\resultbt}{0}{20}{0.1}
+        \lorentztrafo{\resultcx}{\resultct}{0}{10}{0.5}
+        \lorentztrafo{\resultdx}{\resultdt}{0}{20}{0.5}
+        \lorentztrafo{\resultex}{\resultet}{0}{10}{0.99}
+        \lorentztrafo{\resultfx}{\resultft}{0}{20}{0.99}
+        \lorentztrafo{\resultgx}{\resultgt}{100}{0}{0.5}
+        \lorentztrafo{\resulthx}{\resultht}{100}{10}{0.5}
+        \lorentztrafo{\resultix}{\resultit}{100}{20}{0.5}
+        \lorentztrafo{\resultjx}{\resultjt}{1000}{0}{0.5}
+        \lorentztrafo{\resultkx}{\resultkt}{1000}{10}{0.5}
+        \lorentztrafo{\resultlx}{\resultlt}{1000}{20}{0.5}
+        \lorentztrafo{\resultmx}{\resultmt}{100000}{0}{0.5}
+        \lorentztrafo{\resultnx}{\resultnt}{100000}{10}{0.5}
+        \lorentztrafo{\resultox}{\resultot}{100000}{20}{0.5}
+        \lorentztrafo{\resultpx}{\resultpt}{100}{0}{0.99}
+        \lorentztrafo{\resultqx}{\resultqt}{100}{10}{0.99}
+        \lorentztrafo{\resultrx}{\resultrt}{100}{20}{0.99}
+        \lorentztrafo{\resultsx}{\resultst}{1000}{0}{0.99}
+        \lorentztrafo{\resulttx}{\resulttt}{1000}{10}{0.99}
+        \lorentztrafo{\resultux}{\resultut}{1000}{20}{0.99}
+        \lorentztrafo{\resultvx}{\resultvt}{100000}{0}{0.99}
+        \lorentztrafo{\resultwx}{\resultwt}{100000}{10}{0.99}
+        \lorentztrafo{\resultxx}{\resultxt}{100000}{20}{0.99}
+        \begin{align*}
+          x_A &= \gamma \, \left(x_B + v \, t_B\right)\\
+          t_A &= \gamma \, \left(t_B + \frac{v}{\c^2} \, x_B\right)\\
+          \c &= 1
+          \intertext{(a) $v = \SI{0.1}{\c}$, $x_B = 0$, $t_B = 10$}
+          x_A
+            &= \gamma \, \left(x_B + v \, t_B\right)\\
+            &= \frac{1}{\sqrt{1 - \frac{v^2}{\c^2}}} \, \left(x_B + v \, t_B\right)\\
+            &= \frac{1}{\sqrt{1 - {(0.1)}^2}} \, \left(0 + 0.1 \times 10\right)\\
+            &= \frac{1}{\sqrt{1 - 0.01}}\\
+            &= \frac{1}{\sqrt{0.99}}\\
+            &\approx \resultax{} \cmark{}\\
+          t_A
+            &= \gamma \, \left(t_B + \frac{v}{\c^2} \, x_B\right)\\
+            &= \frac{1}{\sqrt{1 - \frac{v^2}{\c^2}}} \, \left(t_B + \frac{v}{\c^2} \, x_B\right)\\
+            &= \frac{1}{\sqrt{1 - v^2}} \, \left(t_B + v \, x_B\right)\\
+            &= \frac{1}{\sqrt{1 - {(0.1)}^2}} \, \left(10 + 0.1 \times 0\right)\\
+            &= \frac{1}{\sqrt{1 - 0.01}} \times 10\\
+            &= \frac{1}{\sqrt{0.99}} \times 10\\
+            &\approx \resultat{} \cmark
+          \intertext{(b) $v = \SI{0.1}{\c}$, $x_B = 0$, $t_B = 20$}
+          x_A &\approx \resultbx{} \cmark\\
+          t_A &\approx \resultbt{} \cmark
+          \intertext{(c) $v = \SI{0.5}{\c}$, $x_B = 0$, $t_B = 10$}
+          x_A &\approx \resultcx{} \cmark\\
+          t_A &\approx \resultct{} \cmark
+          \intertext{(d) $v = \SI{0.5}{\c}$, $x_B = 0$, $t_B = 20$}
+          x_A &\approx \resultdx{} \cmark\\
+          t_A &\approx \resultdt{} \cmark
+          \intertext{(e) $v = \SI{0.99}{\c}$, $x_B = 0$, $t_B = 10$}
+          x_A &\approx \resultex{} \cmark\\
+          t_A &\approx \resultet{} \cmark
+          \intertext{(f) $v = \SI{0.99}{\c}$, $x_B = 0$, $t_B = 20$}
+          x_A &\approx \resultfx{} \cmark\\
+          t_A &\approx \resultft{} \cmark
+          \intertext{(g) $v = \SI{0.5}{\c}$, $x_B = 100$, $t_B = 0$}
+          x_A &\approx \resultgx{} \cmark\\
+          t_A &\approx \resultgt{} \cmark
+          \intertext{(h) $v = \SI{0.5}{\c}$, $x_B = 100$, $t_B = 10$}
+          x_A &\approx \resulthx{} \cmark\\
+          t_A &\approx \resultht{} \cmark
+          \intertext{(i) $v = \SI{0.5}{\c}$, $x_B = 100$, $t_B = 20$}
+          x_A &\approx \resultix{} \cmark\\
+          t_A &\approx \resultit{} \cmark
+          \intertext{(j) $v = \SI{0.5}{\c}$, $x_B = 1000$, $t_B = 0$}
+          x_A &\approx \resultjx{} \cmark\\
+          t_A &\approx \resultjt{} \cmark
+          \intertext{(k) $v = \SI{0.5}{\c}$, $x_B = 1000$, $t_B = 10$}
+          x_A &\approx \resultkx{} \cmark\\
+          t_A &\approx \resultkt{} \cmark
+          \intertext{(l) $v = \SI{0.5}{\c}$, $x_B = 1000$, $t_B = 20$}
+          x_A &\approx \resultlx{} \cmark\\
+          t_A &\approx \resultlt{} \cmark
+          \intertext{(m) $v = \SI{0.5}{\c}$, $x_B = 100000$, $t_B = 0$}
+          x_A &\approx \resultmx{} \cmark\\
+          t_A &\approx \resultmt{} \cmark
+          \intertext{(n) $v = \SI{0.5}{\c}$, $x_B = 100000$, $t_B = 10$}
+          x_A &\approx \resultnx{} \cmark\\
+          t_A &\approx \resultnt{} \cmark
+          \intertext{(o) $v = \SI{0.5}{\c}$, $x_B = 100000$, $t_B = 20$}
+          x_A &\approx \resultox{} \cmark\\
+          t_A &\approx \resultot{} \cmark
+          \intertext{(p) $v = \SI{0.99}{\c}$, $x_B = 100$, $t_B = 0$}
+          x_A &\approx \resultpx{} \cmark\\
+          t_A &\approx \resultpt{} \cmark
+          \intertext{(q) $v = \SI{0.99}{\c}$, $x_B = 100$, $t_B = 10$}
+          x_A &\approx \resultqx{} \cmark\\
+          t_A &\approx \resultqt{} \cmark
+          \intertext{(r) $v = \SI{0.99}{\c}$, $x_B = 100$, $t_B = 20$}
+          x_A &\approx \resultrx{} \cmark\\
+          t_A &\approx \resultrt{} \cmark
+          \intertext{(s) $v = \SI{0.99}{\c}$, $x_B = 1000$, $t_B = 0$}
+          x_A &\approx \resultsx{} \cmark\\
+          t_A &\approx \resultst{} \cmark
+          \intertext{(t) $v = \SI{0.99}{\c}$, $x_B = 1000$, $t_B = 10$}
+          x_A &\approx \resulttx{} \cmark\\
+          t_A &\approx \resulttt{} \cmark
+          \intertext{(u) $v = \SI{0.99}{\c}$, $x_B = 1000$, $t_B = 20$}
+          x_A &\approx \resultux{} \cmark\\
+          t_A &\approx \resultut{} \cmark
+          \intertext{(v) $v = \SI{0.99}{\c}$, $x_B = 100000$, $t_B = 0$}
+          x_A &\approx \resultvx{} \cmark\\
+          t_A &\approx \resultvt{} \cmark
+          \intertext{(w) $v = \SI{0.99}{\c}$, $x_B = 100000$, $t_B = 10$}
+          x_A &\approx \resultwx{} \cmark\\
+          t_A &\approx \resultwt{} \cmark
+          \intertext{(x) $v = \SI{0.99}{\c}$, $x_B = 100000$, $t_B = 20$}
+          x_A &\approx \resultxx{} \cmark\\
+          t_A &\approx \resultxt{} \cmark
+        \end{align*}
+
+      \subsection{Problem 2: Star Tour to Gliese 581}
+        Lorena is traveling to Gliese 581, observed by Cynthia on Earth.
+        \begin{align*}
+          D &= \SI{20.3}{\lightyear}\\
+          v &= \SI{0.99}{\c}\\
+          t_{Lorena} &= t_{Cynthia} = 0
+        \end{align*}
+        \FPeval{length}{20.3}
+        \FPeval{speed}{0.99}
+        \lorentz{\gammav}{\speed}
+        \FPround{\gammav}{\gammav}{2}
+        \begin{enumerate}[(a)]
+          \item
+            \FPeval{resulta}{length/speed}
+            \FPround{\resulta}{\resulta}{2}
+            \begin{align*}
+              T_{Cynthia}
+                &= \frac{D}{v}
+                = \frac{\SI{\length}{\lightyear}}{\SI{\speed}{\c}}
+                \approx \SI{\resulta}{\year} \cmark
+            \end{align*}
+          \item
+            \FPeval{\resultb}{length/gammav}
+            \FPround{\resultb}{\resultb}{2}
+            \begin{align*}
+              D_{Lorena}
+                &= \frac{D}{\gamma(v)}
+                \approx \frac{\SI{\length}{\lightyear}}{\gammav}
+                \approx \SI{\resultb}{\lightyear} \cmark
+            \end{align*}
+          \item
+            \FPeval{resultc}{resultb/speed}
+            \FPround{\resultc}{\resultc}{2}
+            \begin{align*}
+              T_{Lorena}
+                &= \frac{D_{Lorena}}{v}
+                = \frac{\SI{\resultb}{\lightyear}}{\SI{\speed}{\c}}
+                \approx \SI{\resultc}{\year} \cmark
+            \end{align*}
+          \item
+            \begin{align*}
+              T_{Cynthia} &\approx \SI{\resulta}{\year} \text{ [same as (a)]} \cmark
+            \end{align*}
+          \item
+            \begin{align*}
+              {(T_{Lorena})}_{Cynthia} \approx \SI{\resultc}{\year} \text{ [same as (c)]} \cmark
+            \end{align*}
+          \item
+            \FPeval{resultf}{resultc/gammav}
+            \FPround{\resultf}{\resultf}{2}
+            \begin{align*}
+              {(T_{Cynthia})}_{Lorena}
+                &= \frac{T_{Lorena}}{\gamma(v)}
+                \approx \frac{\SI{\resultc}{\year}}{\gammav}
+                \approx \SI{\resultf}{\year} \cmark
+            \end{align*}
+          \item
+            \FPeval{resultg}{resulta - resultf}
+            \FPround{\resultg}{\resultg}{2}
+            \begin{align*}
+              {(\mdelta{t}_{Cynthia})}_{Lorena}
+                &= T_{Cynthia} - {(T_{Cynthia})}_{Lorena}
+                \approx \SI{\resulta}{\year} - \SI{\resultf}{\year}
+                \approx \SI{\resultg}{\year} \cmark
+            \end{align*}
+        \end{enumerate}
+
+      \subsection{Problem 3: Combining velocities}
+        \setsol{1}
+        \begin{enumerate}[(a)]
+          \item
+            \FPeval{speed}{0.2}
+            \FPeval{speeda}{0.1}
+            \combinespeeds{\resulta}{\speed}{\speeda}
+            \FPround{\resulta}{\resulta}{2}
+            \begin{align*}
+              u_L
+                &= \frac{u_R + v}{1 + \frac{v}{\c^2} \, u_R}
+                = \frac{\SI{\speeda}{\c} + \SI{\speed}{\c}}{1 + \frac{\SI{\speed}{\c}}{\c^2} \times \SI{\speeda}{\c}}
+                \approx \SI{\resulta}{\c} \cmark
+            \end{align*}
+          \item
+            \FPeval{speed}{0.5}
+            \FPeval{speeda}{0.3}
+            \combinespeeds{\resulta}{\speed}{\speeda}
+            \FPround{\resulta}{\resulta}{2}
+            \begin{align*}
+              u_L
+                &= \frac{u_R + v}{1 + \frac{v}{\c^2} \, u_R}
+                = \frac{\SI{\speeda}{\c} + \SI{\speed}{\c}}{1 + \frac{\SI{\speed}{\c}}{\c^2} \times \SI{\speeda}{\c}}
+                \approx \SI{\resulta}{\c} \cmark
+            \end{align*}
+          \item
+            \FPeval{speed}{0.8}
+            \FPeval{speeda}{0.7}
+            \combinespeeds{\resulta}{\speed}{\speeda}
+            \FPround{\resulta}{\resulta}{2}
+            \begin{align*}
+              u_L
+                &= \frac{u_R + v}{1 + \frac{v}{\c^2} \, u_R}
+                = \frac{\SI{\speeda}{\c} + \SI{\speed}{\c}}{1 + \frac{\SI{\speed}{\c}}{\c^2} \times \SI{\speeda}{\c}}
+                \approx \SI{\resulta}{\c} \cmark
+            \end{align*}
+          \item
+            \FPeval{speed}{0.9}
+            \FPeval{speeda}{0.9}
+            \combinespeeds{\resulta}{\speed}{\speeda}
+            \FPround{\resulta}{\resulta}{3}
+            \begin{align*}
+              u_L
+                &= \frac{u_R + v}{1 + \frac{v}{\c^2} \, u_R}
+                = \frac{\SI{\speeda}{\c} + \SI{\speed}{\c}}{1 + \frac{\SI{\speed}{\c}}{\c^2} \times \SI{\speeda}{\c}}
+                \approx \SI{\resulta}{\c} \cmark
+            \end{align*}
+          \item
+            \FPeval{speed}{0.999}
+            \FPeval{speeda}{0.999}
+            \combinespeeds{\resulta}{\speed}{\speeda}
+            \FPround{\resulta}{\resulta}{7}
+            \begin{align*}
+              u_L
+                &= \frac{u_R + v}{1 + \frac{v}{\c^2} \, u_R}
+                = \frac{\SI{\speeda}{\c} + \SI{\speed}{\c}}{1 + \frac{\SI{\speed}{\c}}{\c^2} \times \SI{\speeda}{\c}}
+                \approx \SI{\resulta}{\c}
+            \end{align*}
+        \end{enumerate}
+
+      \subsection{Problem 4: Practical application}
+        \setsol{1}
+        \FPeval{speed}{0.8}
+        \FPneg{\speed}{\speed}
+        \lorentztrafo{\resultax}{\resultat}{4}{5}{\speed}
+        \lorentztrafo{\resultbx}{\resultbt}{0}{4}{\speed}
+        \FPround{\resultat}{\resultat}{0}
+        \FPround{\resultbt}{\resultbt}{1}
+        \begin{align*}
+          v &= \SI{0.8}{\c}\\
+          D &= \SI{6}{\lightyear}\\
+          x_E &= \SI{4}{\lightyear}\\
+          t_E &= \SI{5}{\year}
+          \intertext{(a)}
+            t_B
+              &= \gamma \, \left(t_E - \frac{v}{\c^2} \, x_E\right)\\
+              &= \frac{1}{\sqrt{1 - \frac{v^2}{\c^2}}} \, \left(t_E - \frac{v}{\c^2} \, x_E\right)\\
+              &= \frac{1}{\sqrt{1 - {\left(0.8\right)}^2}} \, \left(\SI{5}{\year} - \SI{0.8}{\year\per\lightyear} \times \SI{4}{\lightyear}\right)\\
+              &= \frac{1}{\sqrt{1 - 0.64}} \, \left(\SI{5}{\year} - \SI{3.2}{\year}\right)\\
+              &= \frac{1}{\sqrt{0.36}} \times \SI{1.8}{\year}\\
+              &= \frac{1}{0.6} \times \SI{1.8}{\year}\\
+              &= \SI{\resultat}{\year} \cmark
+          \intertext{(b) $t_E = \SI{4}{\year}$, $x_E = 0$}
+            {(t_{Alice~start})}_B
+              &= \gamma \, \left(t_E - \frac{v}{\c^2} \, x_E\right)
+              \approx \SI{\resultbt}{\year} \cmark
+        \end{align*}
+        (c) Alice appears to come from Bob's future
+
+  \chapter{Week 6: Breaking the Spacetime Limit?}
+    \section{Problem 1: Combining spacetime diagrams}
+      Bob moves at $v = \SI{0.4}{\c}$ to the right, observed by Alice.
+      \setsol{1}
+      \FPeval{speed}{0.4}
+      \lorentz{\gammav}{\speed}
+      \FPround{\gammav}{\gammav}{2}
+      \FPeval{resulta}{1/speed}
+      \FPround{\resulta}{\resulta}{1}
+      \begin{enumerate}[(a)]
+        \item Bob's $t_B$ axis ($x_B = 0$) in Alice's diagram:
+          \begin{align*}
+            \Aboxed{x_A &= \gamma \, \left(x_B + v \, t_B\right)}\\
+            \frac{x_A}{\gamma} &= x_B + v \, t_B\\
+            \frac{x_A}{\gamma} - x_B &= v \, t_B\\
+            t_B &= \frac{x_A}{\gamma \, v} - \frac{x_B}{v}\\
+            \Aboxed{t_A &= \gamma \, \left(t_B + \frac{v}{\c^2} \, x_B\right)}\\
+              &= \gamma \, \left(\left(\frac{x_A}{\gamma \, v} - \frac{x_B}{v}\right) + \frac{v}{\c^2} \, x_B\right)\\
+              &= \cancel{\gamma} \, \frac{1}{\cancel{\gamma} \, v} \, x_A - \gamma \, \frac{1}{v} \, x_B + \gamma \, \frac{v}{\c^2} \, x_B\\
+              &= \frac{1}{\, v} \, x_A - \gamma \, \left(\frac{1}{v} \, x_B - \frac{v}{\c^2} \, x_B\right)\\
+              &= \frac{1}{\, v} \, x_A - \gamma \, \left(\frac{1}{v} - \frac{v}{\c^2}\right) \, x_B\\
+            \Aboxed{t_A &= \frac{1}{v} \, x_A - \gamma(v) \, \left(\frac{1}{v} - \frac{v}{\c^2}\right) \, x_B}\\
+            t_A(x_B = 0) &= \frac{1}{v} \, x_A\\
+            t_A(x_B = 0, \, v = \SI{\speed}{\c}, \, \c = 1) &= \frac{1}{\speed} \, x_A = \resulta \, x_A \cmark
+          \end{align*}
+          Easier:
+          \begin{align*}
+            x_B &= \gamma \, \left(x_A - v \, t_A\right)\\
+              0 &= \gamma \, \left(x_A - 0.4 \times t_A\right)\\
+            0.4 \, t_A &= x_A\\
+            t_A &= \frac{x_A}{0.4}
+          \end{align*}
+        \item Bob's line of same location for $x_B = 3$ on Alice's diagram:
+          \FPeval{xB}{3}
+          \FPeval{resultb}{gammav * (1/speed - speed) * xB}
+          \FPround{\resultb}{\resultb}{3}
+          \begin{align*}
+            \Aboxed{t_A &= \frac{1}{v} \, x_A - \gamma(v) \, \left(\frac{1}{v} - \frac{v}{\c^2}\right) \, x_B}\\
+            t_A(x_B = \xB, \, v = \SI{\speed}{\c}, \, \c = 1)
+              &\approx \frac{1}{\speed} \, x_A - \gammav \times \left(\frac{1}{\speed} - \speed\right) \times \xB{}\\
+              &\approx \resulta \, x_A - \resultb \cmark
+          \end{align*}
+          Easier:
+          \begin{align*}
+            x_B &= \gamma \, \left(x_A - v \, t_A\right)\\
+              3 &= \gamma \, \left(x_A - 0.4 \, t_A\right)\\
+              0.4 \, t_A &= x_A -\frac{3}{\gamma}\\
+              t_A &= \frac{x_A}{0.4} - \frac{3}{0.4 \, \gamma}\\
+                &\approx \frac{x_A}{0.4} - 6.8738635
+          \end{align*}
+        \item Bob's $x_B$ axis [$t_B = 0$] on Alice's diagram:
+          \begin{align*}
+            \Aboxed{x_A &= \gamma \, \left(x_B + v \, t_B\right)}\\
+            x_B &= \frac{x_A}{\gamma} - v \, t_B\\
+            \Aboxed{t_A &= \gamma \, \left(t_B + \frac{v}{\c^2} \, x_B\right)}\\
+              &= \gamma \, \left(t_B + \frac{v}{\c^2} \, \left(\frac{x_A}{\gamma} - v \, t_B\right)\right)\\
+              &= \gamma \, t_B + \cancel{\gamma} \, \frac{v}{\cancel{\gamma} \, \c^2} \, x_A - \gamma \, \frac{v}{\c^2} v \, t_B\\
+            \Aboxed{t_A &= \frac{v}{\c^2} \, x_A + \gamma \, \left(1 - \frac{v^2}{\c^2}\right) \, t_B}\\
+            t_A(t_B = 0) &= \frac{v}{\c^2} \, x_A\\
+            t_A(t_B = 0, \, v = \SI{\speed}{\c}, \, \c = 1) &= \speed \, x_A \cmark
+          \end{align*}
+          Easier:
+          \begin{align*}
+            t_B &= \gamma \, \left(t_A - \frac{v}{\c^2} \, x_A\right)\\
+              0 &= \gamma \, \left(t_A - 0.4 \, x_A\right)\\
+              0 &= t_A - 0.4 \, x_A\\
+              t_A &= 0.4 \, x_A
+          \end{align*}
+        \item Bob's line of simultaneity for $t_B = 3$ on Alice's diagram:
+          \FPeval{tB}{3}
+          \FPeval{resultd}{gammav * (1 - speed^2) * tB}
+          \FPround{\resultd}{\resultd}{3}
+          \begin{align*}
+            t_A(t_B = \tB, \, v = \SI{\speed}{\c}, \, \c = 1)
+              &= \frac{v}{\c^2} \, x_A + \gamma \, \left(1 - \frac{v^2}{\c^2}\right) \, t_B\\
+              &\approx \speed \, x_A + \gammav \, \left(1 - {(\speed)}^2\right) \times \tB{}\\
+              &\approx \speed \, x_A + \resultd{} \cmark\\
+          \end{align*}
+          Easier:
+          \begin{align*}
+            t_B &= \gamma \, \left(t_A - \frac{v}{\c^2} \, x_A\right)\\
+            3 &= \gamma \, \left(t_A - 0.4 \, x_A\right)\\
+            t_A &= 0.4 \, x_A + \frac{3}{\gamma}
+          \end{align*}
+      \end{enumerate}
+
+    \section{Problem 2: Regions of spacetime}
+      \begin{enumerate}[(a)]
+        \setsol{1}
+        \FPeval{xa}{6}
+        \FPeval{ta}{3}
+        \FPeval{xb}{4}
+        \FPeval{tb}{6}
+        \item $x_1 = \xa$, $t_1 = \ta$ and $x_2 = \xb$, $t_2 = \tb$.
+          \spacetimeintv{\result}{\xa}{\ta}{\xb}{\tb}
+          \FPround{\result}{\result}{0}
+          \begin{align*}
+            \c^2 \, {(\mdelta{t})}^2 - {(\mdelta{x})}^2
+              &= \c^2 \, {(t_2 - t_1)}^2 - {(x_2 - x_1)}^2\\
+              &= {(t_2 - t_1)}^2 - {(x_2 - x_1)}^2 \qquad \c = \sol{}\\
+              &= {(\tb - \ta)}^2 - {(\xb - \xa)}^2\\
+              &= 3^2 - {(-2)}^2\\
+              &= 9 - 4\\
+              &= \result > 0 \rightarrow \text{timelike interval} \cmark
+          \end{align*}
+
+        \FPneg{\xa}{1}
+        \FPround{\xa}{\xa}{0}
+        \FPeval{ta}{3}
+        \FPeval{xb}{4}
+        \FPneg{\tb}{1}
+        \FPround{\tb}{\tb}{0}
+        \item $x_1 = \xa$, $t_1 = \ta$ and $x_2 = \xb$, $t_2 = \tb$.
+          \spacetimeintv{\result}{\xa}{\ta}{\xb}{\tb}
+          \FPround{\result}{\result}{0}
+          \begin{align*}
+            \c^2 \, {(\mdelta{t})}^2 - {(\mdelta{x})}^2
+              &= \c^2 \, {(t_2 - t_1)}^2 - {(x_2 - x_1)}^2\\
+              &= {(t_2 - t_1)}^2 - {(x_2 - x_1)}^2 \qquad \c = \sol{}\\
+              &= {(\tb - \ta)}^2 - {(\xb - \xa)}^2\\
+              &= \result < 0 \rightarrow\text{spacelike interval} \cmark
+          \end{align*}
+
+        \FPeval{xa}{7}
+        \FPeval{ta}{3}
+        \FPeval{xb}{4}
+        \FPeval{tb}{0}
+        \item $x_1 = \xa$, $t_1 = \ta$ and $x_2 = \xb$, $t_2 = \tb$.
+          \spacetimeintv{\result}{\xa}{\ta}{\xb}{\tb}
+          \FPround{\result}{\result}{0}
+          \begin{align*}
+            \c^2 \, {(\mdelta{t})}^2 - {(\mdelta{x})}^2
+              &= \c^2 \, {(t_2 - t_1)}^2 - {(x_2 - x_1)}^2\\
+              &= {(t_2 - t_1)}^2 - {(x_2 - x_1)}^2 \qquad \c = \sol{}\\
+              &= {(\tb - \ta)}^2 - {(\xb - \xa)}^2\\
+              &= \result \rightarrow \text{lightlike interval} \cmark
+          \end{align*}
+
+        \FPneg{\xa}{2}
+        \FPround{\xa}{\xa}{0}
+        \FPneg{\ta}{3}
+        \FPround{\ta}{\ta}{0}
+        \FPeval{\xb}{3}
+        \FPneg{\tb}{2}
+        \FPround{\tb}{\tb}{0}
+        \item $x_1 = \xa$, $t_1 = \ta$ and $x_2 = \xb$, $t_2 = \tb$.
+          \begin{samepage}
+            \spacetimeintv{\result}{\xa}{\ta}{\xb}{\tb}
+            \FPround{\result}{\result}{0}
+            \begin{align*}
+              \c^2 \, {(\mdelta{t})}^2 - {(\mdelta{x})}^2
+                &= \c^2 \, {(t_2 - t_1)}^2 - {(x_2 - x_1)}^2\\
+                &= {(t_2 - t_1)}^2 - {(x_2 - x_1)}^2 \qquad \c = \sol{}\\
+                &= {\left(\tb - \left(\ta\right)\right)}^2 - {\left(\xb - \left(\xa\right)\right)}^2\\
+                &= \result < 0 \rightarrow \text{spacelike interval} \cmark
+            \end{align*}
+          \end{samepage}
+
+        \FPeval{xa}{1}
+        \FPeval{ta}{3}
+        \FPeval{xb}{3}
+        \FPneg{\tb}{3}
+        \FPround{\tb}{\tb}{0}
+        \item $x_1 = \xa$, $t_1 = \ta$ and $x_2 = \xb$, $t_2 = \tb$.
+          \begin{samepage}
+            \spacetimeintv{\result}{\xa}{\ta}{\xb}{\tb}
+            \FPround{\result}{\result}{0}
+            \begin{align*}
+              \c^2 \, {(\mdelta{t})}^2 - {(\mdelta{x})}^2
+                &= \c^2 \, {(t_2 - t_1)}^2 - {(x_2 - x_1)}^2\\
+                &= {(t_2 - t_1)}^2 - {(x_2 - x_1)}^2 \qquad \c = \sol{}\\
+                &= {\left(\tb - \ta\right)}^2 - {\left(\xb - \xa\right)}^2\\
+                &= \result > 0 \rightarrow \text{timelike interval} \cmark
+            \end{align*}
+          \end{samepage}
+
+        \FPeval{xa}{2}
+        \FPeval{ta}{5}
+        \FPeval{xb}{5}
+        \FPeval{tb}{8}
+        \item $x_1 = \xa$, $t_1 = \ta$ and $x_2 = \xb$, $t_2 = \tb$.
+          \begin{samepage}
+            \spacetimeintv{\result}{\xa}{\ta}{\xb}{\tb}
+            \FPround{\result}{\result}{0}
+            \begin{align*}
+              \c^2 \, {(\mdelta{t})}^2 - {(\mdelta{x})}^2
+                &= \c^2 \, {(t_2 - t_1)}^2 - {(x_2 - x_1)}^2\\
+                &= {(t_2 - t_1)}^2 - {(x_2 - x_1)}^2 \qquad \c = \sol{}\\
+                &= {\left(\tb - \ta\right)}^2 - {\left(\xb - \xa\right)}^2\\
+                &= \result \rightarrow \text{lightlike interval} \cmark
+            \end{align*}
+          \end{samepage}
+      \end{enumerate}
+
+    \clearpage
+    \section{Problem 3: Cause and effect, or vice-versa?}
+      The good guys travel away from the bad guys’ planet at \SI{0.8}{\c},
+      and it takes the bad guys 5~years to invent and launch a faster-than-light
+      ship that could travel at \SI{4}{\c} to catch and attack the good guys.
+      \setsol{1}
+      \FPeval{goodspeed}{0.8}
+      \lorentz{\gammav}{\goodspeed}
+      \FPround{\gammav}{\gammav}{2}
+      \begin{enumerate}
+        \item
+          In terms of the frame of reference of the bad guys’ planet, when would
+          the bad guys catch up to the good guys (assuming that $t_{[B]} = 0$ is
+          when the good guys left the planet)?  Tip: Note that the expression for
+          the length covered by the bad guys is $(t_{[B]} - 5)(4\,\c)$, where
+          $t_{[B]}$ is greater than 5 (i.e., after the launch of the bad guys’
+          super ship at $t_{[B]} = 5$ years). Set this expression equal to
+          the expression for the length covered by the good guys in a given time
+          $t_{[B]}$, and then solve for $t_{[B]}$.
+          \FPeval{badspeed}{4}
+          \FPeval{x}{badspeed - goodspeed}
+          \FPround{\x}{\x}{1}
+          \FPeval{badwait}{5}
+          \FPeval{y}{badwait * badspeed}
+          \FPround{\y}{\y}{0}
+          \FPeval{resulta}{y/x}
+          \FPround{\resulta}{\resulta}{2}
+          \begin{align*}
+            (t_B - \badwait) \times \SI{\badspeed}{\c} &= \SI{\goodspeed}{\c} \times t_B\\
+            \badspeed \, t_B - \y &= \goodspeed \, t_B \qquad \c = 1\\
+            \x \, t_B &= \y{}\\
+            t_B &= \resulta{} \cmark\\
+          \end{align*}
+
+        \item
+          \begin{samepage}
+            According to the good guys’ clocks (in their frame of reference),
+            when do the bad guys catch up to them?
+            \FPeval{badtravel}{resulta - badwait}
+            \FPround{\badtravel}{\badtravel}{2}
+            \FPeval{xB}{badspeed * badtravel}
+            \FPround{\xB}{\xB}{0}
+            \FPeval{resultb}{(resulta - goodspeed * xB)/(gammav * (1 + goodspeed^2))}
+            \FPround{\resultb}{\resultb}{3}
+            \begin{align*}
+              x_B &= \gamma \, \left(x_G + v \, t_G\right)\\
+              x_G &= \frac{x_B}{\gamma} - v \, t_G\\
+              t_B &= \gamma \, \left(t_G + \frac{v}{\c^2} \, x_G\right)\\
+              t_G
+                &= \frac{t_B}{\gamma} - \frac{v}{\c^2} \, x_G\\
+                &= \frac{t_B}{\gamma} - \frac{v}{\c^2} \, \left(\frac{x_B}{\gamma} - v \, t_G\right)\\
+              t_G &= \frac{t_B}{\gamma} - \frac{v \, x_B}{\gamma \, \c^2} - \frac{v^2}{\c^2} \, t_G\\
+              \left(1 + \frac{v^2}{\c^2}\right) \, t_G &= \frac{1}{\gamma} \left(t_B - \frac{v}{\c^2} \, x_B\right)\\
+              t_G &= \frac{t_B - \frac{v}{\c^2} \, x_B}{\gamma \left(1 + \frac{v^2}{\c^2}\right)}\\
+              t_G(t_B = \resulta, \, x_B = \SI{\badspeed}{\c} \times \badtravel, \, v = \SI{\goodspeed}{\c}, \, \c = 1)
+                &= \frac{\resulta - \goodspeed \times \xB}{\gammav \times \left(1 + {(\goodspeed)}^2\right)}
+                = \resultb{} \qquad \text{\strong{wrong}}\\
+            \end{align*}
+            \emph{Reason: Wrong sign on multiplication (see Problem 1a)}
+
+            \emph{Correct approach (see lecture notes):}
+
+            \begin{enumerate}[1.]
+              \item Obtain ${(t_{attack})}_B$.
+              \item Obtain ${(x_{attack})}_B$ from ${(t_{attack})}_B$ and $v$.
+              \item From direct Lorentz transformation (note: inverted direction),
+                obtain ${(t_{attack})}_G$.
+            \end{enumerate}
+
+            \emph{Second attempt (using lecture notes only):}
+
+            \FPeval{xB}{resulta * goodspeed}
+            \FPround{\xB}{\xB}{0}
+            \FPeval{resultb}{gammav * (resulta - goodspeed * \xB)}
+            \FPround{\resultb}{\resultb}{4}
+            \begin{align*}
+              {(t_{attack})}_B &= 6.25 \qquad \text{from (a)}\\
+              {(x_{attack})}_B &= {(t_{attack})}_B \times v = \resulta \times \goodspeed = \xB{}\\
+              {(t_{attack})}_G
+                &= \gamma \, \left({(t_{attack})}_B - \frac{v}{\c^2} \, {(x_{attack})}_B\right)\\
+                &= \gammav \times \left(\resulta - \goodspeed \times \xB\right)\\
+                &= \resultb \cmark
+            \end{align*}
+          \end{samepage}
+          \emph{Could also have been solved using time dilation or
+            length contraction directly (problem set solutions).}
+
+        \item
+          According to the good guys’ clocks (in their frame of reference),
+          when do the bad guys launch their super ship and set off after them?
+          \FPeval{xB}{0}
+          \FPeval{resultc}{gammav * (5 - goodspeed * \xB)}
+          \FPround{\resultc}{\resultc}{2}
+          \begin{align*}
+            {(t_{launch})}_B &= 5 \qquad \text{from (a)}\\
+            {(x_{launch})}_B &= {(t_{launch})}_B \times v = \resulta \times \goodspeed = \xB{}\\
+            {(t_{launch})}_G
+              &= \gamma \, \left({(t_{launch})}_B - \frac{v}{\c^2} \, {(x_{launch})}_B\right)\\
+              &= \gammav \times \left(5 - \goodspeed \times \xB\right)\\
+              &= \resultc \cmark
+          \end{align*}
+      \end{enumerate}
+
+    \section{Challenge Problem: Faster than light?}
+
+
+    \section{Newsgroup question: Do approaching clocks go faster?}
+      \begin{spacetimediagram}[Test]
         \plotlight{}
-      }
+      \end{spacetimediagram}
+
+  \chapter{Week 7: Paradoxes to Ponder}
+    \section{Problem 1: distance contraction}
+      Star Fleet regulations: Maintain distance of at least $[D_H =]$ \SI{20}{\kilo\meter} at all times
+      as measured by an observer at Star Fleet Headquarters.
+      \begin{enumerate}[(a)]
+        \setsol{1}
+        \FPeval{distancespaceship}{25}
+        \FPeval{distancehq}{20}
+        \FPeval{gammav}{distancespaceship/distancehq}
+        \lorentztospeedr[1]{\resulta}{gammav}
+
+        \item Maximum allowed speed for distance $D_S = \SI{25}{\kilo\meter}$
+          in spaceships' rest frame:
+          \FPevalr[1]{\gammareci}{1/gammav}
+          \FPevalr[2]{\gammarecisquared}{gammareci^2}
+          \FPevalr[2]{\radicand}{1 - gammarecisquared}
+          \begin{align*}
+            v &= \c \, \sqrt{1 - \frac{1}{\gamma^2}} \qquad \text{(see~\ref{sec:lorentztospeed})}\\
+              &= \c \, \sqrt{1 - \frac{1}{{\left(\frac{D_S}{D_H}\right)}^2}}\\
+              &= \c \, \sqrt{1 - \frac{1}{\frac{{\left(D_S\right)}^2}{{\left(D_H\right)}^2}}}\\
+              &= \c \, \sqrt{1 - \frac{{\left(D_H\right)}^2}{{\left(D_S\right)}^2}}\\
+              &= \c \, \sqrt{1 - {\left(\frac{D_H}{D_S}\right)}^2}\\
+              &= \c \, \sqrt{1 - {\left(\frac{\SI{\distancehq}{\kilo\meter}}{\SI{\distancespaceship}{\kilo\meter}}\right)}^2}\\
+              &= \c \, \sqrt{1 - {\left(\gammareci\right)}^2}\\
+              &= \c \, \sqrt{1 - \gammarecisquared}\\
+              &= \c \, \sqrt{\radicand}\\
+              &= \SI{\resulta}{\c}
+          \end{align*}
+
+        \item Time difference between the clocks at the ends of the distance test:
+          \FPevalr[2]{\speed}{1.05 * resulta}
+          \lorentzr{\gammav}{\speed}
+          \setsol{solSI / 1000}
+          \FPround{\sol}{\sol}{3}
+          \FPevalr[3]{\resultb}{(distancespaceship * speed)/(gammav * sol) * 10^6}
+          \begin{align*}
+            {(\mdelta{t})}_{S} &= \frac{D_H \, v}{\c^2}\\
+            v &= 1.05 \times \resulta = \SI{\speed}{\c}\\
+            D_S &= \SI{\distancespaceship}{\kilo\meter}\\
+            D_H &= \frac{D_S}{\gamma(v)}\\
+            {(\mdelta{t})}_{S}
+              &= \frac{D_S \, v}{\gamma(v) \, \c^2}\\
+              &= \frac{\SI{\distancespaceship}{\kilo\meter} \times \SI{\speed}{\c}}{\gamma(v) \, \c^2}\\
+              &\approx \frac{\SI{\distancespaceship}{\kilo\meter} \times \speed}{\SI{\gammav}{\c}}\\
+              &= \frac{\SI{\distancespaceship}{\kilo\meter} \times \speed}{\gammav \times \SI{\sol}{\kilo\meter\per\second}}\\
+              &\approx \SI{\resultb}{\micro\second}
+          \end{align*}
+
+        \item Distance of the rear spaceship from the near (left) end of the
+          distance test when the observer takes the photograph of the lead spaceship,
+          according to the pilots' frame of reference:
+          \begin{align*}
+            {(\mdelta{x})}_{H} &= v \, {(\mdelta{t})}_S\\
+            {(\mdelta{x})}_{S} &= \frac{{(\mdelta{x})}_H}{\gamma(v)}\\
+              &= \frac{v \, {(\mdelta{t})}_S}{\gamma(v)}\\
+              &= \frac{\SI{0.63}{\c} \times \SI{\resultb}{\micro\second}}{\gammav}\\
+          \end{align*}
+      \end{enumerate}
+
+
 
   % % References
   % \begingroup

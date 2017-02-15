@@ -727,7 +727,7 @@
           the direction of the river flow to cross in a straight line ($v_P$ is
           diagonal to the flow $v_W$).
           \begin{align*}
-            \vec{v}_{actual} &= \vec{v}_P + \vec{v}_W\\
+            % \vec{v}_{actual} &= \vec{v}_P + \vec{v}_W\\
             \vec{v}_{actual} &\perp \vec{v}_W\\
             {v_P}^2 &= {v_W}^2 + {v_{actual}}^2 \qquad \text{Pythagorean theorem}\\
             {v_{actual}}^2 &= {v_P}^2 - {v_W}^2\\
@@ -2086,7 +2086,7 @@
       \subsection{Part 3}
         \paragraph{Bob’s analysis}
           \begin{align*}
-            Alice travels
+            \intertext{Alice travels}
             \frac{\SI{3}{\lightyear}}{\SI{0.6}{\c}} &= \SI{5}{\year}
             \intertext{to the star, while he observes Alice's clock to tick}
             \frac{1}{\gamma} \times \SI{5}{\year} &= \SI{4}{\year}.
@@ -2124,24 +2124,20 @@
         \paragraph{Comment on asymmetrical role of acceleration}
         \paragraph{Using the Lorentz transformation to get the same results}
           \subparagraph{A. Calculating Alice’s results using Bob’s value}
-            Outbound: $(x_L = 3, \, t_L = 5)$
             \begin{align*}
+              \intertext{Outbound: $(x_L = 3, \, t_L = 5)$}
               x_R &= \gamma \, \left(x_L - v \, t_L\right) = 0\\
               t_R &= \gamma \, \left(t_L - \frac{v}{\c^2} \, x_L\right) = 4
-            \end{align*}
-            Inbound: $(x_L = -3, \, t_L = 5)$ (negative, because origin has moved)
-            \begin{align*}
+              \intertext{Inbound: $(x_L = -3, \, t_L = 5)$ (negative, because origin has moved)}
               x_R &= \gamma \, \left(x_L + v \, t_L\right) = 0\\
               t_R &= \gamma \, \left(t_L + \frac{v}{\c^2} \, x_L\right) = 4
             \end{align*}
           \subparagraph{B. Calculating Bob’s results using Alice’s value}
-            Outbound: $(x_R = 0, \, t_R = 4)$
             \begin{align*}
+              \intertext{Outbound: $(x_R = 0, \, t_R = 4)$}
               x_L &= \gamma \, \left(x_R + v \, t_R\right) = 3\\
               t_L &= \gamma \, \left(t_R + \frac{v}{\c^2} \, x_R\right) = 5
-            \end{align*}
-            Inbound $(x_R = 0, \, t_R = 4)$
-            \begin{align*}
+              \intertext{Inbound: $(x_R = 0, \, t_R = 4)$}
               x_L &= \gamma \, \left(x_R - v \, t_R\right) = -3\\
               t_L &= \gamma \, \left(t_R - \frac{v}{\c^2} \, x_R\right) = 5
             \end{align*}
@@ -2150,9 +2146,7 @@
             \begin{align*}
               \c^2 \, {(\mdelta{t_L})}^2 - {(\mdelta{x_L})}^2
                 &= \c^2 \, {(\mdelta{t_R})}^2 - {(\mdelta{x_R})}^2
-            \end{align*}
-            Outbound
-            \begin{align*}
+              \intertext{Outbound:}
               \mdelta{x_L} &= 3\\
               \mdelta{t_L} &= 5\\
               \mdelta{x_R} &= 0\\
@@ -2160,9 +2154,7 @@
               \cancel{\c^2} \, {(\mdelta{t_L})}^2 - {(\mdelta{x_L})}^2
                 &= \cancel{\c^2} \, {(\mdelta{t_R})}^2 - \cancel{{(\mdelta{x_R})}^2}\\
                 &= 4
-            \end{align*}
-            Inbound
-            \begin{align*}
+              \intertext{Inbound:}
               \mdelta{x_L} &= -3\\
               \mdelta{t_L} &= 5\\
               \mdelta{x_R} &= 0\\
