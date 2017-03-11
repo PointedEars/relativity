@@ -137,11 +137,22 @@
   }
 }
 
-% Light-like worldlines in style #1 (optional);
+% Light-like worldline(s) in style #2 (optional),
+% origin shifted in the x-direction by #3 (default: 0),
+% and in the t-direction by #4 (default: 0);
+% - with star parameter (#1 = *):
+%   * draws worldlines for both c and -c
+% - without star parameter:
+%   * draws only the worldline for the speed sgn(#5) (default: 1)
 % use the PGFplots "domain" option to limit x-range
-\newcommand{\lightlike}[1][]{
-  \worldline*[#1]{-1};
-  \worldline*[#1]{1};
+\DeclareDocumentCommand{\lightlike}{s O{} O{0} O{0} O{1}}{
+  \IfBooleanTF #1 {
+    \worldline*[#2][#3][#4]{-1};
+    \worldline*[#2][#3][#4]{1};
+  } {
+    \FPsgn{\speedsgn}{#5}
+    \worldline*[#2][#3][#4]{\speedsgn};
+  }
 }
 
 % Timelike worldline in style #1 (optional) parallel to the time axis
