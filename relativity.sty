@@ -1,7 +1,7 @@
 %% Relativistic calculations
 
 \NeedsTeXFormat{LaTeX2e}[2014/05/01]
-\ProvidesPackage{relativity}[2017/03/04 by Thomas 'PointedEars' Lahn (c) 2017 Relativistic calculations and plots for LaTeX]
+\ProvidesPackage{relativity}[2017/03/10 by Thomas 'PointedEars' Lahn (c) 2017 Relativistic calculations and plots for LaTeX]
 
 \RequirePackage{fp}
 \RequirePackage{pgfplots}
@@ -107,12 +107,18 @@
 % Plots
 \pgfplotsset{compat=1.5}
 
-\newenvironment{spacetimediagram}[1]
+\newcommand{\spacetimediagramdefaults}{
+  axis x line=middle,
+  axis y line=middle,
+  xlabel={$x$},
+  ylabel={$t$}
+}
+
+\newenvironment{spacetimediagram}[1][]
 {
   \begin{tikzpicture}
     \begin{axis}[
-      axis x line=middle,
-      axis y line=middle,
+      \spacetimediagramdefaults,
       #1
     ]
 }
