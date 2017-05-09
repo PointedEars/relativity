@@ -73,35 +73,35 @@ Equivalent to `\setsol{\solSI}`. Invoked initially.
 ### `\lorentz{\command}{speed}`
 Define *`\command`* as the **Lorentz factor** for *`speed`* (see `\setsol`).
 
-## `\lorentzr[digits=4]{\command}{speed}`
+### `\lorentzr[digits=4]{\command}{speed}`
 Define *`\command`* as the **Lorentz factor** for *`speed`* (see `\setsol`),
 rounded to *`digits`* (default: 4).
 
-## `\lorentztospeed{\command}{factor}`
+### `\lorentztospeed{\command}{factor}`
 Define *`\command`* as the **relative speed** for the Lorentz factor *`factor`* (`\setsol{1}` for a result in factors of c).
 
-## `\lorentztospeedr[digits=0]{\command}{factor}`
+### `\lorentztospeedr[digits=0]{\command}{factor}`
 Define *`\command`* as the **relative speed** for a Lorentz factor *`factor`*
 (`\setsol{1}` for a result in factors of c), rounded to *`digits`* (default: 0).
 
-## `\lencon{\command}{length}{speed}`
+### `\lencon{\command}{length}{speed}`
 **Length contraction**: Define *`\command`* as the observed contracted length of *`length`* for the relative speed *`speed`*.
 
-## `\timedil{\command}{time}{speed}`
+### `\timedil{\command}{time}{speed}`
 **Time dilation**: Define *`\command`* as the observed dilated time of `time` for the relative speed `speed`.
 
-## `\lorentztrafo{\newspace}{\newtime}{oldspace}{oldtime}{speed}`
+### `\lorentztrafo{\newspace}{\newtime}{oldspace}{oldtime}{speed}`
 Define *`\newspace`* as the space coordinate and *`\newtime`*
 as the time coordinate after **Lorentz transformation**
 of space coordinate *`oldspace`* and time coordinate *`oldtime`*
 for a relative speed *`speed`* (see [`\setsol`](#setsol-value--)).
 
-## `\combinespeeds{\command}{speed1}{speed2}`
+### `\combinespeeds{\command}{speed1}{speed2}`
 **Relativistic velocity "addition"**: Define *`\command`* as the combined
 speed in multiples of the speed of light, according to Lorentz transformation,
 of the speeds *`speed1`* and *`speed2`*.
 
-## `\spacetimeintv{\command}{x₁}{t₁}{x₂}{t₂}`
+### `\spacetimeintv{\command}{x₁}{t₁}{x₂}{t₂}`
 Define *`\command`* as the **spacetime interval** between
 spacetime coordinates (*`x₁`*, *`t₁`*) and (*`x₂`*, *`t₂`*).
 
