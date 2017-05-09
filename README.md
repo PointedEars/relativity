@@ -6,36 +6,36 @@ Relativistic calculations and plots for LaTeX2ε
   - [Dependencies](#dependencies)
   - [Features](#features)
     - [Calculations](#calculations)
-      - Helpers
-        * [`\FPevalr[digits=0]{\command}{expression}`](#-fpevalr-digits-0---command--expression-)
-        * [`\FPnegr{digits}{\command}{expression}`](#-fpnegr-digits---command--expression-)
-        * [`\FPnegval{expression}`](#-fpnegval-expression-)
-        * [`\FProundval{expression}{digits}`](#-fproundval-expression--digits-)
-      - Commands for global values
-        * [`\solSI`](#-solSI)
-        * [`\setsol{value}`](#setsol-value-)
-        * [`\resetsol`](#-resetsol)
-      - Main commands
-        * [`\combinespeeds{\command}{speed1}{speed2}`](#-combinespeeds--command--speed1--speed2-)
-        * [`\lencon{\command}{length}{speed}`](#-lencon--command--length--speed-)
-        * [`\lorentz{\command}{speed}`](#-lorentz--command--speed-)
-        * [`\lorentzr[digits=4]{\command}{speed}`](#-lorentzr-digits-4---command--speed-)
-        * [`\lorentztospeed{\command}{factor}`](#-lorentztospeed--command--factor-)
-        * [`\lorentztospeedr[digits=0]{\command}{factor}`](#-lorentztospeedr-digits-4---command--factor-)
-        * [`\lorentztrafo{\newspace}{\newtime}{oldspace}{oldtime}{speed}`](#-lorentztrafo--newspace---newtime--oldspace--oldtime--speed-)
-        * [`\spacetimeintv{\command}{x₁}{t₁}{x₂}{t₂}`](#-spacetimeintv--command--x---t---x---t--)
-        * [`\timedil{\command}{time}{speed}`](#-timedil--command--time--speed-)
+      - [Helpers](#helpers)
+        * [`\FPevalr[digits=0]{\command}{expression}`](#fpevalrdigits0commandexpression)
+        * [`\FPnegr{digits}{\command}{expression}`](#fpnegrdigitscommandexpression)
+        * [`\FPnegval{expression}`](#fpnegvalexpression)
+        * [`\FProundval{expression}{digits}`](#fproundvalexpressiondigits)
+      - [Commands for global values](#commands-for-global-values)
+        * [`\solSI`](#solsi)
+        * [`\setsol{value}`](#setsolvalue)
+        * [`\resetsol`](#resetsol)
+      - [Main commands](#main-commands)
+        * [`\combinespeeds{\command}{speed1}{speed2}`](#combinespeedscommandspeed1speed2)
+        * [`\lencon{\command}{length}{speed}`](#lenconcommandlengthspeed)
+        * [`\lorentz{\command}{speed}`](#lorentzcommandspeed)
+        * [`\lorentzr[digits=4]{\command}{speed}`](#lorentzrdigits4commandspeed)
+        * [`\lorentztospeed{\command}{factor}`](#lorentztospeedcommandfactor)
+        * [`\lorentztospeedr[digits=0]{\command}{factor}`](#lorentztospeedrdigits0commandfactor)
+        * [`\lorentztrafo{\newspace}{\newtime}{oldspace}{oldtime}{speed}`](#lorentztrafonewspacenewtimeoldspaceoldtimespeed)
+        * [`\spacetimeintv{\command}{x₁}{t₁}{x₂}{t₂}`](#spacetimeintvcommandxtxt)
+        * [`\timedil{\command}{time}{speed}`](#timedilcommandtimespeed)
     - [Plots](#plots)
-      - Environment
-        * [`\spacetimediagramdefaults`](#-spacetimediagramdefaults)
-        * [`\begin{spacetimediagram}[options]…\end{spacetimediagram}`](#-begin-spacetimediagram--options---end-spacetimediagram-)
-      - Commands
-        * [`\lightlike[style][x_shift=0][t_shift=0]{speed}`](#-lightlike-style--x-shift-0--t-shift-0--speed-)
-        * [`\lightlike*[style][x_shift=0][t_shift=0]`](#-lightlike--style--x-shift-0--t-shift-0-)
-        * [`\spacelike[style][time][x_shift=0][t_shift=0]{speed}`](#-spacelike-style--time--x-shift-0--t-shift-0--speed-)
-        * [`\timelike[style][x_shift=0][t_start=0]{t_end}`](#-timelike-style--x-shift-0--t-start-0--t-end-)
-        * [`\worldline[style]{term}`](#-worldline-style--term-)
-        * [`\worldline*[style][x_shift=0][t_shift=0]{speed}`](#-worldline--style--x-shift-0--t-shift-0--speed-)
+      - [Environment](#environment)
+        * [`\spacetimediagramdefaults`](#spacetimediagramdefaults)
+        * [`\begin{spacetimediagram}[options]…\end{spacetimediagram}`](#beginspacetimediagramoptionsendspacetimediagram)
+      - [Commands](#commands)
+        * [`\lightlike[style][x_shift=0][t_shift=0]{speed}`](#lightlikestylex_shift0t_shift0speed)
+        * [`\lightlike*[style][x_shift=0][t_shift=0]`](#lightlikestylex_shift0t_shift0)
+        * [`\spacelike[style][time][x_shift=0][t_shift=0]{speed}`](#spacelikestyletimexshift0tshift0speed)
+        * [`\timelike[style][x_shift=0][t_start=0]{t_end}`](#timelikestylex_shift0t_start0t_end)
+        * [`\worldline[style]{term}`](#worldlinestyleterm)
+        * [`\worldline*[style][x_shift=0][t_shift=0]{speed}`](#worldlinestylex_shift0t_shift0speed)
 
 # Dependencies
 
@@ -77,7 +77,7 @@ Set the value of the **speed of light** (`\sol`) to *`value`*.
 Use `\setsol{1}` to specify coordinates in light-years and years, or light-seconds and seconds aso., and speed in factors of c.
 
 #### `\resetsol`
-Equivalent to `\setsol{\solSI}`. Invoked initially.
+Equivalent to [`\setsol{\solSI}`](#setsolvalue). Invoked initially.
 
 ### Main commands
 
@@ -90,24 +90,24 @@ of the speeds *`speed1`* and *`speed2`*.
 **Length contraction**: Define *`\command`* as the observed contracted length of *`length`* for the relative speed *`speed`*.
 
 #### `\lorentz{\command}{speed}`
-Define *`\command`* as the **Lorentz factor** for *`speed`* (see `\setsol`).
+Define *`\command`* as the **Lorentz factor** for *`speed`* (see [`\setsol`](#setsolvalue)).
 
 #### `\lorentzr[digits=4]{\command}{speed}`
-Define *`\command`* as the **Lorentz factor** for *`speed`* (see `\setsol`),
+Define *`\command`* as the **Lorentz factor** for *`speed`* (see [`\setsol`](#setsolvalue)),
 rounded to *`digits`* (default: 4).
 
 #### `\lorentztospeed{\command}{factor}`
-Define *`\command`* as the **relative speed** for the Lorentz factor *`factor`* (`\setsol{1}` for a result in factors of c).
+Define *`\command`* as the **relative speed** for the Lorentz factor *`factor`* ([`\setsol{1}`](#setsolvalue) for a result in factors of c).
 
 #### `\lorentztospeedr[digits=0]{\command}{factor}`
 Define *`\command`* as the **relative speed** for a Lorentz factor *`factor`*
-(`\setsol{1}` for a result in factors of c), rounded to *`digits`* (default: 0).
+([`\setsol{1}`](#setsolvalue) for a result in factors of c), rounded to *`digits`* (default: 0).
 
 #### `\lorentztrafo{\newspace}{\newtime}{oldspace}{oldtime}{speed}`
 Define *`\newspace`* as the space coordinate and *`\newtime`*
 as the time coordinate after **Lorentz transformation**
 of space coordinate *`oldspace`* and time coordinate *`oldtime`*
-for a relative speed *`speed`* (see [`\setsol`](#setsol-value--)).
+for a relative speed *`speed`* (see [`\setsol`](#setsolvalue)).
 
 #### `\spacetimeintv{\command}{x₁}{t₁}{x₂}{t₂}`
 Define *`\command`* as the **spacetime interval** between
@@ -121,7 +121,7 @@ spacetime coordinates (*`x₁`*, *`t₁`*) and (*`x₂`*, *`t₂`*).
 ### Environment
 
 #### `\spacetimediagramdefaults`
-Default PGFPlots `axis` options for spacetime diagrams (see [`spacetimediagram`](#-begin-spacetimediagram--options---end-spacetimediagram-)):
+Default PGFPlots `axis` options for spacetime diagrams (see [`spacetimediagram`](#beginspacetimediagramoptionsendspacetimediagram)):
 
 ```latex
 axis x line=middle,
@@ -131,7 +131,9 @@ ylabel={$t$}
 ```
 
 #### `\begin{spacetimediagram}[options]…\end{spacetimediagram}`
-Adds a new spacetime diagram environment with PGFPlots `axis` options `\spacetimediagramdefaults` augmented with *`options`* (optional).
+Adds a new spacetime diagram environment with PGFPlots `axis` options
+[`\spacetimediagramdefaults`](#spacetimediagramdefaults) augmented with
+*`options`* (optional).
 
 ##### Example
 
