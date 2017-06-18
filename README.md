@@ -16,7 +16,7 @@ Relativistic calculations and plots for LaTeX2ε
         * [`\setsol{value}`](#setsolvalue)
         * [`\resetsol`](#resetsol)
       - [Main commands](#main-commands)
-        * [`\combinespeeds{\command}{speed1}{speed2}`](#combinespeedscommandspeed1speed2)
+        * [`\composespeeds{\command}{speed1}{speed2}`](#composespeedscommandspeed1speed2)
         * [`\lencon{\command}{length}{speed}`](#lenconcommandlengthspeed)
         * [`\lorentz{\command}{speed}`](#lorentzcommandspeed)
         * [`\lorentzr[digits=4]{\command}{speed}`](#lorentzrdigits4commandspeed)
@@ -32,8 +32,8 @@ Relativistic calculations and plots for LaTeX2ε
       - [Commands](#commands)
         * [`\lightlike[style][x_shift=0][t_shift=0]{speed}`](#lightlikestylex_shift0t_shift0speed)
         * [`\lightlike*[style][x_shift=0][t_shift=0]`](#lightlikestylex_shift0t_shift0)
-        * [`\spacelike[style][time][x_shift=0][t_shift=0]{speed}`](#spacelikestyletimexshift0tshift0speed)
-        * [`\timelike[style][x_shift=0][t_start=0]{t_end}`](#timelikestylex_shift0t_start0t_end)
+        * [`\spatial[style][time][x_shift=0][t_shift=0]{speed}`](#spatialstyletimexshift0tshift0speed)
+        * [`\temporal[style][x_shift=0][t_start=0]{t_end}`](#temporalstylex_shift0t_start0t_end)
         * [`\worldline[style]{term}`](#worldlinestyleterm)
         * [`\worldline*[style][x_shift=0][t_shift=0]{speed}`](#worldlinestylex_shift0t_shift0speed)
 
@@ -81,10 +81,9 @@ Equivalent to [`\setsol{\solSI}`](#setsolvalue). Invoked initially.
 
 ### Main commands
 
-#### `\combinespeeds{\command}{speed1}{speed2}`
-**Relativistic velocity "addition"**: Define *`\command`* as the combined
-speed in multiples of the speed of light, according to Lorentz transformation,
-of the speeds *`speed1`* and *`speed2`*.
+#### `\composespeeds{\command}{speed1}{speed2}`
+**Relativistic "addition of velocities"**: Define *`\command`*
+as the composed speed in multiples of the speed of light, according to Lorentz transformation, of the speeds *`speed1`* and *`speed2`*.
 
 #### `\lencon{\command}{length}{speed}`
 **Length contraction**: Define *`\command`* as the observed contracted length of *`length`* for the relative speed *`speed`*.
@@ -159,16 +158,16 @@ Adds a new spacetime diagram environment with PGFPlots `axis` options
 ]
   \lightlike[dotted]
 
-  \spacelike[\goodcolor]{\goodspeed}
+  \spatial[\goodcolor]{\goodspeed}
   \foreach \t in {1, ..., 8}{
-    \spacelike[\goodcolor, dashed][\t]{\goodspeed}
+    \spatial[\goodcolor, dashed][\t]{\goodspeed}
   }
 
   \worldline[\goodcolor]{1/\goodspeed * x}
   \worldline*[\goodcolor, very thick]{\goodspeed}
 
   \lightlike[\badcolor, dotted, thick][0][\badlaunchyear]
-  \timelike[\badcolor, very thick]{\badlaunchyear}
+  \temporal[\badcolor, very thick]{\badlaunchyear}
   \worldline*[\badcolor, very thick][0][\badlaunchyear]{\badspeed}
 \end{spacetimediagram}
 ```
@@ -188,13 +187,13 @@ Draws light-like worldlines (for both c and -c) in style *`style`* (optional),
 origin shifted in the x-direction by *`x_shift`* (default: 0),
 and in the t-direction by *`t_shift`* (default: 0).
 
-#### `\spacelike[style][time][xshift=0][tshift=0]{speed}`
-Draws a space-like worldline in style *`style`* (optional) for relative speed *`speed`*
+#### `\spatial[style][time][xshift=0][tshift=0]{speed}`
+Draws a spatial worldline (line of simultaneity) in style *`style`* (optional) for relative speed *`speed`*
 and time *`time`* (default: 0)
 shifted in the x-direction by *`x_shift`* (default: 0),
 and in the t-direction by *`t_shift`* (default: 0).
 
-#### `\timelike[style][x_shift=0][t_start=0]{t_end}`
+#### `\temporal[style][x_shift=0][t_start=0]{t_end}`
 Draws a time-like worldline in style *`style`* (optional)
 parallel to the time axis (not function-based)
 at x = *`x_shift`* (default: 0) from t = *`t_start`* (default: 0)
