@@ -73,7 +73,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### Helpers
 
 #### `\FPevalr[digits=0]{\command}{expression}`
-Define *`\command`* as the result of the `fp` *`expression`*, **rounded** to *`digits`*.
+Define *`\command`* as the result of the [fp](#dependencies) expression *`expression`*, **rounded** to *`digits`*.
 
 #### `\FPnegr{digits}{\command}{expression}`
 Define *`\command`* as the **negative value** of *`expression`* rounded to *`digits`*.
@@ -99,9 +99,11 @@ Equivalent to [`\setsol{\solSI}`](#setsolvalue). Invoked initially.
 
 ### Main commands
 
-#### `\composespeeds{\command}{speed1}{speed2}`
-**Relativistic "addition of velocities"**: Define *`\command`*
-as the composed speed in multiples of the speed of light, according to Lorentz transformation, of the speeds *`speed1`* and *`speed2`*.
+#### `\composespeeds{\command}{v₁}{v₂}`
+**Relativistic velocity "addition"**: Define *`\command`*
+as the speed that is the composition of the relative speeds *`v₁`* and
+*`v₂`* (*`v₂`* measured in a frame of reference moving at *`v₁`*, or vice-versa),
+each in multiples of the speed of light.
 
 #### `\lencon{\command}{length}{speed}`
 **Length contraction**: Define *`\command`* as the observed contracted length of *`length`* for the relative speed *`speed`*.
@@ -121,10 +123,16 @@ Define *`\command`* as the **relative speed** for a Lorentz factor *`factor`*
 ([`\setsol{1}`](#setsolvalue) for a result in factors of c), rounded to *`digits`* (default: 0).
 
 #### `\lorentztrafo{\newspace}{\newtime}{oldspace}{oldtime}{speed}`
-Define *`\newspace`* as the space coordinate and *`\newtime`*
-as the time coordinate after **Lorentz transformation**
-of space coordinate *`oldspace`* and time coordinate *`oldtime`*
-for a relative speed *`speed`* (see [`\setsol`](#setsolvalue)).
+Define the command *`\newspace`* as the space coordinate and the command *`\newtime`* as the time coordinate after **Lorentz transformation**
+of the space coordinate *`oldspace`* and the time coordinate *`oldtime`*
+(both must be valid [fp](#dependencies) expressions) for a relative speed *`speed`* (see [`\setsol`](#setsolvalue)), such that
+
+  *`\newspace`* = γ (*`oldspace`* + *`speed`* × *`oldtime`*)
+  *`\newtime`* = γ (*`oldtime`* + *`speed`*∕`\sol`² × *`oldspace`*)
+
+where
+
+  γ := 1∕√(1 − *`speed`*²∕`\sol`²).
 
 #### `\spacetimeintv{\command}{x₁}{t₁}{x₂}{t₂}`
 Define *`\command`* as the **spacetime interval** between
@@ -138,7 +146,7 @@ spacetime coordinates (*`x₁`*, *`t₁`*) and (*`x₂`*, *`t₂`*).
 ### Environment
 
 #### `\spacetimediagramdefaults`
-Default PGFPlots `axis` options for spacetime diagrams (see [`spacetimediagram`](#beginspacetimediagramoptionsendspacetimediagram)):
+Default [PGFPlots](#dependencies) `axis` options for spacetime diagrams (see [`spacetimediagram`](#beginspacetimediagramoptionsendspacetimediagram)):
 
 ```latex
 axis x line=middle,
@@ -148,9 +156,22 @@ ylabel={$t$}
 ```
 
 #### `\begin{spacetimediagram}[options]…\end{spacetimediagram}`
-Adds a new spacetime diagram environment with PGFPlots `axis` options
+Adds a new spacetime diagram environment with [PGFPlots](#dependencies) `axis` options
 [`\spacetimediagramdefaults`](#spacetimediagramdefaults) augmented with
 *`options`* (optional).
+
+Common options include:
+
+  * `domain=…:…`: Global domain of the x-values. Objects will not be painted beyond this range even if `xmin` is less than the lower boundary or `xmax` is greater than the upper boundary.
+  * `grid` (boolean): If set, a grid is painted.
+  * `xlabel={$…$}`: Label of the primary spatial axis.  Enclose in braces and `$` signs (for math mode) to use subscripts.
+  * `ylabel={$…$}`: Label of the primary temporal axis (ditto)
+  * `xmin=…`: Minimum x-value. Can be a mathematical expression.
+  * `xmax=…`: Maximum x-value (ditto)
+  * `ymin=…`: Minimum t-value (ditto)
+  * `ymax=…`: Maximum t-value (ditto)
+
+See the [PGFPlots](#dependencies) documentation for more.
 
 ##### Example
 
@@ -192,35 +213,64 @@ Adds a new spacetime diagram environment with PGFPlots `axis` options
 
 ### Commands
 
-#### `\lightlike[style][x_shift=0][t_shift=0]{speed}`
-Draws a light-like worldline in style *`style`* (optional),
-origin shifted in the x-direction by *`x_shift`* (default: 0),
-and in the t-direction by *`t_shift`* (default: 0);
-draws only the worldline for the relative speed sgn(`speed`) (default: 1).
+#### `\lightlike[style][x_shift=0][t_shift=0][speed=1]`
+Draws a light-like worldline
+  * in style *`style`* (optional),
+  * origin shifted in the x-direction by *`x_shift`* (default: 0),
+  * and in the t-direction by *`t_shift`* (default: 0);
+
+Different to `\lightlike*`, this draws only the worldline for the relative speed sgn(`speed`) (default: 1) multiplied by c.
 
 Use the PGFPlots `domain` option to limit the x-range.
 
-#### `\lightlike*[style][x_shift=0][t_shift=0]`
-Draws light-like worldlines (for both c and -c) in style *`style`* (optional),
-origin shifted in the x-direction by *`x_shift`* (default: 0),
-and in the t-direction by *`t_shift`* (default: 0).
+**NOTE: *Unlike* with other line commands, *all* arguments
+of `\lightlike` are optional because it is more common, and
+therefore should be easier, to draw a light-like worldline
+for the rest frame.  For that, just use `\lightlike` or
+`\lightlike[style]`.  If you specify the speed within `{…}`,
+indicating a *mandatory* parameter, instead of the proper
+`[…]`, this will not affect the worldline but may lead
+to unexpected results. For a speed of −c, you must therefore
+use `\lightlike[…][…][…][-1]`; for such a worldline through
+the origin, you can omit `style`, but must specify `x_shift`
+and `t_shift` explicitly: `\lightlike[][0][0][-1]`**
+
+#### `\lightlike*[style][x_shift=0][t_shift=0]{}`
+Draws light-like worldlines (for both c and -c)
+  * in style *`style`* (optional),
+  * origin shifted in the x-direction by *`x_shift`* (default: 0),
+  * and in the t-direction by *`t_shift`* (default: 0).
 
 #### `\spatial[style][time][xshift=0][tshift=0]{speed}`
-Draws a spatial worldline (line of simultaneity) in style *`style`* (optional) for relative speed *`speed`*
-and time *`time`* (default: 0)
-shifted in the x-direction by *`x_shift`* (default: 0),
-and in the t-direction by *`t_shift`* (default: 0).
+Draws a line of simultaneity
+  * in style *`style`* (optional)
+  * for relative speed *`speed`*
+  * and time *`time`* (default: 0),
+  * shifted in the x-direction by *`x_shift`* (default: 0),
+  * and in the t-direction by *`t_shift`* (default: 0).
+
+**NOTE: *Unlike* with other line commands, the second optional
+parameter of `\spatial` is _not_ `x_shift`, but the `time`
+of events that are simultaneous in the respective frame
+of reference because it is more common, and therefore should
+be easier, to draw lines of simultaneity where the origins
+of the rest frame and the moving frame coincide. For example,
+`\spatial[][2]{0.5}` draws the line of simultaneity for a
+frame `time=2` in a frame moving at 0.5 c to the right in
+the rest frame.**
 
 #### `\temporal[style][x_shift=0][t_start=0]{t_end}`
-Draws a time-like worldline in style *`style`* (optional)
-parallel to the time axis (not function-based)
-at x = *`x_shift`* (default: 0) from t = *`t_start`* (default: 0)
-to t = *`t_end`* (mandatory, no default).
+Draws a line of same location in the rest frame
+  * in style *`style`* (optional)
+  * parallel to the time axis (not function-based)
+at x = *`x_shift`* (default: 0)
+  * from t = *`t_start`* (default: 0)
+  * to t = *`t_end`* (mandatory, no default).
 
 #### `\worldline[style]{term}`
 Draws a worldline in style *`style`* (optional)
 based on *`term`* for the temporal coordinate
-(use x for the spatial coordinate) (mandatory)
+(use `x` for the spatial coordinate) (mandatory)
 
 #### `\worldline*[style][x_shift=0][t_shift=0]{speed}`
 Worldline in style *`style`* (optional)

@@ -134,14 +134,15 @@
     \begin{axis}[
       \spacetimediagramdefaults,
       #1
-    ]
-}
+    ]%
+}%
 {
     \end{axis}
   \end{tikzpicture}
 }
 
-% Worldline in style #2 (optional)
+% Worldline
+% in style #2 (optional)
 % - with star parameter (#1 = *):
 %   * based on constant speed #5 (mandatory)
 %   * shifted in the x-direction by #3 (default: 0),
@@ -150,23 +151,25 @@
 %   * based on term #5 for t (mandatory)
 %   * other optional arguments are ignored
 \DeclareDocumentCommand{\worldline}{s O{} O{0} O{0} m}{
-  \IfBooleanTF #1 {
+  \IfBooleanTF {#1} {
     \addplot[#2]{1/(#5) * (x - (#3)) + (#4)};
   } {
     \addplot[#2]{#5};
   }
 }
 
-% Light-like worldline(s) in style #2 (optional),
+% Light-like worldline(s)
+% in style #2 (optional),
 % origin shifted in the x-direction by #3 (default: 0),
 % and in the t-direction by #4 (default: 0);
 % - with star parameter (#1 = *):
 %   * draws worldlines for both c and -c
 % - without star parameter:
 %   * draws only the worldline for the speed sgn(#5) (default: 1)
+%     multiplied by c
 % use the PGFplots "domain" option to limit x-range
 \DeclareDocumentCommand{\lightlike}{s O{} O{0} O{0} O{1}}{
-  \IfBooleanTF #1 {
+  \IfBooleanTF {#1} {
     \worldline*[#2][#3][#4]{-1};
     \worldline*[#2][#3][#4]{1};
   } {
@@ -175,8 +178,10 @@
   }
 }
 
-% Timelike worldline in style #1 (optional) parallel to the time axis
-% (not function-based) at x = #2 (default: 0) from t = #3 (default: 0)
+% Line of same location in the rest frame
+% in style #1 (optional)
+% at x = #2 (default: 0)
+% from t = #3 (default: 0)
 % to t = #4 (mandatory, no default)
 \DeclareDocumentCommand{\temporal}{O{} O{0} O{0} m}{
   \addplot[#1] coordinates {
@@ -185,8 +190,10 @@
   };
 }
 
-% Spatial worldline (line of simultaneity) in style #1 (optional)
-% for speed #5 and time #2 (default: 0)
+% Line of simultaneity
+% in style #1 (optional)
+% for relative speed #5
+% and moving time #2 (default: 0)
 % shifted in the x-direction by #3 (default: 0),
 % and in the t-direction by #4 (default: 0);
 \DeclareDocumentCommand{\spatial}{O{} O{0} O{0} O{0} m}{
