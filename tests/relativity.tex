@@ -1,0 +1,351 @@
+\documentclass[pagesize,headsepline,parskip=half]{scrartcl}
+
+% Line spacing should be 1.5 times the line height (FFHS requirement)
+\usepackage{setspace}
+\onehalfspacing{}
+
+% float compatibility for KOMA-Script
+\usepackage{scrhack}
+
+% Use English orthography and hyphenation by default
+\usepackage[english]{babel}
+
+% User-defined English hyphenation
+% \hyphenation{InfoWorld}
+
+% Allow using non-ASCII characters verbatim; disable for LuaLaTeX
+% \usepackage[utf8]{inputenc}
+
+% Special characters
+\usepackage{textcomp}
+
+% Use fonts having non-ASCII characters; disable fontenc for LuaLaTeX
+% \usepackage[T1]{fontenc}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{fontspec}
+\newfontfamily\DejaSans{DejaVu Sans}
+
+% Use language-specific quotes
+\usepackage[autostyle,english=american]{csquotes}
+
+% Advanced Computer Modern fonts
+\usepackage{lmodern}
+
+% Use sans-serif font ('Arial') by default for headings and normal text;
+% disable helvet for LuaLaTeX
+% (FFHS requirement)
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{mathptmx}
+%\usepackage[scaled=.90]{helvet}
+\usepackage{courier}
+
+% Improved typography, like hyphenation in words with non-ASCII characters,
+% see also http://homepage.ruhr-uni-bochum.de/georg.verweyen/pakete.html
+\usepackage[babel]{microtype}
+
+% Number also \subsubsection, but not \paragraph and below
+\setcounter{secnumdepth}{3}
+
+% Page heading and footer
+\usepackage{scrpage2}
+\pagestyle{scrheadings}
+\automark[section]{subsection}
+% heading on the top inner margin only
+\ohead[]{\headmark}
+\chead[]{}
+% page number on the bottom outer margin only
+\ofoot[\pagemark]{\pagemark}
+\cfoot[]{}
+
+% References: generate hyperlinks
+\usepackage[plainpages=false]{hyperref}
+
+% Calculate lengths
+\usepackage{calc}
+
+% Provides \qed
+\usepackage{amsthm}
+
+\usepackage[fleqn]{amsmath}
+\newlength{\normalparindent}
+\AtBeginDocument{\setlength{\normalparindent}{\parindent}}
+\newcommand{\longintertext}[1]{%
+  \intertext{%
+    \parbox{\linewidth}{%
+      \setlength{\parindent}{\normalparindent}
+      \noindent#1%
+    }%
+  }%
+}
+
+% Cancel terms in equations
+\usepackage[makeroom]{cancel}
+
+% for boxes around equations, with \Aboxed
+\usepackage{mathtools}
+
+\usepackage{esint}
+\usepackage{amssymb}
+% \usepackage{commath}
+\allowdisplaybreaks{}
+
+% degree symbol etc.
+\usepackage{gensymb}
+
+% dingbats
+\usepackage{pifont}
+\newcommand{\cmark}{\, \text{\ding{51}}}
+
+% SI units
+\usepackage{siunitx}
+\sisetup{per-mode = fraction, math-micro = \text{µ}, text-micro = µ}
+\DeclareSIUnit\year{a}
+\DeclareSIUnit\lightyear{ly}
+
+% Captions
+\usepackage{caption}
+
+% Recalculate page spread based on the definitions above
+\recalctypearea{}
+
+%% User commands
+% Formatting and languages
+\newcommand{\strong}[1]{\textbf{#1}}
+
+% Abbreviations
+\usepackage{xspace}
+\newcommand{\eg}{\mbox{e.g.}\xspace}
+
+% Common terms
+\newcommand{\eq}{equation\xspace}
+
+% Commands for common math expressions
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\renewcommand\d[1]{\:\textrm{d}#1}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+\newcommand*\mdelta[1]{\ensuremath{\mathrm{\Delta\,}#1}}
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+
+% alignment in \cases
+\makeatletter
+\renewcommand{\env@cases}[1][@{}l@{\quad}l@{}]{%
+ \let\@ifnextchar\new@ifnextchar{}
+ \left\lbrace{}
+ \def\arraystretch{1.2}%
+ \array{#1}%
+}
+\makeatother
+
+% asides
+\usepackage{mdframed}
+\newenvironment{aside}
+{\begin{mdframed}[style=0,%
+  leftline=false,rightline=false,leftmargin=2em,rightmargin=2em,%
+  innerleftmargin=0pt,innerrightmargin=0pt,linewidth=0.75pt,%
+  skipabove=7pt,skipbelow=7pt]\small}
+{\end{mdframed}}
+
+%% Shortcuts
+%%% arrays (vectors, matrixes, tensors)
+\newcommand{\vecb}[1]{\mathbf{#1}}
+\newcommand{\parray}[2]{\left(\begin{array}{#1}#2\end{array}\right)}
+%% Vector norm
+\newcommand{\norm}[1]{\left\|{#1}\right\|}
+%% Constants
+\newcommand{\const}[1]{\mathrm{#1}}
+% Speed of light
+\renewcommand{\c}{\const{c}}
+
+% Use programming in commands
+% \usepackage{etoolbox}
+
+\usepackage{../relativity}
+
+\begin{document}
+  \begin{titlepage}
+    \title{relativity.sty\\Relativistic calculations and plots\\for \LaTeX2\varepsilon}
+    \subtitle{Unit Tests}
+    \author{\href{http://PointedEars.de/}{Thomas Lahn}}
+    \maketitle
+  \end{titlepage}
+
+  \clearpage
+  \pagenumbering{Roman}
+  \begin{spacing}{1}
+    \tableofcontents
+    \thispagestyle{empty}
+  \end{spacing}
+
+  \clearpage
+  \pagenumbering{arabic}
+
+  \section{Calculations}
+  \section{Plots}
+    \setsol{1}
+    \subsection{Empty plot with default options:
+        \texttt{\textbackslash{}begin\{spacetimediagram\}…\textbackslash{}end\{…\}}}
+      \begin{spacetimediagram}[
+        xmin=-4,
+        xmax=4,
+        ymin=-4,
+        ymax=4
+      ]
+      \end{spacetimediagram}
+
+      spacetimediagramdefaults:\\
+      \spacetimediagramdefaults{}
+
+      \paragraph{Pass Criteria}
+        \begin{itemize}
+          \item Empty plot
+          \item Axes in the middle
+          \item Axes $x = -4..4$, $t = -4..4$
+        \end{itemize}
+
+      \subsection{Light-like worldlines: \texttt{\textbackslash{}lightlike[style][x\_shift=0][t\_shift=0]\{speed\}}}
+        \subsubsection{without options: \texttt{\textbackslash{}lightlike}}
+          \begin{spacetimediagram}[grid]
+            \lightlike
+          \end{spacetimediagram}
+
+          \paragraph{Pass Criteria}
+            \begin{itemize}
+              \item Non-empty plot
+              \item Axes in the middle
+              \item Straight, black, solid, thin line through origin at 45°
+            \end{itemize}
+
+        \subsubsection{with PGFPlots style option: \texttt{\textbackslash{}lightlike[dotted]}}
+          \begin{spacetimediagram}[grid]
+            \lightlike[dotted]
+          \end{spacetimediagram}
+
+          \paragraph{Pass Criteria}
+            \begin{itemize}
+              \item Non-empty plot
+              \item Axes in the middle
+              \item Straight, black, dotted, thin line through $(0, \, 0)$ at 45°
+            \end{itemize}
+
+          \subsubsection{Positive shift in the $x$-direction: \texttt{\textbackslash{}lightlike[][2]}}
+            \begin{spacetimediagram}
+              \lightlike[][2]
+            \end{spacetimediagram}
+
+            \paragraph{Pass Criteria}
+              \begin{itemize}
+                \item Non-empty plot
+                \item Axes in the middle
+                \item Straight, black, solid, thin line through $(2, \, 0)$ at 45°
+              \end{itemize}
+
+          \subsubsection{Negative shift in the $x$-direction: \texttt{\textbackslash{}lightlike[][-2]}}
+            \begin{spacetimediagram}
+              \lightlike[][-2]
+            \end{spacetimediagram}
+
+            \paragraph{Pass Criteria}
+              \begin{itemize}
+                \item Non-empty plot
+                \item Axes in the middle
+                \item Straight, black, solid, thin line through $(-2, \, 0)$ at 45°
+              \end{itemize}
+
+        \subsection{Lines of simultaneity: \texttt{\textbackslash{}spatial[style][time][x\_shift=0][t\_shift=0]\{speed\}}}
+          \subsubsection{Non-zero speed: \texttt{\textbackslash{}spatial\{0.25\}}}
+            \begin{spacetimediagram}[grid, ymax=4]
+              \spatial{0.25}
+            \end{spacetimediagram}
+
+            \paragraph{Pass Criteria}
+              \begin{itemize}
+                \item Non-empty plot
+                \item Axes in the middle
+                \item Straight, black, solid, thin line through $(0, \, 0)$ and $(4, \, 1)$
+              \end{itemize}
+
+          \subsubsection{with PGFPlots style option: \texttt{\textbackslash{}spatial[red]\{0.25\}}}
+            \begin{spacetimediagram}[grid, ymax=4]
+              \spatial[red]{0.25}
+            \end{spacetimediagram}
+
+            \paragraph{Pass Criteria}
+              \begin{itemize}
+                \item Non-empty plot
+                \item Axes in the middle
+                \item Straight, red, solid, thin line through $(0, \, 0)$ and $(4, \, 1)$
+              \end{itemize}
+
+          \subsubsection{Positive shift in the $x$-direction: \texttt{\textbackslash{}spatial[][0][2]\{0.25\}}}
+            \begin{spacetimediagram}[grid, xmax=8, ymax=2, domain=-2:8]
+              \spatial[][0][2]{0.25}
+            \end{spacetimediagram}
+
+            \paragraph{Pass Criteria}
+              \begin{itemize}
+                \item Non-empty plot
+                \item Axes in the middle
+                \item Straight, black, solid, thin line through $(2, \, 0)$ and $(6, \, 1)$
+              \end{itemize}
+
+          \subsubsection{Negative shift in the $x$-direction: \texttt{\textbackslash{}spatial[][0][-2]\{0.25\}}}
+            \begin{spacetimediagram}[grid, ymin=-4, ymax=4]
+              \spatial[][0][-2]{0.25}
+            \end{spacetimediagram}
+
+            \paragraph{Pass Criteria}
+              \begin{itemize}
+                \item Non-empty plot
+                \item Axes in the middle
+                \item Straight, black, solid, thin line through $(-2, \, 0)$ and $(2, \, 1)$
+              \end{itemize}
+
+            \subsubsection{Positive shift in the $t$-direction: \texttt{\textbackslash{}spatial[][0][0][2]\{0.25\}}}
+              \begin{spacetimediagram}[grid, ymin=-4, ymax=4]
+                \spatial[][0][0][2]{0.25}
+              \end{spacetimediagram}
+
+              \paragraph{Pass Criteria}
+                \begin{itemize}
+                  \item Non-empty plot
+                  \item Axes in the middle
+                  \item Straight, black, solid, thin line through $(-2, \, 0)$ and $(0, \, 2)$
+                \end{itemize}
+
+            \subsubsection{Negative shift in the $t$-direction: \texttt{\textbackslash{}spatial[][0][0][-2]\{0.25\}}}
+              \begin{spacetimediagram}[grid, ymin=-4, ymax=4]
+                \spatial[][0][0][-2]{0.25}
+              \end{spacetimediagram}
+
+              \paragraph{Pass Criteria}
+                \begin{itemize}
+                  \item Non-empty plot
+                  \item Axes in the middle
+                  \item Straight, black, solid, thin line through $(0, \, -2)$ and $(6, \, 0)$
+                \end{itemize}
+
+      \section{Full Demo}
+        \lorentztospeed{\speed}{2}
+        $v = \SI{\speed}{\c}$\\
+        \FPeval{\xA}{0}
+        \FPeval{\tA}{4}
+        \lorentztrafo{\xB}{\tB}{\xA}{\tA}{\speed}
+        $(x_A = 0, \, t_A = 4) \equiv (x_B = \xB, \, t_B = \tB)$\\
+      \begin{spacetimediagram}[
+          xlabel={$x_B$},
+          xmin=0,
+          ylabel={$t_B$},
+          ymin=0,
+          xmax=\xB,
+          ymax=\tB+\xB
+        ]
+        \spatial[red][0]{\speed}
+        \foreach \time in {1, ..., 4} {
+          \spatial[red, dashed][\time]{\speed}
+        }
+        \spatial[red, dashed][1]{\speed}
+        \worldline*[red, very thick]{\speed}
+        \lightlike[red, dotted][\xB][\tB][-1]
+      \end{spacetimediagram}
+
+\end{document}
