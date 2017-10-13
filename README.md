@@ -195,23 +195,55 @@ See the [PGFPlots](#dependencies) documentation for more.
   domain=0:10,
   grid
 ]
-  \lightlike[dotted]
+  \lightlike[dotted];
 
-  \spatial[\goodcolor]{\goodspeed}
+  \spatial[\goodcolor]{\goodspeed};
   \foreach \t in {1, ..., 8}{
-    \spatial[\goodcolor, dashed][\t]{\goodspeed}
+    \spatial[\goodcolor, dashed][\t]{\goodspeed};
   }
 
-  \worldline[\goodcolor]{1/\goodspeed * x}
-  \worldline*[\goodcolor, very thick]{\goodspeed}
+  \worldline[\goodcolor]{1/\goodspeed * x};
+  \worldline*[\goodcolor, very thick]{\goodspeed};
 
-  \lightlike[\badcolor, dotted, thick][0][\badlaunchyear]
-  \temporal[\badcolor, very thick]{\badlaunchyear}
-  \worldline*[\badcolor, very thick][0][\badlaunchyear]{\badspeed}
+  \lightlike[\badcolor, dotted, thick][0][\badlaunchyear];
+  \temporal[\badcolor, very thick]{\badlaunchyear};
+  \worldline*[\badcolor, very thick][0][\badlaunchyear]{\badspeed};
 \end{spacetimediagram}
 ```
 
 ### Commands
+
+**NOTE: In version 2017/10/14, the definition of the line commands
+changed so that they no longer generate a trailing semicolon (`;`).
+This allows for greater flexibility with TikZ syntax.**
+
+**For example, you can now append ` [->] node[anchor=…] {$…$}` to
+a command to draw an arrow and a label at the end of a line, which
+is useful for timelike worldlines that serve as temporal axes, and
+lines of simultaneity that serve as spatial axes, of moving frames.**
+
+**However, documents written based on earlier versions of the package
+may no longer generate syntactically correct PGFPlots syntax.
+If you get the error message**
+
+```
+TeX STOPPED: File ended while scanning use of \pgfplots@addplotimpl@expression@curl\ETC. []
+```
+
+**or**
+
+```
+Paragraph ended before \pgfplots@PREPARE@COORD@STREAM@end@ was complete. [ \$COMMAND[…]{…};]
+```
+
+**please make sure that all commands are terminated by `;`,
+as in the [example](#example) above, before reporting a bug in
+this package.**
+
+**Also, as a result of the change, `\spatial` exposes the command
+`\relativitygammav`.  Do not use that command in your documents that use
+this package.  The identifier is intentionally prefixed to reduce
+the probability of collision with your commands.**
 
 #### `\lightlike[style][x_shift=0][t_shift=0][speed=1]`
 Draws a light-like worldline

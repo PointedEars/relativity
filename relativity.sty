@@ -15,7 +15,7 @@
 %% along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 \NeedsTeXFormat{LaTeX2e}[2014/05/01]
-\ProvidesPackage{relativity}[2017/06/24 by Thomas 'PointedEars' Lahn (c) 2017 Relativistic calculations and plots for LaTeX2ε]
+\ProvidesPackage{relativity}[2017/10/14 by Thomas 'PointedEars' Lahn (c) 2017 Relativistic calculations and plots for LaTeX2ε]
 
 \RequirePackage{fp}
 \RequirePackage{pgfplots}
@@ -152,9 +152,9 @@
 %   * other optional arguments are ignored
 \DeclareDocumentCommand{\worldline}{s O{} O{0} O{0} m}{
   \IfBooleanTF {#1} {
-    \addplot[#2]{1/(#5) * (x - (#3)) + (#4)};
+    \addplot[#2]{1/(#5) * (x - (#3)) + (#4)}
   } {
-    \addplot[#2]{#5};
+    \addplot[#2]{#5}
   }
 }
 
@@ -171,10 +171,10 @@
 \DeclareDocumentCommand{\lightlike}{s O{} O{0} O{0} O{1}}{
   \IfBooleanTF {#1} {
     \worldline*[#2][#3][#4]{-1};
-    \worldline*[#2][#3][#4]{1};
+    \worldline*[#2][#3][#4]{1}
   } {
     \FPsgn{\speedsgn}{#5}
-    \worldline*[#2][#3][#4]{\speedsgn};
+    \worldline*[#2][#3][#4]{\speedsgn}
   }
 }
 
@@ -187,7 +187,7 @@
   \addplot[#1] coordinates {
     (#2, #3)
     (#2, #4)
-  };
+  }
 }
 
 % Line of simultaneity
@@ -197,10 +197,8 @@
 % shifted in the x-direction by #3 (default: 0),
 % and in the t-direction by #4 (default: 0);
 \DeclareDocumentCommand{\spatial}{O{} O{0} O{0} O{0} m}{
-  {
-    \lorentz{\gammav}{#5}
-    \worldline[#1]{(#5)/(\sol)^2 * (x - #3) + #2/\gammav + #4};
-  }
+  \lorentz{\relativitygammav}{#5}
+  \worldline[#1]{(#5)/(\sol)^2 * (x - #3) + #2/\relativitygammav + #4}
 }
 
 \endinput
