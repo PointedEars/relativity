@@ -87,7 +87,7 @@ Generate the value of *`expression`* **rounded** to *`digits`*.
 ### Commands for global values
 
 #### `\solSI`
-Value of the **speed of light** as defined in the International System of Units (SI): 299'792'458 (meters per second).
+Value of the **speed of light** as defined in the International System of Units (SI): 299'792'458 (m∕s).
 
 #### `\setsol{value}`
 Set the value of the **speed of light** (`\sol`) to *`value`*.
@@ -183,9 +183,7 @@ See the [PGFPlots](#dependencies) documentation for more.
 \setsol{1}
 \FPeval{\goodspeed}{0.6}
 \FPeval{\badlaunchyear}{4}
-\FPeval{\badlaunchyeartwo}{3}
 \FPeval{\badspeed}{3}
-\FPeval{\badspeedtwo}{1.5}
 \newcommand{\goodcolor}{green}
 \newcommand{\badcolor}{red}
 
@@ -224,18 +222,18 @@ Different to `\lightlike*`, this draws only the worldline for the relative speed
 Use the PGFPlots `domain` option to limit the x-range.
 
 **NOTE: *Unlike* with other line commands, *all* arguments
-of `\lightlike` are optional because it is more common, and
+of `\lightlike` are optional** because it is more common, and
 therefore should be easier, to draw a light-like worldline
-for the rest frame.  For that, just use `\lightlike` or
+in the rest frame.  For that, just use `\lightlike` or
 `\lightlike[style]`.  If you specify the speed within `{…}`,
 indicating a *mandatory* parameter, instead of the proper
 `[…]`, this will not affect the worldline but may lead
 to unexpected results. For a speed of −c, you must therefore
 use `\lightlike[…][…][…][-1]`; for such a worldline through
 the origin, you can omit `style`, but must specify `x_shift`
-and `t_shift` explicitly: `\lightlike[][0][0][-1]`**
+and `t_shift` explicitly: `\lightlike[][0][0][-1]`
 
-#### `\lightlike*[style][x_shift=0][t_shift=0]{}`
+#### `\lightlike*[style][x_shift=0][t_shift=0]`
 Draws light-like worldlines (for both c and -c)
   * in style *`style`* (optional),
   * origin shifted in the x-direction by *`x_shift`* (default: 0),
@@ -252,12 +250,12 @@ Draws a line of simultaneity
 **NOTE: *Unlike* with other line commands, the second optional
 parameter of `\spatial` is _not_ `x_shift`, but the `time`
 of events that are simultaneous in the respective frame
-of reference because it is more common, and therefore should
+of reference** because it is more common, and therefore should
 be easier, to draw lines of simultaneity where the origins
 of the rest frame and the moving frame coincide. For example,
 `\spatial[][2]{0.5}` draws the line of simultaneity for a
 frame `time=2` in a frame moving at 0.5 c to the right in
-the rest frame.**
+the rest frame.
 
 #### `\temporal[style][x_shift=0][t_start=0]{t_end}`
 Draws a line of same location in the rest frame
