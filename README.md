@@ -190,28 +190,71 @@ See the [PGFPlots](#dependencies) documentation for more.
 \newcommand{\badcolor}{red}
 
 \begin{spacetimediagram}[
-  xmin=0,
-  ymin=0, ymax=10,
-  domain=0:10,
+  xmin=0, xlabel={$x_B$},
+  ymin=0, ymax=12, ylabel={$t_B$},
+  domain=0:12,
   grid
 ]
-  \lightlike[dotted]
+  \lightlike[dotted];
 
-  \spatial[\goodcolor]{\goodspeed}
+  \spatial[\goodcolor, domain=0:11.5]{\goodspeed}
+    [->] node[anchor=north] {$x_G$};
   \foreach \t in {1, ..., 8}{
-    \spatial[\goodcolor, dashed][\t]{\goodspeed}
+    \spatial[\goodcolor, dashed, domain=0:11.5][\t]{\goodspeed};
   }
 
-  \worldline[\goodcolor]{1/\goodspeed * x}
-  \worldline*[\goodcolor, very thick]{\goodspeed}
+  \worldline[\goodcolor, domain=0:6.9]{1/\goodspeed * x}
+    [->] node[anchor=east] {$t_G$};
+  \worldline*[\goodcolor, very thick, domain=0:3]{\goodspeed};
 
-  \lightlike[\badcolor, dotted, thick][0][\badlaunchyear]
-  \temporal[\badcolor, very thick]{\badlaunchyear}
-  \worldline*[\badcolor, very thick][0][\badlaunchyear]{\badspeed}
+  \temporal[\badcolor, very thick]{\badlaunchyear};
+  \lightlike[\badcolor, dotted, thick][0][\badlaunchyear];
+  \worldline*[\badcolor, very thick, domain=0:3][0][\badlaunchyear]{\badspeed}
+    node[anchor=west] {attack};
 \end{spacetimediagram}
 ```
 
 ### Commands
+
+**NOTE: Since version 2017/10/14, these commands no longer generate
+a trailing semicolon (`;`).  This allows for greater flexibility with
+TikZ syntax.**
+
+For example, you can now append ` [->] node[anchor=…] {$…$}` to
+a command to draw an arrow and a label at the end of a line; this
+is useful for time-like worldlines that serve as temporal axes, and
+lines of simultaneity that serve as spatial axes, of moving frames
+(see the [example](#example) above).
+
+However, documents written based on earlier versions of the package
+may no longer generate syntactically correct PGFPlots syntax.
+If you get the error message
+
+```
+TeX STOPPED: File ended while scanning use of \pgfplots@addplotimpl@expression@curl\ETC. []
+```
+
+or
+
+```
+Paragraph ended before \pgfplots@PREPARE@COORD@STREAM@end@ was complete. [ \$COMMAND[…]{…};]
+```
+
+**please make sure that all line commands are terminated by `;`**,
+as in the [example](#example) above, before reporting an issue.
+
+Also, as a result of the change, **`\spatial` exposes the command
+`\relativitygammav`.  Do not use that command** in your documents that use
+this package.  The identifier is intentionally prefixed to reduce
+the probability of collision with your commands; however, if you happen
+to use this command in your document already, as always, you can prevent
+its being changed by `relativity.sty` if you enclose `\spatial` in braces:
+
+```latex
+  {
+    \spatial[\goodcolor, domain=0:11.5]{0.42};
+  }
+```
 
 #### `\lightlike[style][x_shift=0][t_shift=0][speed=1]`
 Draws a light-like worldline

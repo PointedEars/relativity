@@ -205,7 +205,7 @@
       \subsection{Light-like worldlines: \texttt{\textbackslash{}lightlike[style][x\_shift=0][t\_shift=0]\{speed\}}}
         \subsubsection{without options: \texttt{\textbackslash{}lightlike}}
           \begin{spacetimediagram}[grid]
-            \lightlike
+            \lightlike;
           \end{spacetimediagram}
 
           \paragraph{Pass Criteria}
@@ -217,7 +217,7 @@
 
         \subsubsection{with PGFPlots style option: \texttt{\textbackslash{}lightlike[dotted]}}
           \begin{spacetimediagram}[grid]
-            \lightlike[dotted]
+            \lightlike[dotted];
           \end{spacetimediagram}
 
           \paragraph{Pass Criteria}
@@ -229,7 +229,7 @@
 
           \subsubsection{Positive shift in the $x$-direction: \texttt{\textbackslash{}lightlike[][2]}}
             \begin{spacetimediagram}
-              \lightlike[][2]
+              \lightlike[][2];
             \end{spacetimediagram}
 
             \paragraph{Pass Criteria}
@@ -241,7 +241,7 @@
 
           \subsubsection{Negative shift in the $x$-direction: \texttt{\textbackslash{}lightlike[][-2]}}
             \begin{spacetimediagram}
-              \lightlike[][-2]
+              \lightlike[][-2];
             \end{spacetimediagram}
 
             \paragraph{Pass Criteria}
@@ -254,7 +254,7 @@
         \subsection{Lines of simultaneity: \texttt{\textbackslash{}spatial[style][time][x\_shift=0][t\_shift=0]\{speed\}}}
           \subsubsection{Non-zero speed: \texttt{\textbackslash{}spatial\{0.25\}}}
             \begin{spacetimediagram}[grid, ymax=4]
-              \spatial{0.25}
+              \spatial{0.25};
             \end{spacetimediagram}
 
             \paragraph{Pass Criteria}
@@ -266,7 +266,7 @@
 
           \subsubsection{with PGFPlots style option: \texttt{\textbackslash{}spatial[red]\{0.25\}}}
             \begin{spacetimediagram}[grid, ymax=4]
-              \spatial[red]{0.25}
+              \spatial[red]{0.25};
             \end{spacetimediagram}
 
             \paragraph{Pass Criteria}
@@ -278,7 +278,7 @@
 
           \subsubsection{Positive shift in the $x$-direction: \texttt{\textbackslash{}spatial[][0][2]\{0.25\}}}
             \begin{spacetimediagram}[grid, xmax=8, ymax=2, domain=-2:8]
-              \spatial[][0][2]{0.25}
+              \spatial[][0][2]{0.25};
             \end{spacetimediagram}
 
             \paragraph{Pass Criteria}
@@ -290,7 +290,7 @@
 
           \subsubsection{Negative shift in the $x$-direction: \texttt{\textbackslash{}spatial[][0][-2]\{0.25\}}}
             \begin{spacetimediagram}[grid, ymin=-4, ymax=4]
-              \spatial[][0][-2]{0.25}
+              \spatial[][0][-2]{0.25};
             \end{spacetimediagram}
 
             \paragraph{Pass Criteria}
@@ -301,27 +301,27 @@
               \end{itemize}
 
             \subsubsection{Positive shift in the $t$-direction: \texttt{\textbackslash{}spatial[][0][0][2]\{0.25\}}}
-              \begin{spacetimediagram}[grid, ymin=-4, ymax=4]
-                \spatial[][0][0][2]{0.25}
+              \begin{spacetimediagram}[grid, domain=-9:4, ymin=-4, ymax=4]
+                \spatial[][0][0][2]{0.25};
               \end{spacetimediagram}
 
               \paragraph{Pass Criteria}
                 \begin{itemize}
                   \item Non-empty plot
                   \item Axes in the middle
-                  \item Straight, black, solid, thin line through $(-2, \, 0)$ and $(0, \, 2)$
+                  \item Straight, black, solid, thin line through $(-8, \, 0)$ and $(0, \, 2)$
                 \end{itemize}
 
             \subsubsection{Negative shift in the $t$-direction: \texttt{\textbackslash{}spatial[][0][0][-2]\{0.25\}}}
-              \begin{spacetimediagram}[grid, ymin=-4, ymax=4]
-                \spatial[][0][0][-2]{0.25}
+              \begin{spacetimediagram}[grid, domain=-4:9, ymin=-4, ymax=4]
+                \spatial[][0][0][-2]{0.25};
               \end{spacetimediagram}
 
               \paragraph{Pass Criteria}
                 \begin{itemize}
                   \item Non-empty plot
                   \item Axes in the middle
-                  \item Straight, black, solid, thin line through $(0, \, -2)$ and $(6, \, 0)$
+                  \item Straight, black, solid, thin line through $(0, \, -2)$ and $(8, \, 0)$
                 \end{itemize}
 
       \section{Full Demo}
@@ -339,13 +339,13 @@
           xmax=\xB,
           ymax=\tB+\xB
         ]
-        \spatial[red][0]{\speed}
+        \spatial[red][0]{\speed} [->] node[anchor=west] {$x_A$};
         \foreach \time in {1, ..., 4} {
-          \spatial[red, dashed][\time]{\speed}
+          \spatial[red, dashed][\time]{\speed};
         }
-        \spatial[red, dashed][1]{\speed}
-        \worldline*[red, very thick]{\speed}
-        \lightlike[red, dotted][\xB][\tB][-1]
+        \spatial[red, dashed][1]{\speed};
+        \worldline*[red, very thick]{\speed};
+        \lightlike[red, dotted][\xB][\tB][-1];
       \end{spacetimediagram}
 
 \end{document}
