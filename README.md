@@ -87,7 +87,7 @@ Generate the value of *`expression`* **rounded** to *`digits`*.
 ### Commands for global values
 
 #### `\solSI`
-Value of the **speed of light** as defined in the International System of Units (SI): 299'792'458 (meters per second).
+Value of the **speed of light** as defined in the International System of Units (SI): 299'792'458 (m∕s).
 
 #### `\setsol{value}`
 Set the value of the **speed of light** (`\sol`) to *`value`*.
