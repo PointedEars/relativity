@@ -105,6 +105,10 @@ as the speed that is the composition of the relative speeds *`v₁`* and
 *`v₂`* (*`v₂`* measured in a frame of reference moving at *`v₁`*, or vice-versa),
 each in multiples of the speed of light.
 
+#### `\gtimedil[acceleration=9.81]{\command}{time}{radius}`
+**Gravitational time dilation**: Define *`\command`* as the observed dilated time of `time` for the distance `radius` away from the center of mass, with
+gravitational acceleration `acceleration` (default: 9.81 (m/s²)).
+
 #### `\lencon{\command}{length}{speed}`
 **Length contraction**: Define *`\command`* as the observed contracted length of *`length`* for the relative speed *`speed`*.
 
@@ -139,7 +143,7 @@ Define *`\command`* as the **spacetime interval** between
 spacetime coordinates (*`x₁`*, *`t₁`*) and (*`x₂`*, *`t₂`*).
 
 #### `\timedil{\command}{time}{speed}`
-**Time dilation**: Define *`\command`* as the observed dilated time of `time` for the relative speed `speed`.
+**Time dilation due to relative motion**: Define *`\command`* as the observed dilated time of `time` for the relative speed `speed`.
 
 ## Plots
 

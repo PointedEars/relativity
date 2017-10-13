@@ -180,6 +180,12 @@
   \pagenumbering{arabic}
 
   \section{Calculations}
+    \subsection{Gravitational time dilation:
+      \texttt{\textbackslash{}gtimedil[accel=9.81]\{command\}\{time\}\{radius\}}}
+        \gtimedil{dil}{86400}{6371}
+        \FPeval{\dill}{86400-\dil}
+        \dill
+
   \section{Plots}
     \setsol{1}
     \subsection{Empty plot with default options:

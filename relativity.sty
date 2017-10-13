@@ -91,10 +91,18 @@
   \FPeval{#1}{(#2)/lencongamma}
 }
 
-% Define command #1 as time dilation of time #2 for a speed #3
+% Define command #1 as time dilation of time #2
+% due to relative motion with the speed for a speed #3
 \newcommand{\timedil}[3]{
   \lorentz{\timedilgamma}{#3}
   \FPeval{#1}{timedilgamma * (#2)}
+}
+
+% Define command #1 as gravitational time dilation of time #2
+% for radius #3
+% and gravitational acceleration #4 (default: 9.81 m∕s²)
+\newcommand{\gtimedil}[4][9.81]{
+  \FPeval{#2}{(#3)/root(2, 1 - 2 * (#1) * (#4)/abs(sol)^2))}
 }
 
 % Define command #1 as the space coordinate and command #2 as the time coordinate
