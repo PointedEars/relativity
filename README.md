@@ -278,6 +278,14 @@ use `\lightlike[…][…][…][-1]`; for such a worldline through
 the origin, you can omit `style`, but must specify `x_shift`
 and `t_shift` explicitly: `\lightlike[][0][0][-1]`**
 
+**Error messages like**
+
+```
+…:42: Package tikz Error: Cannot parse this coordinate. [ \end{spacetimediagram}]
+```
+**are indicative that you specified the speed as a
+*mandatory* instead of an *optional* parameter.**
+
 #### `\lightlike*[style][x_shift=0][t_shift=0]{}`
 Draws light-like worldlines (for both c and -c)
   * in style *`style`* (optional),
